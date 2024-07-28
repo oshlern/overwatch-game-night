@@ -27,12 +27,22 @@
             image-rendering: pixelated;
             margin: 8px;
             text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
         .player-item:hover {
             transform: scale(1.05);
         }
         .player-item.selected, .player-item.highlighted {
             background: #6a0dad;
+        }
+        .player-item.afk {
+            background: #555;
+            color: #999;
+        }
+        .player-name {
+            margin-left: 10px;
         }
         .btn {
             background: #000;
@@ -66,6 +76,11 @@
             image-rendering: pixelated;
             background-size: cover;
         }
+        .subpage {
+            display: inline-block;
+            vertical-align: top;
+            width: 48%;
+        }
     </style>
 </head>
 <body class="min-h-screen p-8">
@@ -74,34 +89,49 @@
         <div class="pixel-art absolute top-0 right-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAmSURBVHgBY2RgYPjPgAMwMbAwwZkgglgPXQUyGJUEKmChnvfwAACDwQcBh7GtRAAAAABJRU5ErkJggg==');"></div>
         <h1 class="title text-center mb-8">Overwatch Gamers</h1>
         
-        <div id="playerList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8"></div>
+        <div class="subpage" id="activePlayersPage">
+            <h2 class="text-xl mb-4">Active</h2>
+            <div id="playerList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8"></div>
 
-        <div class="mb-8">
-            <input type="text" id="newPlayerInput" placeholder="New gamer name" class="w-full p-2 bg-black border-2 border-white text-white mb-2">
-            <button onclick="addPlayer()" class="btn w-full text-white p-2 hover:bg-white hover:text-black">Add Gamer</button>
-        </div>
-        
-        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
-            <button onclick="selectRandomPlayer()" class="btn flex-1 text-white p-4 hover:bg-white hover:text-black">Select Random Gamer</button>
-            <button onclick="confirmSelection()" id="confirmBtn" class="btn flex-1 text-white p-4 hover:bg-white hover:text-black" disabled>Confirm Selection</button>
-        </div>
-        
-        <div class="mb-8">
-            <h2 class="text-xl mb-4">Match History</h2>
-            <ul id="selectionHistory" class="list-disc pl-5 space-y-2"></ul>
+            <div class="mb-8">
+                <input type="text" id="newPlayerInput" placeholder="New gamer name" class="w-full p-2 bg-black border-2 border-white text-white mb-2">
+                <button onclick="addPlayer()" class="btn w-full text-white p-2 hover:bg-white hover:text-black">Add Gamer</button>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
+                <button onclick="selectRandomPlayer()" class="btn flex-1 text-white p-4 hover:bg-white hover:text-black">Select Random Gamer</button>
+                <button onclick="confirmSelection()" id="confirmBtn" class="btn flex-1 text-white p-4 hover:bg-white hover:text-black" disabled>Confirm Selection</button>
+            </div>
+            
+            <div class="mb-8">
+                <h2 class="text-xl mb-4">Match History</h2>
+                <ul id="selectionHistory" class="list-disc pl-5 space-y-2"></ul>
+            </div>
         </div>
 
-        <div>
-            <h2 class="text-xl mb-4">AFK Gamers</h2>
+        <div class="subpage" id="afkPlayersPage">
+            <h2 class="text-xl mb-4">AFK</h2>
             <div id="afkList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
         </div>
     </div>
 
     <script>
+        function getRandomBrightColor() {
+            const hue = Math.floor(Math.random() * 360);
+            return `hsl(${hue}, 100%, 90%)`;
+        }
+
+        function generatePlayerId() {
+            return '_' + Math.random().toString(36).substr(2, 9);
+        }
+
         let players = [
-            { name: 'Osher', afk: false, lastSelected: null },
-            { name: 'Moogle', afk: false, lastSelected: null },
-            { name: 'Fry', afk: false, lastSelected: null }
+            { id: generatePlayerId(), name: 'Osher', afk: false, lastSelected: null, color: getRandomBrightColor() },
+            { id: generatePlayerId(), name: 'Moogle', afk: false, lastSelected: null, color: getRandomBrightColor() },
+            { id: generatePlayerId(), name: 'Fry', afk: false, lastSelected: null, color: getRandomBrightColor() },
+            { id: generatePlayerId(), name: 'Zig', afk: false, lastSelected: null, color: getRandomBrightColor() },
+            { id: generatePlayerId(), name: 'Mercy', afk: false, lastSelected: null, color: getRandomBrightColor() },
+            { id: generatePlayerId(), name: 'Zenyatta', afk: false, lastSelected: null, color: getRandomBrightColor() }
         ];
         let selectionHistory = [];
         let highlightedPlayer = null;
@@ -111,17 +141,19 @@
             const afkList = document.getElementById('afkList');
             playerList.innerHTML = '';
             afkList.innerHTML = '';
-            players.forEach((player, index) => {
+            players.slice().reverse().forEach((player) => {
                 const div = document.createElement('div');
                 div.className = `player-item p-4 ${player.afk ? 'afk' : ''} ${highlightedPlayer === player ? 'highlighted' : ''}`;
                 div.onclick = () => toggleHighlight(player);
+                div.dataset.id = player.id;
+                div.style.color = player.color;
                 div.innerHTML = `
-                    <div class="text-center mb-4">${player.name}</div>
-                    <div class="flex justify-between relative space-x-96">
-                        <button onclick="toggleAFK(${index})" class="btn px-2 py-1 text-xs">
+                    <div class="text-center flex-1 player-name">${player.name}</div>
+                    <div class="flex space-x-2">
+                        <button onclick="toggleAFK(event, '${player.id}')" class="btn px-2 py-1 text-xs">
                             ${player.afk ? 'Activate' : 'AFK'}
                         </button>
-                        <button onclick="removePlayer(${index})" class="btn px-2 py-1 text-xs">
+                        <button onclick="removePlayer(event, '${player.id}')" class="btn px-2 py-1 text-xs">
                             Remove
                         </button>
                     </div>
@@ -138,19 +170,25 @@
             const input = document.getElementById('newPlayerInput');
             const name = input.value.trim();
             if (name) {
-                players.push({ name, afk: false, lastSelected: null });
+                const color = getRandomBrightColor(); // Generate a random bright color for new players
+                players.unshift({ id: generatePlayerId(), name, afk: false, lastSelected: null, color });
                 input.value = '';
                 renderPlayers();
             }
         }
 
-        function toggleAFK(index) {
-            players[index].afk = !players[index].afk;
-            renderPlayers();
+        function toggleAFK(event, id) {
+            event.stopPropagation();
+            const player = players.find(p => p.id === id);
+            if (player) {
+                player.afk = !player.afk;
+                renderPlayers();
+            }
         }
 
-        function removePlayer(index) {
-            players.splice(index, 1);
+        function removePlayer(event, id) {
+            event.stopPropagation();
+            players = players.filter(p => p.id !== id);
             renderPlayers();
         }
 
@@ -168,7 +206,6 @@
             const confirmBtn = document.getElementById('confirmBtn');
             confirmBtn.disabled = !highlightedPlayer;
         }
-
         function selectRandomPlayer() {
             const activePlayers = players.filter(p => !p.afk);
             if (activePlayers.length === 0) {
@@ -176,27 +213,61 @@
                 return;
             }
 
+            highlightedPlayer = null; // Unselect the currently selected player
+            renderPlayers();
+            updateConfirmButton();
+
             const playerElements = document.querySelectorAll('.player-item:not(.afk)');
             const totalDuration = 5000; // 5 seconds
-            const steps = 50; // Number of highlight changes
             let currentStep = 0;
 
+            // Select the final player before the animation
+            highlightedPlayer = selectFinalPlayer(activePlayers);
+            const finalPlayerIndex = activePlayers.indexOf(highlightedPlayer);
+
+            // Compute the number of steps so that the final player gets chosen at the end of the animation
+            const minimumSteps = 25;
+            const num_laps = Math.max(Math.ceil(minimumSteps / activePlayers.length), 3);
+            const steps = num_laps * activePlayers.length + finalPlayerIndex;
+
+            console.log('Number of steps:', steps);
+            console.log('Final player index:', finalPlayerIndex);
+            console.log('Initial index:', currentStep);
+
+            activePlayers.forEach((player, index) => {
+                console.log(`Active player: ${player.name}, Index: ${index}`);
+            });
+
             function getStepDuration(step) {
-                return 50 + (step / steps) * 150;
+                const initialEnergy = 70; // Initial energy of the wheel
+                const energyDecay = initialEnergy / steps; // Uniform energy decay per step
+                const energy = initialEnergy - (energyDecay * step);
+                const velocity = Math.sqrt(energy);
+                const duration = 1 / (velocity+0.0001)* 1000;// Convert to milliseconds
+                return duration;
             }
 
             function highlightNextPlayer() {
-                playerElements.forEach(el => el.classList.remove('selected', 'blink'));
+                playerElements.forEach(el => {
+                    el.classList.remove('selected');
+                    el.style.transform = 'scale(1)';
+                });
                 const index = currentStep % activePlayers.length;
-                playerElements[activePlayers.indexOf(activePlayers[index])].classList.add('selected', 'blink');
+                console.log(`Name: ${activePlayers[index].name}, Index: ${index}`);
+                const playerElement = Array.from(playerElements).find(el => el.textContent.includes(activePlayers[index].name));
+                playerElement.classList.add('selected');
+                playerElement.style.transform = 'scale(1.03)';
 
                 currentStep++;
                 const stepDuration = getStepDuration(currentStep);
 
-                if (currentStep < steps) {
+                if (currentStep <= steps) {
+                    // console.log('Current step:', currentStep);
                     setTimeout(highlightNextPlayer, stepDuration);
                 } else {
-                    highlightedPlayer = selectFinalPlayer(activePlayers);
+                    console.log('Final index:', index);
+                    console.log('Current step:', currentStep);
+                    console.log(activePlayers[index])
                     renderPlayers();
                     updateConfirmButton();
                 }
@@ -204,7 +275,6 @@
 
             highlightNextPlayer();
         }
-
         function selectFinalPlayer(activePlayers) {
             activePlayers.sort((a, b) => {
                 if (a.lastSelected === null) return -1;
@@ -212,8 +282,12 @@
                 return a.lastSelected - b.lastSelected;
             });
 
-            const selectionPool = activePlayers.slice(0, Math.ceil(activePlayers.length / 2));
-            return selectionPool[Math.floor(Math.random() * selectionPool.length)];
+            const leastRecentlySelectedTime = activePlayers[0].lastSelected;
+            const selectionPool = activePlayers.filter(player => player.lastSelected === leastRecentlySelectedTime);
+
+            const selectedPlayer = selectionPool[Math.floor(Math.random() * selectionPool.length)];
+            console.log('Selected player:', selectedPlayer.name);
+            return selectedPlayer;
         }
 
         function confirmSelection() {
