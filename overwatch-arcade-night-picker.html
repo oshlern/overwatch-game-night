@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overwatch Arcade Night Picker</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .ow-logo {
+            width: 80px;
+            height: 80px;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI2ZhOTYxZSIgZD0iTTI5LjI5IDIwYzAgNS4xNS00LjE3IDkuMzMtOS4yOSA5LjMzcy05LjI5LTQuMTgtOS4yOS05LjMzUzE0Ljg4IDEwLjY3IDIwIDEwLjY3czEwIDQuMTggMTAgOS4zM3ptNi42NyAwQzM1Ljk2IDExLjM1IDI4LjY5IDQgMjAgNFM0LjA0IDExLjM1IDQuMDQgMjBTMTEuMzEgMzYgMjAgMzZzMTYuNjctNy4zNSAxNi42Ny0xNnoiLz48L3N2Zz4=') no-repeat center center;
+            background-size: contain;
+        }
+        .game-button {
+            transition: all 0.3s ease;
+        }
+        .game-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .sidebar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        .highlight {
+            animation: highlight 1s ease-in-out infinite alternate;
+        }
+        @keyframes highlight {
+            from { background-color: rgba(255, 255, 0, 0.5); }
+            to { background-color: rgba(255, 255, 0, 0.1); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex">
+    <!-- Sidebar -->
+    <div class="sidebar w-64 p-6 flex flex-col">
+        <div class="ow-logo mx-auto mb-6"></div>
+        <h2 class="text-xl font-bold mb-4 text-white">Players</h2>
+        <ul id="playerList" class="mb-4 space-y-2 flex-grow overflow-auto"></ul>
+        <div class="mt-auto">
+            <input type="text" id="playerName" placeholder="Enter player name" class="w-full p-2 border rounded mb-2">
+            <button onclick="addPlayer()" class="bg-green-500 hover:bg-green-600 text-white p-2 rounded w-full mb-2">Add Player</button>
+            <button onclick="startGame()" id="startButton" class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded w-full">Start Game</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-grow p-8">
+        <div class="bg-white rounded-lg shadow-xl p-6 max-w-3xl mx-auto">
+            <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Overwatch Arcade Night Picker</h1>
+            
+            <div id="playerSelectScreen">
+                <h2 class="text-2xl font-semibold mb-4 text-center text-indigo-600">Select a Player</h2>
+                <button onclick="selectRandomPlayer()" class="bg-yellow-500 hover:bg-yellow-600 text-white text-xl py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110">Select Random Player</button>
+            </div>
+            
+            <div id="gameScreen" class="hidden">
+                <h2 id="currentPlayer" class="text-2xl font-semibold mb-4 text-center text-indigo-600"></h2>
+                <div id="gameModes" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"></div>
+            </div>
+            
+            <div id="selectedGame" class="hidden text-center">
+                <h2 class="text-2xl font-semibold mb-4 text-indigo-600">Selected Game:</h2>
+                <p id="selectedGameName" class="text-xl mb-4 text-gray-700"></p>
+                <p id="gameCode" class="font-mono text-2xl bg-gray-200 p-4 rounded inline-block mb-6"></p>
+                <button onclick="nextRound()" class="bg-purple-500 hover:bg-purple-600 text-white text-xl py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110">Next Round</button>
+            </div>
+            
+            <div id="mysteryMode" class="hidden text-center">
+                <button onclick="startMysteryMode()" class="bg-yellow-500 hover:bg-yellow-600 text-white text-xl py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110">Mystery Mode</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const gameModes = [
+            "Infinite stairs", "Cassidy deathmatch", "1v1 Arena Kill to grow", "Dva dogfight",
+            "Ana paintball", "Mystery heroes", "If I see you move you die", "Hero gauntlet",
+            "Hot potato", "Hide and seek", "Molten floor", "Zombie", "Mirrored deathmatch",
+            "Lockout elimination", "Capture the flag blitz", "No limits", "Winston's beach volleyball",
+            "Balanced mystery heroes", "Team gun game", "Weird abilities"
+        ];
+        
+        let players = ["osher", "Moogle", "Fry"];
+        let availableGames = [...gameModes];
+        let currentPlayerIndex = 0;
+        let roundHistory = [];
+        
+        function addPlayer() {
+            const playerName = document.getElementById('playerName').value.trim();
+            if (playerName && !players.includes(playerName)) {
+                players.push(playerName);
+                updatePlayerList();
+                document.getElementById('playerName').value = '';
+            }
+        }
+        
+        function updatePlayerList() {
+            const playerList = document.getElementById('playerList');
+            playerList.innerHTML = players.map((player, index) => `
+                <li class="flex justify-between items-center bg-white bg-opacity-20 p-2 rounded ${index === currentPlayerIndex ? 'border-2 border-yellow-400' : ''}">
+                    <span class="text-white">${player}</span>
+                    <button onclick="removePlayer('${player}')" class="text-red-500 hover:text-red-700">×</button>
+                </li>
+            `).join('');
+            document.getElementById('startButton').disabled = players.length === 0;
+        }
+        
+        function removePlayer(player) {
+            const index = players.indexOf(player);
+            if (index > -1) {
+                players.splice(index, 1);
+                if (index < currentPlayerIndex) {
+                    currentPlayerIndex--;
+                } else if (index === currentPlayerIndex && currentPlayerIndex === players.length) {
+                    currentPlayerIndex = 0;
+                }
+                updatePlayerList();
+            }
+        }
+        
+        function startGame() {
+            if (players.length > 0) {
+                currentPlayerIndex = 0;
+                document.getElementById('playerSelectScreen').classList.remove('hidden');
+                document.getElementById('gameScreen').classList.add('hidden');
+                document.getElementById('selectedGame').classList.add('hidden');
+                document.getElementById('mysteryMode').classList.add('hidden');
+            }
+        }
+        
+        function startMysteryMode() {
+            document.getElementById('mysteryMode').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+            nextRound();
+        }
+        
+        function selectRandomPlayer() {
+            const randomIndex = Math.floor(Math.random() * players.length);
+            currentPlayerIndex = randomIndex;
+            const currentPlayer = players[currentPlayerIndex];
+            document.getElementById('currentPlayer').textContent = `${currentPlayer}'s turn`;
+            document.getElementById('playerSelectScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+            highlightPlayer(currentPlayer);
+            nextRound();
+        }
+        
+        function highlightPlayer(player) {
+            const playerListItems = document.querySelectorAll('#playerList li');
+            playerListItems.forEach(item => {
+                if (item.textContent.includes(player)) {
+                    item.classList.add('highlight');
+                } else {
+                    item.classList.remove('highlight');
+                }
+            });
+        }
+        
+        function nextRound() {
+            if (availableGames.length === 0) {
+                alert('All games have been played!');
+                return;
+            }
+            
+            document.getElementById('selectedGame').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+            
+            const currentPlayer = players[currentPlayerIndex];
+            document.getElementById('currentPlayer').textContent = `${currentPlayer}'s turn`;
+            
+            const gameOptions = getRandomGames(3);
+            const gameModeContainer = document.getElementById('gameModes');
+            gameModeContainer.innerHTML = gameOptions.map(game => `
+                <button onclick="selectGame('${game}')" class="game-button bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-lg p-4 rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-700 transition duration-300 ease-in-out">
+                    ${game}
+                </button>
+            `).join('');
+
+            updatePlayerList();
+        }
+        
+        function getRandomGames(count) {
+            const shuffled = availableGames.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+        
+        function selectGame(game) {
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('selectedGame').classList.remove('hidden');
+            document.getElementById('selectedGameName').textContent = game;
+            document.getElementById('gameCode').textContent = generateGameCode();
+            availableGames = availableGames.filter(g => g !== game);
+            
+            // Move current player to the back of the line
+            roundHistory.push({ player: players[currentPlayerIndex], game });
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+        }
+        
+        function generateGameCode() {
+            return Math.random().toString(36).substring(2, 7).toUpperCase();
+        }
+        
+        updatePlayerList();
+        startGame(); // Ensure the player select screen is shown initially
+    </script>
+</body>
+</html>
