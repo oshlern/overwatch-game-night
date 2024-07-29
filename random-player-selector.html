@@ -23,10 +23,10 @@
             background: linear-gradient(45deg, #6a0dad, #000);
         }
         .retro-container-2 {
-            background: linear-gradient(45deg, #bdc019, #000);
+            background: linear-gradient(45deg, #b538c6, #000);
         }
         .retro-container-3 {
-            background: linear-gradient(45deg, #cc4101, #000);
+            background: linear-gradient(70deg, #a93101, #000); /*cc4101 376bc4*/
         }
         .player-item {
             background: #000;
@@ -131,7 +131,7 @@
         
         <div class="flex flex-wrap justify-between">
             <div class="subpage" id="activePlayersPage">
-                <h2 class="text-xl mb-4">Active</h2>
+                <h2 class="text-xl mb-4" style="color: #fbcbff;">Active</h2>
                 <div id="playerList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8"></div>
 
                 <div class="mb-8">
@@ -141,12 +141,12 @@
             </div>
 
             <div class="subpage" id="afkPlayersPage">
-                <h2 class="text-xl mb-4">AFK</h2>
+                <h2 class="text-xl mb-4" style="color: #fbcbff;">AFK</h2>
                 <div id="afkList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
             </div>
 
             <div class="subpage" id="matchHistoryPage">
-                <h2 class="text-xl mb-4">Match History</h2>
+                <h2 class="text-xl mb-4" style="color: #fbcbff;">Match History</h2>
                 <ul id="selectionHistory" class="pl-5 space-y-2"></ul>
             </div>
         </div>
@@ -154,18 +154,18 @@
     </div>
     <div class="max-w-4xl mx-auto retro-container retro-container-2 rounded-lg p-6 relative overflow-hidden mt-8">
         <div class="column" id="lobbyLeaderColumn">
-            <h2 class="text-xl mb-4">Lobby Leader</h2>
-            <div id="highlightedPlayer"></div>
-            <button onclick="selectRandomPlayer()" class="btn flex-1 text-white p-4 hover:bg-white hover:text-black">Randomize</button>
-            <button onclick="confirmSelection()" id="confirmBtn" class="btn flex-1 text-white p-4 hover:bg-white hover:text-black" disabled>Confirm</button>                    
+            <h2 class="text-xl mb-4" style="color: #ffb2cef5;">Lobby Leader</h2>
+            <div id="highlightedPlayer" class="flex-1" style="margin-bottom: 6px; font-size: 20px;"></div>
+            <button onclick="selectRandomPlayer()" class="btn text-white p-4 hover:bg-white hover:text-black">Randomize</button>
+            <button onclick="confirmSelection()" id="confirmBtn" class="btn text-white p-4 hover:bg-white hover:text-black" disabled>Confirm</button>
         </div>
         <div class="column" id="gameModeColumn">
-            <h2 class="text-xl mb-4">Game Mode</h2>
+            <h2 class="text-xl mb-4" style="color: #ffb2cef5;">Game Mode</h2>
             <div id="selectedGameMode"></div>
         </div>
         <div class="column" id="startButtonColumn">
             <button onclick="startTimer()" id="startButton" class="btn w-full text-white p-2 hover:bg-white hover:text-black">Start</button>
-            <div id="timer" class="text-xl mt-4"></div>
+            <div id="timer" class="text-xl mt-4 flex items-center justify-center" style="height: 100%;"></div>
         </div>
     </div>
     <div class="max-w-4xl mx-auto retro-container retro-container-3 rounded-lg p-6 relative overflow-hidden mt-8">
@@ -197,6 +197,7 @@
         ];
         let selectionHistory = [];
         let highlightedPlayer = null;
+        let selectedGameMode = null;
         const gameModes = [
             { name: 'Infinite stairs', description: 'Climb infinite stairs while avoiding obstacles.', code: 'ABC123', icon: '🪜', recommendedTime: 10 },
             { name: 'Cassidy deathmatch', description: 'Fight in a deathmatch as Cassidy.', code: 'DEF456', icon: '🔫', recommendedTime: 15 },
@@ -396,8 +397,8 @@
         function confirmSelection() {
             if (highlightedPlayer) {
                 highlightedPlayer.lastSelected = Date.now();
-                selectionHistory.unshift(`Match ${selectionHistory.length + 1}: ${highlightedPlayer.name}`);
-                updateSelectionHistory();
+                // selectionHistory.unshift(`Match ${selectionHistory.length + 1}: ${highlightedPlayer.name}`);
+                // updateSelectionHistory();
                 renderPlayers();
                 updateConfirmButton();
                 loadRandomGameModes();
@@ -428,6 +429,7 @@
                         <p>${gameMode.description}</p>
                         <p><strong>Code:</strong> ${gameMode.code}</p>
                     `;
+                    updateSelectedGameMode(gameMode);
                 };
                 gameModeList.appendChild(div);
             });
@@ -495,6 +497,7 @@
                             <p>${gameMode.description}</p>
                             <p><strong>Code:</strong> ${gameMode.code}</p>
                         `;
+                        updateSelectedGameMode(gameMode);
                     };
                     gameModeList.appendChild(div);
                 });
@@ -502,22 +505,50 @@
 
             shuffleEmojis();
         }
+        
+        function updateSelectedGameMode(gameMode) {
+            selectedGameMode = gameMode;
+            const selectedGameModeDiv = document.getElementById('selectedGameMode');
+            selectedGameModeDiv.innerHTML = `<h3>${gameMode.icon} ${gameMode.name}</h3><p>Code: ${gameMode.code}</p>`;
+            //TODO if you click on code, coppy it to clipboard
+        }
 
         function startTimer() {
             const startButton = document.getElementById('startButton');
             const timerDiv = document.getElementById('timer');
+
+            if (!selectedGameMode) {
+                alert('Please select a game mode first!');
+                return;
+            }
             startButton.style.display = 'none';
             timerDiv.style.display = 'block';
 
-            let seconds = 0;
+            let seconds = selectedGameMode.recommendedTime * 60;
             function updateTimer() {
-                seconds++;
                 const minutes = Math.floor(seconds / 60);
                 const remainingSeconds = seconds % 60;
-                timerDiv.textContent = `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+                timerDiv.innerHTML = `<p>Recommended time</p>${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+                if (seconds > 0) {
+                    seconds--;
+                } else {
+                    clearInterval(timerInterval);
+                    alert('Time is up!');
+                }
             }
 
-            setInterval(updateTimer, 1000);
+            const timerInterval = setInterval(updateTimer, 1000);
+            updateTimer(); // Initial call to display the timer immediately
+
+            // Add to match history
+            if (highlightedPlayer && selectedGameMode) {
+                const roundNumber = selectionHistory.length + 1;
+                const lobbyLeader = highlightedPlayer.name;
+                const match = `${selectedGameMode.icon} ${selectedGameMode.name}`;
+                selectionHistory.unshift(`${lobbyLeader} - ${match}`);
+                // selectionHistory.unshift(`Round ${roundNumber}: ${lobbyLeader} - ${match}`);
+                updateSelectionHistory();
+            }
         }
 
         renderPlayers();
