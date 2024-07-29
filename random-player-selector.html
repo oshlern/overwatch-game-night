@@ -15,9 +15,18 @@
             text-align: center;
         }
         .retro-container {
-            background: linear-gradient(45deg, #6a0dad, #000);
             border: 4px solid #fff;
             box-shadow: 0 0 0 4px #000, 0 0 0 8px #fff;
+            margin-bottom: 20px; /* Added margin between containers */
+        }
+        .retro-container-1 {
+            background: linear-gradient(45deg, #6a0dad, #000);
+        }
+        .retro-container-2 {
+            background: linear-gradient(45deg, #bdc019, #000);
+        }
+        .retro-container-3 {
+            background: linear-gradient(45deg, #cc4101, #000);
         }
         .player-item {
             background: #000;
@@ -30,6 +39,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            height: 33px; /* Added height to give more space */
         }
         .player-item:hover {
             transform: scale(1.05);
@@ -50,6 +60,8 @@
             box-shadow: 0 0 0 2px #000;
             transition: all 0.3s ease;
             color: #fff;
+            margin-top: 3px;
+            margin-bottom: 3px;
         }
         .btn:hover {
             transform: translateY(-2px);
@@ -79,40 +91,90 @@
         .subpage {
             display: inline-block;
             vertical-align: top;
-            width: 48%;
+            width: 32%;
+        }
+        .game-mode-item {
+            cursor: pointer;
+            padding: 10px;
+            border: 2px solid #fff;
+            margin: 5px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .game-mode-item:hover {
+            background: #6a0dad;
+        }
+        .game-mode-item.selected {
+            background: #6a0dad;
+        }
+        .yellow-page {
+            background: yellow;
+            color: black;
+            padding: 20px;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 4px #000, 0 0 0 8px #fff;
+            margin-top: 20px;
+        }
+        .column {
+            display: inline-block;
+            vertical-align: top;
+            width: 30%;
+            padding: 10px;
         }
     </style>
 </head>
 <body class="min-h-screen p-8">
-    <div class="max-w-4xl mx-auto retro-container rounded-lg p-6 relative overflow-hidden">
+    <div class="max-w-4xl mx-auto retro-container retro-container-1 rounded-lg p-6 relative overflow-hidden">
         <div class="pixel-art absolute top-0 left-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAnSURBVHgBzc4xDQAACANB9l/zuICrwqcTXZBkFRiUgBQt7pGThG9jxVsPFMbYA+AAAAAASUVORK5CYII=');"></div>
         <div class="pixel-art absolute top-0 right-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAmSURBVHgBY2RgYPjPgAMwMbAwwZkgglgPXQUyGJUEKmChnvfwAACDwQcBh7GtRAAAAABJRU5ErkJggg==');"></div>
         <h1 class="title text-center mb-8">Overwatch Gamers</h1>
         
-        <div class="subpage" id="activePlayersPage">
-            <h2 class="text-xl mb-4">Active</h2>
-            <div id="playerList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8"></div>
+        <div class="flex flex-wrap justify-between">
+            <div class="subpage" id="activePlayersPage">
+                <h2 class="text-xl mb-4">Active</h2>
+                <div id="playerList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8"></div>
 
-            <div class="mb-8">
-                <input type="text" id="newPlayerInput" placeholder="New gamer name" class="w-full p-2 bg-black border-2 border-white text-white mb-2">
-                <button onclick="addPlayer()" class="btn w-full text-white p-2 hover:bg-white hover:text-black">Add Gamer</button>
+                <div class="mb-8">
+                    <input type="text" id="newPlayerInput" placeholder="New gamer name" class="w-full p-2 bg-black border-2 border-white text-white mb-2">
+                    <button onclick="addPlayer()" class="btn w-full text-white p-2 hover:bg-white hover:text-black">Add Gamer</button>
+                </div>
             </div>
-            
-            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
-                <button onclick="selectRandomPlayer()" class="btn flex-1 text-white p-4 hover:bg-white hover:text-black">Select Random Gamer</button>
-                <button onclick="confirmSelection()" id="confirmBtn" class="btn flex-1 text-white p-4 hover:bg-white hover:text-black" disabled>Confirm Selection</button>
+
+            <div class="subpage" id="afkPlayersPage">
+                <h2 class="text-xl mb-4">AFK</h2>
+                <div id="afkList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
             </div>
-            
-            <div class="mb-8">
+
+            <div class="subpage" id="matchHistoryPage">
                 <h2 class="text-xl mb-4">Match History</h2>
-                <ul id="selectionHistory" class="list-disc pl-5 space-y-2"></ul>
+                <ul id="selectionHistory" class="pl-5 space-y-2"></ul>
             </div>
         </div>
 
-        <div class="subpage" id="afkPlayersPage">
-            <h2 class="text-xl mb-4">AFK</h2>
-            <div id="afkList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+    </div>
+    <div class="max-w-4xl mx-auto retro-container retro-container-2 rounded-lg p-6 relative overflow-hidden mt-8">
+        <div class="column" id="lobbyLeaderColumn">
+            <h2 class="text-xl mb-4">Lobby Leader</h2>
+            <div id="highlightedPlayer"></div>
+            <button onclick="selectRandomPlayer()" class="btn flex-1 text-white p-4 hover:bg-white hover:text-black">Randomize</button>
+            <button onclick="confirmSelection()" id="confirmBtn" class="btn flex-1 text-white p-4 hover:bg-white hover:text-black" disabled>Confirm</button>                    
         </div>
+        <div class="column" id="gameModeColumn">
+            <h2 class="text-xl mb-4">Game Mode</h2>
+            <div id="selectedGameMode"></div>
+        </div>
+        <div class="column" id="startButtonColumn">
+            <button onclick="startTimer()" id="startButton" class="btn w-full text-white p-2 hover:bg-white hover:text-black">Start</button>
+            <div id="timer" class="text-xl mt-4"></div>
+        </div>
+    </div>
+    <div class="max-w-4xl mx-auto retro-container retro-container-3 rounded-lg p-6 relative overflow-hidden mt-8">
+        <div class="pixel-art absolute top-0 left-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAnSURBVHgBzc4xDQAACANB9l/zuICrwqcTXZBkFRiUgBQt7pGThG9jxVsPFMbYA+AAAAAASUVORK5CYII=');"></div>
+        <div class="pixel-art absolute top-0 right-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAmSURBVHgBY2RgYPjPgAMwMbAwwZkgglgPXQUyGJUEKmChnvfwAACDwQcBh7GtRAAAAABJRU5ErkJggg==');"></div>
+        <!-- <h2 class="text-xl mb-4">Game Modes</h2> -->
+        <!-- <button onclick="loadRandomGameModes()" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Load Random Game Modes</button> -->
+        <div id="gameModeList" class="flex justify-center space-x-4 mt-4"></div>
+        <div id="gameModeDescription" class="mt-4 p-4 border-2 border-white"></div>
     </div>
 
     <script>
@@ -135,6 +197,29 @@
         ];
         let selectionHistory = [];
         let highlightedPlayer = null;
+        const gameModes = [
+            { name: 'Infinite stairs', description: 'Climb infinite stairs while avoiding obstacles.', code: 'ABC123', icon: '🪜', recommendedTime: 10 },
+            { name: 'Cassidy deathmatch', description: 'Fight in a deathmatch as Cassidy.', code: 'DEF456', icon: '🔫', recommendedTime: 15 },
+            { name: '1v1 Arena', description: 'Face off in a 1v1 arena battle.', code: 'GHI789', icon: '⚔️', recommendedTime: 5 },
+            { name: 'Kill to grow', description: 'Grow in size with each kill.', code: 'JKL012', icon: '🌱', recommendedTime: 12 },
+            { name: 'Dva dogfight', description: 'Engage in aerial combat as Dva.', code: 'MNO345', icon: '✈️', recommendedTime: 8 },
+            { name: 'Ana paintball', description: 'Play paintball as Ana.', code: 'PQR678', icon: '🎨', recommendedTime: 10 },
+            { name: 'Mystery heroes', description: 'Play with random heroes each time you respawn.', code: 'STU901', icon: '❓', recommendedTime: 20 },
+            { name: 'If I see you move you die', description: 'Stay still to survive.', code: 'VWX234', icon: '👀', recommendedTime: 7 },
+            { name: 'Hero gauntlet', description: 'Fight through a gauntlet of heroes.', code: 'YZA567', icon: '🏋️', recommendedTime: 15 },
+            { name: 'Hot potato', description: 'Pass the hot potato before it explodes.', code: 'BCD890', icon: '🥔', recommendedTime: 5 },
+            { name: 'Hide and seek', description: 'Hide from seekers to survive.', code: 'EFG123', icon: '🙈', recommendedTime: 10 },
+            { name: 'Molten floor', description: 'Avoid the molten floor.', code: 'HIJ456', icon: '🔥', recommendedTime: 6 },
+            { name: 'Zombie', description: 'Survive the zombie apocalypse.', code: 'KLM789', icon: '🧟', recommendedTime: 12 },
+            { name: 'Mirrored deathmatch', description: 'Fight in a mirrored deathmatch.', code: 'NOP012', icon: '🔄', recommendedTime: 10 },
+            { name: 'Lockout elimination', description: 'Eliminate opponents in a lockout mode.', code: 'QRS345', icon: '🔒', recommendedTime: 8 },
+            { name: 'Capture the flag blitz', description: 'Capture the flag in a fast-paced mode.', code: 'TUV678', icon: '🚩', recommendedTime: 10 },
+            { name: 'No limits', description: 'Play with no hero limits.', code: 'WXY901', icon: '♾️', recommendedTime: 15 },
+            { name: 'Winston’s beach volleyball', description: 'Play beach volleyball as Winston.', code: 'ZAB234', icon: '🏐', recommendedTime: 7 },
+            { name: 'Balanced mystery heroes', description: 'Play with balanced random heroes.', code: 'CDE567', icon: '⚖️', recommendedTime: 20 },
+            { name: 'Team gun game', description: 'Progress through weapons as a team.', code: 'FGH890', icon: '🔫', recommendedTime: 12 },
+            { name: 'Weird abilities', description: 'Play with weird and random abilities.', code: 'IJK123', icon: '🌀', recommendedTime: 10 }
+        ];
 
         function renderPlayers() {
             const playerList = document.getElementById('playerList');
@@ -150,11 +235,11 @@
                 div.innerHTML = `
                     <div class="text-center flex-1 player-name">${player.name}</div>
                     <div class="flex space-x-2">
-                        <button onclick="toggleAFK(event, '${player.id}')" class="btn px-2 py-1 text-xs">
+                        <button onclick="toggleAFK(event, '${player.id}')" class="btn px-1 py-1 text-xs">
                             ${player.afk ? 'Activate' : 'AFK'}
                         </button>
-                        <button onclick="removePlayer(event, '${player.id}')" class="btn px-2 py-1 text-xs">
-                            Remove
+                        <button onclick="removePlayer(event, '${player.id}')" class="btn px-1 py-1 text-xs" style="color: red; font-size: 10px; border: none; margin-right: 5px;">
+                            &#10006;
                         </button>
                     </div>
                 `;
@@ -164,6 +249,14 @@
                     playerList.appendChild(div);
                 }
             });
+
+            // Update the highlighted player display
+            const highlightedPlayerDiv = document.getElementById('highlightedPlayer');
+            if (highlightedPlayer) {
+                highlightedPlayerDiv.innerHTML = `<div style="color: ${highlightedPlayer.color};">${highlightedPlayer.name}</div>`;
+            } else {
+                highlightedPlayerDiv.innerHTML = '';
+            }
         }
 
         function addPlayer() {
@@ -171,7 +264,7 @@
             const name = input.value.trim();
             if (name) {
                 const color = getRandomBrightColor(); // Generate a random bright color for new players
-                players.unshift({ id: generatePlayerId(), name, afk: false, lastSelected: null, color });
+                players.push({ id: generatePlayerId(), name, afk: false, lastSelected: null, color });
                 input.value = '';
                 renderPlayers();
             }
@@ -207,7 +300,12 @@
             confirmBtn.disabled = !highlightedPlayer;
         }
         function selectRandomPlayer() {
-            const activePlayers = players.filter(p => !p.afk);
+            const playerElements2 = Array.from(document.querySelectorAll('.player-item:not(.afk)'));
+            const activePlayers = playerElements2.map(el => {
+                const playerId = el.dataset.id;
+                return players.find(p => p.id === playerId);
+            }).filter(p => p !== undefined).reverse();
+
             if (activePlayers.length === 0) {
                 alert('No active gamers to select from!');
                 return;
@@ -218,7 +316,7 @@
             updateConfirmButton();
 
             const playerElements = document.querySelectorAll('.player-item:not(.afk)');
-            const totalDuration = 5000; // 5 seconds
+            // const totalDuration = 5000; // 5 seconds
             let currentStep = 0;
 
             // Select the final player before the animation
@@ -232,6 +330,7 @@
 
             console.log('Number of steps:', steps);
             console.log('Final player index:', finalPlayerIndex);
+            console.log('Final player name:', highlightedPlayer.name);
             console.log('Initial index:', currentStep);
 
             activePlayers.forEach((player, index) => {
@@ -239,12 +338,12 @@
             });
 
             function getStepDuration(step) {
-                const initialEnergy = 70; // Initial energy of the wheel
+                const initialEnergy = 40; // Initial energy of the wheel
                 const energyDecay = initialEnergy / steps; // Uniform energy decay per step
                 const energy = initialEnergy - (energyDecay * step);
                 const velocity = Math.sqrt(energy);
-                const duration = 1 / (velocity+0.0001)* 1000;// Convert to milliseconds
-                return duration;
+                const duration = 0.5 / (velocity+0.0001)* 1000;// Convert to milliseconds
+                return Math.min(duration, 1000);
             }
 
             function highlightNextPlayer() {
@@ -253,7 +352,7 @@
                     el.style.transform = 'scale(1)';
                 });
                 const index = currentStep % activePlayers.length;
-                console.log(`Name: ${activePlayers[index].name}, Index: ${index}`);
+                // console.log(`Name: ${activePlayers[index].name}, Index: ${index}`);
                 const playerElement = Array.from(playerElements).find(el => el.textContent.includes(activePlayers[index].name));
                 playerElement.classList.add('selected');
                 playerElement.style.transform = 'scale(1.03)';
@@ -262,14 +361,18 @@
                 const stepDuration = getStepDuration(currentStep);
 
                 if (currentStep <= steps) {
-                    // console.log('Current step:', currentStep);
+                    console.log('Current step:', currentStep, stepDuration);
                     setTimeout(highlightNextPlayer, stepDuration);
                 } else {
                     console.log('Final index:', index);
                     console.log('Current step:', currentStep);
-                    console.log(activePlayers[index])
+                    console.log(activePlayers[index]);
+                    // highlightedPlayer = activePlayers[index]; // Fix: Ensure highlightedPlayer is set correctly
+
                     renderPlayers();
                     updateConfirmButton();
+                    console.log('Confirm button enabled:', !document.getElementById('confirmBtn').disabled);
+                    console.log('Highlighted player:', highlightedPlayer ? highlightedPlayer.name : 'None');
                 }
             }
 
@@ -295,15 +398,126 @@
                 highlightedPlayer.lastSelected = Date.now();
                 selectionHistory.unshift(`Match ${selectionHistory.length + 1}: ${highlightedPlayer.name}`);
                 updateSelectionHistory();
-                highlightedPlayer = null;
                 renderPlayers();
                 updateConfirmButton();
+                loadRandomGameModes();
             }
         }
 
         function updateSelectionHistory() {
             const historyList = document.getElementById('selectionHistory');
             historyList.innerHTML = selectionHistory.map(entry => `<li class="text-sm">${entry}</li>`).join('');
+        }
+
+        function displayRandomGameModes() {
+            const gameModeList = document.getElementById('gameModeList');
+            const gameModeDescription = document.getElementById('gameModeDescription');
+            gameModeList.innerHTML = '';
+            gameModeDescription.innerHTML = '';
+
+            const randomGameModes = gameModes.sort(() => 0.5 - Math.random()).slice(0, 3);
+            randomGameModes.forEach((gameMode, index) => {
+                const div = document.createElement('div');
+                div.className = 'game-mode-item';
+                div.textContent = gameMode.name;
+                div.onclick = () => {
+                    document.querySelectorAll('.game-mode-item').forEach(item => item.classList.remove('selected'));
+                    div.classList.add('selected');
+                    gameModeDescription.innerHTML = `
+                        <h3 class="text-lg">${gameMode.name}</h3>
+                        <p>${gameMode.description}</p>
+                        <p><strong>Code:</strong> ${gameMode.code}</p>
+                    `;
+                };
+                gameModeList.appendChild(div);
+            });
+        }
+
+        function loadRandomGameModes() {
+            const playedGameModes = selectionHistory.map(entry => entry.split(': ')[1]);
+            const unplayedGameModes = gameModes.filter(gameMode => !playedGameModes.includes(gameMode.name));
+            const randomGameModes = unplayedGameModes.sort(() => 0.5 - Math.random()).slice(0, 3);
+
+            const gameModeList = document.getElementById('gameModeList');
+            const gameModeDescription = document.getElementById('gameModeDescription');
+            gameModeList.innerHTML = '';
+            gameModeDescription.innerHTML = '';
+
+            let currentStep = 0;
+            const steps = 30; // Number of steps for the animation
+
+            console.log("Random Game Modes:", randomGameModes);
+
+            function getStepDuration(step) {
+                const initialEnergy = 40; // Initial energy of the wheel
+                const energyDecay = initialEnergy / steps; // Uniform energy decay per step
+                const energy = initialEnergy - (energyDecay * step);
+                const velocity = Math.sqrt(energy);
+                const duration = 0.5 / (velocity+0.0001)* 1000;// Convert to milliseconds
+                return Math.min(duration, 1000);
+            }
+
+            function shuffleEmojis() {
+                const emojis = gameModes.map(gameMode => gameMode.icon);
+                gameModeList.innerHTML = '';
+                for (let i = 0; i < 3; i++) {
+                    const div = document.createElement('div');
+                    div.className = 'game-mode-item';
+                    if (currentStep < steps-1) {
+                        div.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    } else {
+                        div.textContent = randomGameModes[i].icon;
+                    }
+                    gameModeList.appendChild(div);
+                }
+
+                currentStep++;
+                const stepDuration = getStepDuration(currentStep);
+
+                if (currentStep <= steps) {
+                    setTimeout(shuffleEmojis, stepDuration);
+                } else {
+                    showFinalGameModes(randomGameModes);
+                }
+            }
+
+            function showFinalGameModes(gameModes) {
+                gameModeList.innerHTML = '';
+                gameModes.forEach((gameMode, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'game-mode-item';
+                    div.innerHTML = `${gameMode.icon} ${gameMode.name}`;
+                    div.onclick = () => {
+                        document.querySelectorAll('.game-mode-item').forEach(item => item.classList.remove('selected'));
+                        div.classList.add('selected');
+                        gameModeDescription.innerHTML = `
+                            <h3 class="text-lg">${gameMode.name}</h3>
+                            <p>${gameMode.description}</p>
+                            <p><strong>Code:</strong> ${gameMode.code}</p>
+                        `;
+                    };
+                    gameModeList.appendChild(div);
+                });
+            }
+
+            shuffleEmojis();
+        }
+
+        function startTimer() {
+            const startButton = document.getElementById('startButton');
+            const timerDiv = document.getElementById('timer');
+            startButton.style.display = 'none';
+            timerDiv.style.display = 'block';
+
+            let seconds = 0;
+            function updateTimer() {
+                seconds++;
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                timerDiv.textContent = `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+            }
+
+            setInterval(updateTimer, 1000);
         }
 
         renderPlayers();
