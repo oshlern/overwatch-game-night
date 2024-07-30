@@ -23,10 +23,10 @@
             background: linear-gradient(45deg, #6a0dad, #000);
         }
         .retro-container-2 {
-            background: linear-gradient(45deg, #b538c6, #000);
+            background: linear-gradient(76deg, #b538c6, #000);
         }
         .retro-container-3 {
-            background: linear-gradient(70deg, #a93101, #000); /*cc4101 376bc4*/
+            background: linear-gradient(140deg, #a7234f, #000); /*cc4101 376bc4 8da723*/
         }
         .player-item {
             background: #000;
@@ -121,9 +121,26 @@
             width: 30%;
             padding: 10px;
         }
+        .btn-hidden {
+            visibility: hidden;
+            position: absolute;
+        }
+        .alert-div {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000;
+            display: none;
+        }
     </style>
 </head>
 <body class="min-h-screen p-8">
+    <div class="alert-div" id="alertDiv"></div>
     <div class="max-w-4xl mx-auto retro-container retro-container-1 rounded-lg p-6 relative overflow-hidden">
         <div class="pixel-art absolute top-0 left-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAnSURBVHgBzc4xDQAACANB9l/zuICrwqcTXZBkFRiUgBQt7pGThG9jxVsPFMbYA+AAAAAASUVORK5CYII=');"></div>
         <div class="pixel-art absolute top-0 right-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAmSURBVHgBY2RgYPjPgAMwMbAwwZkgglgPXQUyGJUEKmChnvfwAACDwQcBh7GtRAAAAABJRU5ErkJggg==');"></div>
@@ -147,7 +164,7 @@
 
             <div class="subpage" id="matchHistoryPage">
                 <h2 class="text-xl mb-4" style="color: #fbcbff;">Match History</h2>
-                <ul id="selectionHistory" class="pl-5 space-y-2"></ul>
+                <ul id="matchHistory" class="pl-5 space-y-2 list-none"></ul>
             </div>
         </div>
 
@@ -163,18 +180,23 @@
             <h2 class="text-xl mb-4" style="color: #ffb2cef5;">Game Mode</h2>
             <div id="selectedGameMode"></div>
         </div>
-        <div class="column" id="startButtonColumn">
+        <div class="column" id="startButtonColumn" style="text-align: center;">
             <button onclick="startTimer()" id="startButton" class="btn w-full text-white p-2 hover:bg-white hover:text-black">Start</button>
+            <button onclick="endTimer()" id="endButton" class="btn w-full text-white p-2 hover:bg-white hover:text-black btn-hidden">End</button>
             <div id="timer" class="text-xl mt-4 flex items-center justify-center" style="height: 100%;"></div>
         </div>
     </div>
     <div class="max-w-4xl mx-auto retro-container retro-container-3 rounded-lg p-6 relative overflow-hidden mt-8">
-        <div class="pixel-art absolute top-0 left-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAnSURBVHgBzc4xDQAACANB9l/zuICrwqcTXZBkFRiUgBQt7pGThG9jxVsPFMbYA+AAAAAASUVORK5CYII=');"></div>
-        <div class="pixel-art absolute top-0 right-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAmSURBVHgBY2RgYPjPgAMwMbAwwZkgglgPXQUyGJUEKmChnvfwAACDwQcBh7GtRAAAAABJRU5ErkJggg==');"></div>
+        <div class="pixel-art absolute top-0 left-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAmSURBVHgBY2RgYPjPgAMwMbAwwZkgglgPXQUyGJUEKmChnvfwAACDwQcBh7GtRAAAAABJRU5ErkJggg==');"></div>
         <!-- <h2 class="text-xl mb-4">Game Modes</h2> -->
         <!-- <button onclick="loadRandomGameModes()" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Load Random Game Modes</button> -->
+        <button onclick="showChefsChoiceModes()" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Chef's Choice</button>
+        <button onclick="loadRandomGameModes()" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">I'm Feeling Lucky</button>
+        <button onclick="showAllGameModes()" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">All Games</button>
         <div id="gameModeList" class="flex justify-center space-x-4 mt-4"></div>
-        <div id="gameModeDescription" class="mt-4 p-4 border-2 border-white"></div>
+        <div id="gameModeDescription" class="mt-4 p-4 border-2 border-white text-left"></div>
+        <button onclick="toggleAllowPlayedModes()" id="allowPlayedModesBtn" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Allow played modes</button>
+        <button onclick="toggleAllowSpectators()" id="allowSpectatorsBtn" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Allow spectators</button>
     </div>
 
     <script>
@@ -195,32 +217,54 @@
             { id: generatePlayerId(), name: 'Mercy', afk: false, lastSelected: null, color: getRandomBrightColor() },
             { id: generatePlayerId(), name: 'Zenyatta', afk: false, lastSelected: null, color: getRandomBrightColor() }
         ];
-        let selectionHistory = [];
+        let matchHistory = [];
         let highlightedPlayer = null;
         let selectedGameMode = null;
+        let allowPlayedModes = false;
+        let allowSpectators = false;
+        let currentGameModes = [];
         const gameModes = [
-            { name: 'Infinite stairs', description: 'Climb infinite stairs while avoiding obstacles.', code: 'ABC123', icon: '🪜', recommendedTime: 10 },
-            { name: 'Cassidy deathmatch', description: 'Fight in a deathmatch as Cassidy.', code: 'DEF456', icon: '🔫', recommendedTime: 15 },
-            { name: '1v1 Arena', description: 'Face off in a 1v1 arena battle.', code: 'GHI789', icon: '⚔️', recommendedTime: 5 },
-            { name: 'Kill to grow', description: 'Grow in size with each kill.', code: 'JKL012', icon: '🌱', recommendedTime: 12 },
-            { name: 'Dva dogfight', description: 'Engage in aerial combat as Dva.', code: 'MNO345', icon: '✈️', recommendedTime: 8 },
-            { name: 'Ana paintball', description: 'Play paintball as Ana.', code: 'PQR678', icon: '🎨', recommendedTime: 10 },
-            { name: 'Mystery heroes', description: 'Play with random heroes each time you respawn.', code: 'STU901', icon: '❓', recommendedTime: 20 },
-            { name: 'If I see you move you die', description: 'Stay still to survive.', code: 'VWX234', icon: '👀', recommendedTime: 7 },
-            { name: 'Hero gauntlet', description: 'Fight through a gauntlet of heroes.', code: 'YZA567', icon: '🏋️', recommendedTime: 15 },
-            { name: 'Hot potato', description: 'Pass the hot potato before it explodes.', code: 'BCD890', icon: '🥔', recommendedTime: 5 },
-            { name: 'Hide and seek', description: 'Hide from seekers to survive.', code: 'EFG123', icon: '🙈', recommendedTime: 10 },
-            { name: 'Molten floor', description: 'Avoid the molten floor.', code: 'HIJ456', icon: '🔥', recommendedTime: 6 },
-            { name: 'Zombie', description: 'Survive the zombie apocalypse.', code: 'KLM789', icon: '🧟', recommendedTime: 12 },
-            { name: 'Mirrored deathmatch', description: 'Fight in a mirrored deathmatch.', code: 'NOP012', icon: '🔄', recommendedTime: 10 },
-            { name: 'Lockout elimination', description: 'Eliminate opponents in a lockout mode.', code: 'QRS345', icon: '🔒', recommendedTime: 8 },
-            { name: 'Capture the flag blitz', description: 'Capture the flag in a fast-paced mode.', code: 'TUV678', icon: '🚩', recommendedTime: 10 },
-            { name: 'No limits', description: 'Play with no hero limits.', code: 'WXY901', icon: '♾️', recommendedTime: 15 },
-            { name: 'Winston’s beach volleyball', description: 'Play beach volleyball as Winston.', code: 'ZAB234', icon: '🏐', recommendedTime: 7 },
-            { name: 'Balanced mystery heroes', description: 'Play with balanced random heroes.', code: 'CDE567', icon: '⚖️', recommendedTime: 20 },
-            { name: 'Team gun game', description: 'Progress through weapons as a team.', code: 'FGH890', icon: '🔫', recommendedTime: 12 },
-            { name: 'Weird abilities', description: 'Play with weird and random abilities.', code: 'IJK123', icon: '🌀', recommendedTime: 10 }
+            { name: 'Infinite stairs', description: 'Climb infinite stairs while avoiding obstacles.', code: 'ABC123', icon: '🪜', recommendedTime: 10, players: '1 to 4', chefRecommended: true },
+            { name: 'Cassidy deathmatch', description: 'Fight in a deathmatch as Cassidy.', code: 'DEF456', icon: '🔫', recommendedTime: 15, players: 'even', chefRecommended: false },
+            { name: '1v1 Arena', description: 'Face off in a 1v1 arena battle.', code: 'GHI789', icon: '⚔️', recommendedTime: 5, players: '2', chefRecommended: true },
+            { name: 'Kill to grow', description: 'Grow in size with each kill.', code: 'JKL012', icon: '🌱', recommendedTime: 12, players: '2 to 6', chefRecommended: false },
+            { name: 'Dva dogfight', description: 'Engage in aerial combat as Dva.', code: 'MNO345', icon: '✈️', recommendedTime: 8, players: 'even', chefRecommended: true },
+            { name: 'Ana paintball', description: 'Play paintball as Ana.', code: 'PQR678', icon: '🎨', recommendedTime: 10, players: '2 to 8', chefRecommended: false },
+            { name: 'Mystery heroes', description: 'Play with random heroes each time you respawn.', code: 'STU901', icon: '❓', recommendedTime: 20, players: '2 to 12', chefRecommended: true },
+            { name: 'If I see you move you die', description: 'Stay still to survive.', code: 'VWX234', icon: '👀', recommendedTime: 7, players: '1 to 4', chefRecommended: false },
+            { name: 'Hero gauntlet', description: 'Fight through a gauntlet of heroes.', code: 'YZA567', icon: '🏋️', recommendedTime: 15, players: '2 to 6', chefRecommended: true },
+            { name: 'Hot potato', description: 'Pass the hot potato before it explodes.', code: 'BCD890', icon: '🥔', recommendedTime: 5, players: '2 to 8', chefRecommended: false },
+            { name: 'Hide and seek', description: 'Hide from seekers to survive.', code: 'EFG123', icon: '🙈', recommendedTime: 10, players: '2 to 10', chefRecommended: true },
+            { name: 'Molten floor', description: 'Avoid the molten floor.', code: 'HIJ456', icon: '🔥', recommendedTime: 6, players: '2 to 6', chefRecommended: false },
+            { name: 'Zombie', description: 'Survive the zombie apocalypse.', code: 'KLM789', icon: '🧟', recommendedTime: 12, players: '2 to 8', chefRecommended: true },
+            { name: 'Mirrored deathmatch', description: 'Fight in a mirrored deathmatch.', code: 'NOP012', icon: '🔄', recommendedTime: 10, players: 'even', chefRecommended: false },
+            { name: 'Lockout elimination', description: 'Eliminate opponents in a lockout mode.', code: 'QRS345', icon: '🔒', recommendedTime: 8, players: '2 to 6', chefRecommended: true },
+            { name: 'Capture the flag blitz', description: 'Capture the flag in a fast-paced mode.', code: 'TUV678', icon: '🚩', recommendedTime: 10, players: '2 to 8', chefRecommended: false },
+            { name: 'No limits', description: 'Play with no hero limits.', code: 'WXY901', icon: '♾️', recommendedTime: 15, players: '2 to 12', chefRecommended: true },
+            { name: 'Winston\'s beach volleyball', description: 'Play beach volleyball as Winston.', code: 'ZAB234', icon: '🏐', recommendedTime: 7, players: '2 to 4', chefRecommended: false },
+            { name: 'Balanced mystery heroes', description: 'Play with balanced random heroes.', code: 'CDE567', icon: '⚖️', recommendedTime: 20, players: '2 to 12', chefRecommended: true },
+            { name: 'Team gun game', description: 'Progress through weapons as a team.', code: 'FGH890', icon: '🔫', recommendedTime: 12, players: '2 to 6', chefRecommended: false },
+            { name: 'Weird abilities', description: 'Play with weird and random abilities.', code: 'IJK123', icon: '🌀', recommendedTime: 10, players: '2 to 8', chefRecommended: true }
         ];
+
+        gameModes.forEach(gameMode => {
+            const playerRange = gameMode.players.split(' ');
+            let playerNums = [];
+
+            if (playerRange.includes('even')) {
+                playerNums = [2, 4, 6, 8, 10, 12, 14];
+            } else if (playerRange.length === 1) {
+                playerNums = [parseInt(playerRange[0])];
+            } else {
+                const minPlayers = parseInt(playerRange[0]);
+                const maxPlayers = parseInt(playerRange[2]);
+                for (let i = minPlayers; i <= maxPlayers; i++) {
+                    playerNums.push(i);
+                }
+            }
+
+            gameMode.player_nums = playerNums;
+        });
 
         function renderPlayers() {
             const playerList = document.getElementById('playerList');
@@ -308,7 +352,7 @@
             }).filter(p => p !== undefined).reverse();
 
             if (activePlayers.length === 0) {
-                alert('No active gamers to select from!');
+                showAlert('No active gamers to select from!');
                 return;
             }
 
@@ -397,49 +441,87 @@
         function confirmSelection() {
             if (highlightedPlayer) {
                 highlightedPlayer.lastSelected = Date.now();
-                // selectionHistory.unshift(`Match ${selectionHistory.length + 1}: ${highlightedPlayer.name}`);
-                // updateSelectionHistory();
                 renderPlayers();
                 updateConfirmButton();
                 loadRandomGameModes();
             }
         }
 
-        function updateSelectionHistory() {
-            const historyList = document.getElementById('selectionHistory');
-            historyList.innerHTML = selectionHistory.map(entry => `<li class="text-sm">${entry}</li>`).join('');
+        function updateMatchHistory() {
+            const roundNumber = matchHistory.length + 1;
+            const lobbyLeader = highlightedPlayer ? highlightedPlayer.name : '';
+            const modeName = selectedGameMode ? selectedGameMode.name : '';
+            // const match = `${selectedGameMode.icon} ${selectedGameMode.name}`;
+            matchHistory.unshift({ matchNumber: roundNumber, playerName: lobbyLeader, gameModeName: modeName});
+            
+            const historyList = document.getElementById('matchHistory');
+            historyList.innerHTML = matchHistory.map(entry => {
+                const player = players.find(p => p.name === entry.playerName);
+                const playerColor = player ? player.color : '#fff';
+                const gameMode = gameModes.find(gm => gm.name === entry.gameModeName);
+                const gameModeIcon = gameMode ? gameMode.icon : '';
+                return `<div class="text-sm" style="color: ${playerColor};">${entry.playerName} - ${gameModeIcon} ${entry.gameModeName}</div>`;
+            }).join('');
         }
 
-        function displayRandomGameModes() {
-            const gameModeList = document.getElementById('gameModeList');
+        function updateGameModeDescription(gameMode) {
             const gameModeDescription = document.getElementById('gameModeDescription');
-            gameModeList.innerHTML = '';
-            gameModeDescription.innerHTML = '';
+            gameModeDescription.innerHTML = `
+                <h3 class="text-lg text-left">${gameMode.icon} ${gameMode.name}</h3>
+                <p class="text-left">${gameMode.description}</p>
+                <p class="text-left">⏰:${gameMode.recommendedTime}m</p>
+                <p class="text-left">👥: ${gameMode.players}</p>
+            `;
+        }
+        function filterGameModes(gameModes) {
+            console.log('Allow Played Games:', allowPlayedModes);
+            console.log('Allow Spectators:', allowSpectators);
+            return gameModes.filter(gameMode => {
+                const played = matchHistory.map(entry => entry.gameModeName).includes(gameMode.name);
+                const playerCount = players.filter(player => !player.afk).length;
 
-            const randomGameModes = gameModes.sort(() => 0.5 - Math.random()).slice(0, 3);
-            randomGameModes.forEach((gameMode, index) => {
+                if (played && !allowPlayedModes) {
+                    console.log(`Filtered out: played ${gameMode.name} - Players: ${playerCount}, GameMode Players: ${gameMode.players}`);
+                    return false;
+                }
+
+                if (gameMode.player_nums.includes(playerCount)) return true;
+                if ((playerCount > Math.max(...gameMode.player_nums)) && allowSpectators) return true;
+
+                console.log(`Filtered out: ${gameMode.name} - Players: ${playerCount}, GameMode Players: ${gameMode.players}`);
+                return false;
+            });
+        }
+
+        // function hideGameModes
+
+        function showGameModes(gameModes) {
+            const gameModeList = document.getElementById('gameModeList');
+            gameModeList.innerHTML = '';
+            const filteredGameModes = filterGameModes(gameModes);
+
+            filteredGameModes.forEach((gameMode, index) => {
                 const div = document.createElement('div');
                 div.className = 'game-mode-item';
-                div.textContent = gameMode.name;
+                div.innerHTML = `${gameMode.icon} ${gameMode.name}`;
                 div.onclick = () => {
                     document.querySelectorAll('.game-mode-item').forEach(item => item.classList.remove('selected'));
                     div.classList.add('selected');
-                    gameModeDescription.innerHTML = `
-                        <h3 class="text-lg">${gameMode.name}</h3>
-                        <p>${gameMode.description}</p>
-                        <p><strong>Code:</strong> ${gameMode.code}</p>
-                    `;
+                    updateGameModeDescription(gameMode);
                     updateSelectedGameMode(gameMode);
                 };
                 gameModeList.appendChild(div);
             });
         }
+        
+        let shuffleTimeout;
 
         function loadRandomGameModes() {
-            const playedGameModes = selectionHistory.map(entry => entry.split(': ')[1]);
-            const unplayedGameModes = gameModes.filter(gameMode => !playedGameModes.includes(gameMode.name));
+            const playedGameModes = matchHistory.map(entry => entry.gameModeName);
+            const unplayedGameModes = filterGameModes(gameModes).filter(gameMode => !playedGameModes.includes(gameMode.name));
             const randomGameModes = unplayedGameModes.sort(() => 0.5 - Math.random()).slice(0, 3);
-
+            console.log("Played Game Modes:", playedGameModes);
+            console.log("Unplayed Game Modes:", unplayedGameModes);
             const gameModeList = document.getElementById('gameModeList');
             const gameModeDescription = document.getElementById('gameModeDescription');
             gameModeList.innerHTML = '';
@@ -477,51 +559,75 @@
                 const stepDuration = getStepDuration(currentStep);
 
                 if (currentStep <= steps) {
-                    setTimeout(shuffleEmojis, stepDuration);
+                    shuffleTimeout = setTimeout(shuffleEmojis, stepDuration);
                 } else {
-                    showFinalGameModes(randomGameModes);
+                    showGameModes(randomGameModes);
+                    currentGameModes = randomGameModes;
                 }
-            }
-
-            function showFinalGameModes(gameModes) {
-                gameModeList.innerHTML = '';
-                gameModes.forEach((gameMode, index) => {
-                    const div = document.createElement('div');
-                    div.className = 'game-mode-item';
-                    div.innerHTML = `${gameMode.icon} ${gameMode.name}`;
-                    div.onclick = () => {
-                        document.querySelectorAll('.game-mode-item').forEach(item => item.classList.remove('selected'));
-                        div.classList.add('selected');
-                        gameModeDescription.innerHTML = `
-                            <h3 class="text-lg">${gameMode.name}</h3>
-                            <p>${gameMode.description}</p>
-                            <p><strong>Code:</strong> ${gameMode.code}</p>
-                        `;
-                        updateSelectedGameMode(gameMode);
-                    };
-                    gameModeList.appendChild(div);
-                });
             }
 
             shuffleEmojis();
         }
         
+        function showAllGameModes() {
+            clearTimeout(shuffleTimeout); // Interrupt the random game modes loading
+            showGameModes(gameModes);
+            currentGameModes = gameModes;
+        }
+
+        function showChefsChoiceModes() {
+            const chefsChoiceModes = gameModes.filter(gameMode => gameMode.chefRecommended);
+            clearTimeout(shuffleTimeout); // Interrupt the random game modes loading
+            showGameModes(chefsChoiceModes);
+            currentGameModes = chefsChoiceModes;
+        }
+
+        function toggleAllowPlayedModes() {
+            allowPlayedModes = !allowPlayedModes;
+            document.getElementById('allowPlayedModesBtn').textContent = allowPlayedModes ? 'Disallow played modes' : 'Allow played modes';
+            showGameModes(currentGameModes);
+            if (selectedGameMode) {
+                updateGameModeDescription(selectedGameMode);
+                updateSelectedGameMode(selectedGameMode);
+            }
+        }
+
+        function toggleAllowSpectators() {
+            allowSpectators = !allowSpectators;
+            document.getElementById('allowSpectatorsBtn').textContent = allowSpectators ? 'Disallow spectators' : 'Allow spectators';
+            showGameModes(currentGameModes);
+            if (selectedGameMode) {
+                updateGameModeDescription(selectedGameMode);
+                updateSelectedGameMode(selectedGameMode);
+            }
+        }
+
         function updateSelectedGameMode(gameMode) {
             selectedGameMode = gameMode;
             const selectedGameModeDiv = document.getElementById('selectedGameMode');
-            selectedGameModeDiv.innerHTML = `<h3>${gameMode.icon} ${gameMode.name}</h3><p>Code: ${gameMode.code}</p>`;
-            //TODO if you click on code, coppy it to clipboard
-        }
+            selectedGameModeDiv.innerHTML = `<h3>${gameMode.icon} ${gameMode.name}</h3><p id="gameModeCode" style="cursor: pointer;">Code: ${gameMode.code}</p>`;
 
+            const gameModeCode = document.getElementById('gameModeCode');
+            gameModeCode.addEventListener('click', () => {
+                navigator.clipboard.writeText(gameMode.code).then(() => {
+                    showAlert('Code copied to clipboard!');
+                }).catch(err => {
+                    console.error('Failed to copy code: ', err);
+                });
+            });
+        }
+        
         function startTimer() {
             const startButton = document.getElementById('startButton');
+            const endButton = document.getElementById('endButton');
             const timerDiv = document.getElementById('timer');
 
             if (!selectedGameMode) {
-                alert('Please select a game mode first!');
+                showAlert('Please select a game mode first!');
                 return;
             }
-            startButton.style.display = 'none';
+            startButton.classList.add('btn-hidden');
+            endButton.classList.remove('btn-hidden');
             timerDiv.style.display = 'block';
 
             let seconds = selectedGameMode.recommendedTime * 60;
@@ -533,7 +639,7 @@
                     seconds--;
                 } else {
                     clearInterval(timerInterval);
-                    alert('Time is up!');
+                    showAlert('Time is up!');
                 }
             }
 
@@ -541,14 +647,45 @@
             updateTimer(); // Initial call to display the timer immediately
 
             // Add to match history
-            if (highlightedPlayer && selectedGameMode) {
-                const roundNumber = selectionHistory.length + 1;
-                const lobbyLeader = highlightedPlayer.name;
-                const match = `${selectedGameMode.icon} ${selectedGameMode.name}`;
-                selectionHistory.unshift(`${lobbyLeader} - ${match}`);
-                // selectionHistory.unshift(`Round ${roundNumber}: ${lobbyLeader} - ${match}`);
-                updateSelectionHistory();
-            }
+            // if (highlightedPlayer && selectedGameMode) {
+            // updateMatchHistory(highlightedPlayer, selectedGameMode);
+            updateMatchHistory();
+            // }
+
+            // Store the interval ID to clear it later
+            endButton.dataset.timerInterval = timerInterval;
+
+            // Reset game mode selection
+            const gameModeList = document.getElementById('gameModeList');
+            const gameModeDescription = document.getElementById('gameModeDescription');
+            gameModeList.innerHTML = '';
+            gameModeDescription.innerHTML = '';
+        }
+
+        function endTimer() {
+            const startButton = document.getElementById('startButton');
+            const endButton = document.getElementById('endButton');
+            const timerDiv = document.getElementById('timer');
+
+            clearInterval(endButton.dataset.timerInterval);
+            endButton.classList.add('btn-hidden');
+            startButton.classList.remove('btn-hidden');
+            timerDiv.style.display = 'none';
+        }
+
+        function showAlert(message) {
+            const alertDiv = document.getElementById('alertDiv');
+            alertDiv.textContent = message;
+            alertDiv.style.display = 'block';
+
+            setTimeout(() => {
+                alertDiv.style.transition = 'opacity 0.5s';
+                alertDiv.style.opacity = '0';
+                setTimeout(() => {
+                    alertDiv.style.display = 'none';
+                    alertDiv.style.opacity = '1';
+                }, 500);
+            }, 1000);
         }
 
         renderPlayers();
