@@ -174,7 +174,6 @@
             <h2 class="text-xl mb-4" style="color: #ffb2cef5;">Lobby Leader</h2>
             <div id="highlightedPlayer" class="flex-1" style="margin-bottom: 6px; font-size: 20px;"></div>
             <button onclick="selectRandomPlayer()" class="btn text-white p-4 hover:bg-white hover:text-black">Randomize</button>
-            <button onclick="confirmSelection()" id="confirmBtn" class="btn text-white p-4 hover:bg-white hover:text-black" disabled>Confirm</button>
         </div>
         <div class="column" id="gameModeColumn">
             <h2 class="text-xl mb-4" style="color: #ffb2cef5;">Game Mode</h2>
@@ -337,13 +336,8 @@
                 highlightedPlayer = player;
             }
             renderPlayers();
-            updateConfirmButton();
         }
 
-        function updateConfirmButton() {
-            const confirmBtn = document.getElementById('confirmBtn');
-            confirmBtn.disabled = !highlightedPlayer;
-        }
         function selectRandomPlayer() {
             const playerElements2 = Array.from(document.querySelectorAll('.player-item:not(.afk)'));
             const activePlayers = playerElements2.map(el => {
@@ -358,7 +352,6 @@
 
             highlightedPlayer = null; // Unselect the currently selected player
             renderPlayers();
-            updateConfirmButton();
 
             const playerElements = document.querySelectorAll('.player-item:not(.afk)');
             // const totalDuration = 5000; // 5 seconds
@@ -415,8 +408,6 @@
                     // highlightedPlayer = activePlayers[index]; // Fix: Ensure highlightedPlayer is set correctly
 
                     renderPlayers();
-                    updateConfirmButton();
-                    console.log('Confirm button enabled:', !document.getElementById('confirmBtn').disabled);
                     console.log('Highlighted player:', highlightedPlayer ? highlightedPlayer.name : 'None');
                 }
             }
@@ -442,7 +433,6 @@
             if (highlightedPlayer) {
                 highlightedPlayer.lastSelected = Date.now();
                 renderPlayers();
-                updateConfirmButton();
                 loadRandomGameModes();
             }
         }
@@ -460,7 +450,7 @@
                 const playerColor = player ? player.color : '#fff';
                 const gameMode = gameModes.find(gm => gm.name === entry.gameModeName);
                 const gameModeIcon = gameMode ? gameMode.icon : '';
-                return `<div class="text-sm" style="color: ${playerColor};">${entry.playerName} - ${gameModeIcon} ${entry.gameModeName}</div>`;
+                return `<div class="text-sm" style="color: ${playerColor};">${entry.playerName}: ${gameModeIcon}<span style="font-size: 14px;">${entry.gameModeName}</span></div>`;
             }).join('');
         }
 
@@ -605,7 +595,7 @@
         function updateSelectedGameMode(gameMode) {
             selectedGameMode = gameMode;
             const selectedGameModeDiv = document.getElementById('selectedGameMode');
-            selectedGameModeDiv.innerHTML = `<h3>${gameMode.icon} ${gameMode.name}</h3><p id="gameModeCode" style="cursor: pointer;">Code: ${gameMode.code}</p>`;
+            selectedGameModeDiv.innerHTML = `<h3 style="font-size: 15pt;">${gameMode.icon} ${gameMode.name}</h3><p id="gameModeCode" style="cursor: pointer; font-size: 14pt;">Code: ${gameMode.code}</p>`;
 
             const gameModeCode = document.getElementById('gameModeCode');
             gameModeCode.addEventListener('click', () => {
@@ -689,7 +679,6 @@
         }
 
         renderPlayers();
-        updateConfirmButton();
     </script>
 </body>
 </html>
