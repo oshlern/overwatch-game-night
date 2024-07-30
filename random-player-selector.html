@@ -15,18 +15,22 @@
             text-align: center;
         }
         .retro-container {
-            border: 4px solid #fff;
-            box-shadow: 0 0 0 4px #000, 0 0 0 8px #fff;
             margin-bottom: 20px; /* Added margin between containers */
         }
         .retro-container-1 {
             background: linear-gradient(45deg, #6a0dad, #000);
+            border: 2px solid #9b6fd1;
+            box-shadow: 0 0 0 4px #000, 0 0 0 6px #9b6fd1;
         }
         .retro-container-2 {
-            background: linear-gradient(76deg, #b538c6, #000);
+            background: linear-gradient(190deg, #b538c6, #000);
+            border: 2px solid #d17fd9;
+            box-shadow: 0 0 0 4px #000, 0 0 0 6px #d17fd9;
         }
         .retro-container-3 {
             background: linear-gradient(140deg, #a7234f, #000); /*cc4101 376bc4 8da723*/
+            border: 2px solid #d16f8a;
+            box-shadow: 0 0 0 4px #000, 0 0 0 6px #d16f8a;
         }
         .player-item {
             background: #000;
@@ -137,6 +141,28 @@
             z-index: 1000;
             display: none;
         }
+        .highlightable-btn {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            display: inline-block;
+            margin-right: 10px;
+            background: #000;
+            border: 2px solid #dd76ff;
+            box-shadow: 0 0 0 4px #000;
+            transition: all 0.3s ease;
+            color: #dd76ff;
+            text-align: center;
+            height: 33px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.2rem;
+        }
+        .highlightable-btn:hover {
+            transform: scale(1.1);
+            background: #3f071c;
+        }
+        .highlightable-btn.selected {
+            background: #3f071c;
+        }
     </style>
 </head>
 <body class="min-h-screen p-8">
@@ -144,7 +170,7 @@
     <div class="max-w-4xl mx-auto retro-container retro-container-1 rounded-lg p-6 relative overflow-hidden">
         <div class="pixel-art absolute top-0 left-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAnSURBVHgBzc4xDQAACANB9l/zuICrwqcTXZBkFRiUgBQt7pGThG9jxVsPFMbYA+AAAAAASUVORK5CYII=');"></div>
         <div class="pixel-art absolute top-0 right-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAmSURBVHgBY2RgYPjPgAMwMbAwwZkgglgPXQUyGJUEKmChnvfwAACDwQcBh7GtRAAAAABJRU5ErkJggg==');"></div>
-        <h1 class="title text-center mb-8">Overwatch Gamers</h1>
+        <h1 class="title text-center" style="margin-bottom: 8px; margin-top: 20px;">Overwatch Gamers</h1>
         
         <div class="flex flex-wrap justify-between">
             <div class="subpage" id="activePlayersPage">
@@ -170,16 +196,16 @@
 
     </div>
     <div class="max-w-4xl mx-auto retro-container retro-container-2 rounded-lg p-6 relative overflow-hidden mt-8">
-        <div class="column" id="lobbyLeaderColumn">
+        <div class="column" id="lobbyLeaderColumn" style="flex: 1;">
             <h2 class="text-xl mb-4" style="color: #ffb2cef5;">Lobby Leader</h2>
             <div id="highlightedPlayer" class="flex-1" style="margin-bottom: 6px; font-size: 20px;"></div>
             <button onclick="selectRandomPlayer()" class="btn text-white p-4 hover:bg-white hover:text-black">Randomize</button>
         </div>
-        <div class="column" id="gameModeColumn">
+        <div class="column" id="gameModeColumn" style="flex: 2;">
             <h2 class="text-xl mb-4" style="color: #ffb2cef5;">Game Mode</h2>
             <div id="selectedGameMode"></div>
         </div>
-        <div class="column" id="startButtonColumn" style="text-align: center;">
+        <div class="column" id="startButtonColumn" style="flex: 1; text-align: center;">
             <button onclick="startTimer()" id="startButton" class="btn w-full text-white p-2 hover:bg-white hover:text-black">Start</button>
             <button onclick="endTimer()" id="endButton" class="btn w-full text-white p-2 hover:bg-white hover:text-black btn-hidden">End</button>
             <div id="timer" class="text-xl mt-4 flex items-center justify-center" style="height: 100%;"></div>
@@ -189,19 +215,19 @@
         <div class="pixel-art absolute top-0 left-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAmSURBVHgBY2RgYPjPgAMwMbAwwZkgglgPXQUyGJUEKmChnvfwAACDwQcBh7GtRAAAAABJRU5ErkJggg==');"></div>
         <!-- <h2 class="text-xl mb-4">Game Modes</h2> -->
         <!-- <button onclick="loadRandomGameModes()" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Load Random Game Modes</button> -->
-        <button onclick="showChefsChoiceModes()" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Chef's Choice</button>
-        <button onclick="loadRandomGameModes()" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">I'm Feeling Lucky</button>
-        <button onclick="showAllGameModes()" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">All Games</button>
+        <button onclick="selectModeButton(this)" class="highlightable-btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Chef's Choice</button>
+        <button onclick="selectModeButton(this)" class="highlightable-btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">I'm Feeling Lucky</button>
+        <button onclick="selectModeButton(this)" class="highlightable-btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">All Games</button>
         <div id="gameModeList" class="flex justify-center space-x-4 mt-4"></div>
         <div id="gameModeDescription" class="mt-4 p-4 border-2 border-white text-left"></div>
-        <button onclick="toggleAllowPlayedModes()" id="allowPlayedModesBtn" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Allow played modes</button>
-        <button onclick="toggleAllowSpectators()" id="allowSpectatorsBtn" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Allow spectators</button>
+        <button onclick="toggleAllowPlayedModes()" id="allowPlayedModesBtn" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Allow Played Modes</button>
+        <button onclick="toggleAllowSpectators()" id="allowSpectatorsBtn" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Allow Spectators</button>
     </div>
 
     <script>
         function getRandomBrightColor() {
             const hue = Math.floor(Math.random() * 360);
-            return `hsl(${hue}, 100%, 90%)`;
+            return `hsl(${hue}, 98%, 70%)`;
         }
 
         function generatePlayerId() {
@@ -574,7 +600,7 @@
 
         function toggleAllowPlayedModes() {
             allowPlayedModes = !allowPlayedModes;
-            document.getElementById('allowPlayedModesBtn').textContent = allowPlayedModes ? 'Disallow played modes' : 'Allow played modes';
+            document.getElementById('allowPlayedModesBtn').textContent = allowPlayedModes ? 'Disallow Played Modes' : 'Allow Played Modes';
             showGameModes(currentGameModes);
             if (selectedGameMode) {
                 updateGameModeDescription(selectedGameMode);
@@ -584,7 +610,7 @@
 
         function toggleAllowSpectators() {
             allowSpectators = !allowSpectators;
-            document.getElementById('allowSpectatorsBtn').textContent = allowSpectators ? 'Disallow spectators' : 'Allow spectators';
+            document.getElementById('allowSpectatorsBtn').textContent = allowSpectators ? 'Disallow Spectators' : 'Allow Spectators';
             showGameModes(currentGameModes);
             if (selectedGameMode) {
                 updateGameModeDescription(selectedGameMode);
@@ -667,6 +693,8 @@
             const alertDiv = document.getElementById('alertDiv');
             alertDiv.textContent = message;
             alertDiv.style.display = 'block';
+            alertDiv.style.padding = '20px'; // Make the div a little larger
+            alertDiv.style.fontSize = '1.15rem'; // Make the text font a little larger
 
             setTimeout(() => {
                 alertDiv.style.transition = 'opacity 0.5s';
@@ -676,6 +704,35 @@
                     alertDiv.style.opacity = '1';
                 }, 500);
             }, 1000);
+        }
+
+        function selectModeButton(button) {
+            const mode = button.textContent.trim();
+            const previouslySelectedButton = document.querySelector('.highlightable-btn.selected');
+
+            if (previouslySelectedButton === button) {
+                // Clear the mode selection if the button was already selected
+                previouslySelectedButton.classList.remove('selected');
+                const gameModeList = document.getElementById('gameModeList');
+                const gameModeDescription = document.getElementById('gameModeDescription');
+                gameModeList.innerHTML = '';
+                gameModeDescription.innerHTML = '';
+            } else {
+                // Deselect any previously selected button
+                if (previouslySelectedButton) {
+                    previouslySelectedButton.classList.remove('selected');
+                }
+                // Select the new button
+                button.classList.add('selected');
+
+                if (mode === "Chef's Choice") {
+                    showChefsChoiceModes();
+                } else if (mode === "I'm Feeling Lucky") {
+                    loadRandomGameModes();
+                } else if (mode === "All Games") {
+                    showAllGameModes();
+                }
+            }
         }
 
         renderPlayers();
