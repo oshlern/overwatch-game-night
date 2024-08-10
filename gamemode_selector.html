@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overwatch Gamers</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Press Start 2P', monospace;
+            background: #000;
+            color: #fff;
+            text-shadow: 2px 2px #000;
+            text-align: center;
+        }
+        .retro-container {
+            margin-bottom: 20px; /* Added margin between containers */
+        }
+        .retro-container-1 {
+            background: linear-gradient(45deg, #6a0dad, #000);
+            border: 2px solid #9b6fd1;
+            box-shadow: 0 0 0 4px #000, 0 0 0 6px #9b6fd1;
+        }
+        .retro-container-2 {
+            background: linear-gradient(190deg, #b538c6, #000);
+            border: 2px solid #d17fd9;
+            box-shadow: 0 0 0 4px #000, 0 0 0 6px #d17fd9;
+        }
+        .retro-container-3 {
+            background: linear-gradient(140deg, #a7234f, #000); /*cc4101 376bc4 8da723*/
+            border: 2px solid #d16f8a;
+            box-shadow: 0 0 0 4px #000, 0 0 0 6px #d16f8a;
+        }
+        .player-item {
+            background: #000;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 4px #000;
+            transition: all 0.3s ease;
+            image-rendering: pixelated;
+            margin: 8px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 33px; /* Added height to give more space */
+        }
+        .player-item:hover {
+            transform: scale(1.05);
+        }
+        .player-item.selected, .player-item.highlighted {
+            background: #6a0dad;
+        }
+        .player-item.afk {
+            background: #555;
+            color: #999;
+        }
+        .player-name {
+            margin-left: 10px;
+        }
+        .btn {
+            background: #000;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #000;
+            transition: all 0.3s ease;
+            color: #fff;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 0 2px #000;
+            background: #6a0dad;
+        }
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 0 0 2px #000;
+        }
+        .title {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 4px 4px #6a0dad, -4px -4px #000;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        .pixel-art {
+            image-rendering: pixelated;
+            background-size: cover;
+        }
+        .subpage {
+            display: inline-block;
+            vertical-align: top;
+            width: 32%;
+        }
+        .game-mode-item {
+            cursor: pointer;
+            padding: 10px;
+            border: 2px solid #fff;
+            margin: 5px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .game-mode-item:hover {
+            background: #6a0dad;
+        }
+        .game-mode-item.selected {
+            background: #6a0dad;
+        }
+        .yellow-page {
+            background: yellow;
+            color: black;
+            padding: 20px;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 4px #000, 0 0 0 8px #fff;
+            margin-top: 20px;
+        }
+        .column {
+            display: inline-block;
+            vertical-align: top;
+            width: 30%;
+            padding: 10px;
+        }
+        .btn-hidden {
+            visibility: hidden;
+            position: absolute;
+        }
+        .alert-div {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000;
+            display: none;
+        }
+        .highlightable-btn {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            display: inline-block;
+            margin-right: 10px;
+            background: #000;
+            border: 2px solid #dd76ff;
+            box-shadow: 0 0 0 4px #000;
+            transition: all 0.3s ease;
+            color: #dd76ff;
+            text-align: center;
+            height: 33px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.2rem;
+        }
+        .highlightable-btn:hover {
+            transform: scale(1.1);
+            background: #3f071c;
+        }
+        .highlightable-btn.selected {
+            background: #3f071c;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-8">
+    <div class="alert-div" id="alertDiv"></div>
+    <div class="max-w-4xl mx-auto retro-container retro-container-1 rounded-lg p-6 relative overflow-hidden">
+        <div class="pixel-art absolute top-0 left-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAnSURBVHgBzc4xDQAACANB9l/zuICrwqcTXZBkFRiUgBQt7pGThG9jxVsPFMbYA+AAAAAASUVORK5CYII=');"></div>
+        <div class="pixel-art absolute top-0 right-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAmSURBVHgBY2RgYPjPgAMwMbAwwZkgglgPXQUyGJUEKmChnvfwAACDwQcBh7GtRAAAAABJRU5ErkJggg==');"></div>
+        <h1 class="title text-center" style="margin-bottom: 8px; margin-top: 20px;">Overwatch Gamers</h1>
+        
+        <div class="flex flex-wrap justify-between">
+            <div class="subpage" id="activePlayersPage">
+                <h2 class="text-xl mb-4" style="color: #fbcbff;">Active</h2>
+                <div id="playerList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8"></div>
+
+                <div class="mb-8">
+                    <input type="text" id="newPlayerInput" placeholder="New gamer name" class="w-full p-2 bg-black border-2 border-white text-white mb-2">
+                    <button onclick="addPlayer()" class="btn w-full text-white p-2 hover:bg-white hover:text-black">Add Gamer</button>
+                </div>
+            </div>
+
+            <div class="subpage" id="afkPlayersPage">
+                <h2 class="text-xl mb-4" style="color: #fbcbff;">AFK</h2>
+                <div id="afkList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+            </div>
+
+            <div class="subpage" id="matchHistoryPage">
+                <h2 class="text-xl mb-4" style="color: #fbcbff;">Match History</h2>
+                <ul id="matchHistory" class="pl-5 space-y-2 list-none"></ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="max-w-4xl mx-auto retro-container retro-container-2 rounded-lg p-6 relative overflow-hidden mt-8">
+        <div class="column" id="lobbyLeaderColumn" style="flex: 1;">
+            <h2 class="text-xl mb-4" style="color: #ffb2cef5;">Lobby Leader</h2>
+            <div id="highlightedPlayer" class="flex-1" style="margin-bottom: 6px; font-size: 20px;"></div>
+            <button onclick="selectRandomPlayer()" class="btn text-white p-4 hover:bg-white hover:text-black">Randomize</button>
+        </div>
+        <div class="column" id="gameModeColumn" style="flex: 2;">
+            <h2 class="text-xl mb-4" style="color: #ffb2cef5;">Game Mode</h2>
+            <div id="selectedGameMode"></div>
+        </div>
+        <div class="column" id="startButtonColumn" style="flex: 1; text-align: center;">
+            <button onclick="startTimer()" id="startButton" class="btn w-full text-white p-2 hover:bg-white hover:text-black">Start</button>
+            <button onclick="endTimer()" id="endButton" class="btn w-full text-white p-2 hover:bg-white hover:text-black btn-hidden">End</button>
+            <div id="timer" class="text-xl mt-4 flex items-center justify-center" style="height: 100%;"></div>
+        </div>
+    </div>
+    <div class="max-w-4xl mx-auto retro-container retro-container-3 rounded-lg p-6 relative overflow-hidden mt-8">
+        <div class="pixel-art absolute top-0 left-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAmSURBVHgBY2RgYPjPgAMwMbAwwZkgglgPXQUyGJUEKmChnvfwAACDwQcBh7GtRAAAAABJRU5ErkJggg==');"></div>
+        <!-- <h2 class="text-xl mb-4">Game Modes</h2> -->
+        <!-- <button onclick="loadRandomGameModes()" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Load Random Game Modes</button> -->
+        <button onclick="selectModeButton(this)" class="highlightable-btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Chef's Choice</button>
+        <button onclick="selectModeButton(this)" class="highlightable-btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">I'm Feeling Lucky</button>
+        <button onclick="selectModeButton(this)" class="highlightable-btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">All Games</button>
+        <div id="gameModeList" class="flex justify-center space-x-4 mt-4"></div>
+        <div id="gameModeDescription" class="mt-4 p-4 border-2 border-white text-left"></div>
+        <button onclick="toggleAllowPlayedModes()" id="allowPlayedModesBtn" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Allow Played Modes</button>
+        <button onclick="toggleAllowSpectators()" id="allowSpectatorsBtn" class="btn w-full text-white p-2 hover:bg-white hover:text-black mt-4">Allow Spectators</button>
+    </div>
+
+    <script>
+        function getRandomBrightColor() {
+            const hue = Math.floor(Math.random() * 360);
+            return `hsl(${hue}, 98%, 70%)`;
+        }
+
+        function generatePlayerId() {
+            return '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        let players = [
+            { id: generatePlayerId(), name: 'Osher', afk: false, lastSelected: null, color: getRandomBrightColor() },
+            { id: generatePlayerId(), name: 'Moogle', afk: false, lastSelected: null, color: getRandomBrightColor() },
+            { id: generatePlayerId(), name: 'Fry', afk: false, lastSelected: null, color: getRandomBrightColor() },
+            { id: generatePlayerId(), name: 'Door', afk: false, lastSelected: null, color: getRandomBrightColor() },
+            { id: generatePlayerId(), name: 'Eternal', afk: false, lastSelected: null, color: getRandomBrightColor() },
+            { id: generatePlayerId(), name: 'Sushi', afk: false, lastSelected: null, color: getRandomBrightColor() },
+            { id: generatePlayerId(), name: 'SlayingBeast', afk: false, lastSelected: null, color: getRandomBrightColor() },
+            { id: generatePlayerId(), name: 'Kaz', afk: false, lastSelected: null, color: getRandomBrightColor() },
+            { id: generatePlayerId(), name: 'Sophie', afk: false, lastSelected: null, color: getRandomBrightColor() },
+            { id: generatePlayerId(), name: 'Tyler', afk: false, lastSelected: null, color: getRandomBrightColor() }
+        ];
+        let matchHistory = [];
+        let highlightedPlayer = null;
+        let selectedGameMode = null;
+        let allowPlayedModes = false;
+        let allowSpectators = false;
+        let currentGameModes = [];
+        const gameModes = [
+            { name: 'CS Surf', description: 'Slide, fly, and race through the sky', code: 'EXOTC', recommendedTime: 7, players: 'Any', chefRecommended: true, icon: '🏄', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Ana paintball', description: 'Free for all 1 health anas', code: '1DMTZ', recommendedTime: 6, players: 'At least 2', chefRecommended: true, icon: '🎨', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Doom sumo', description: 'Punch doom off the island', code: 'KY0GF', recommendedTime: 6, players: 'At least 2', chefRecommended: true, icon: '🥋', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Lucio Tag', description: 'Deal damage to tag a lucio, cant wallride forever', code: 'R5Y5Q', recommendedTime: 5, players: 'At least 2', chefRecommended: true, icon: '🏃', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Sleep n Yeet', description: 'put grandma to sleep with the fishes', code: 'QKTTV', recommendedTime: 4, players: 'At least 2', chefRecommended: true, icon: '😴', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Where is it? (Runasapi)', description: 'Chill map exploration (overwatch geoguesser)', code: '1Y2WZ', recommendedTime: 10, players: 'Any', chefRecommended: true, icon: '🗺️', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'If I see you move you die', description: 'sneak across the map', code: 'MKRYK', recommendedTime: 6, players: 'At least 2', chefRecommended: true, icon: '👀', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Torbjorn Golf', description: 'be the golf ball', code: 'X3Y1A', recommendedTime: 10, players: 'Any', chefRecommended: true, icon: '⛳', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Lunapark 2', description: 'Amusement park blizzard world', code: 'RDM3E', recommendedTime: 15, players: 'Any', chefRecommended: true, icon: '🎢', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Mei get high together', description: 'work together to climb up', code: 'PS2NR', recommendedTime: 5, players: 'At least 2', chefRecommended: true, icon: '🧗', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Summer Coast Park', description: 'Chill and enjoy the Havana sun', code: '0CK2WY', recommendedTime: 6, players: 'Any', chefRecommended: true, icon: '🏖️', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Keep talking and nobody explodes', description: '2-4 players, exactly like the real game', code: '3ERSY6', recommendedTime: 12, players: '2 - 8', chefRecommended: true, icon: '💣', playerNums: [2, 3, 4, 5, 6, 7, 8] },
+            { name: 'The Beast', description: 'Take on the beast together with your progressive unique talents', code: 'GV7E3', recommendedTime: 15, players: '1 - 4', chefRecommended: true, icon: '🐲', playerNums: [1, 2, 3, 4] },
+            { name: 'Dva dogfight', description: 'Choose your mech from Dva\'s busan base', code: 'SD7DY', recommendedTime: 10, players: '1 - 6', chefRecommended: true, icon: '✈️', playerNums: [1, 2, 3, 4, 5, 6] },
+            { name: 'Island party', description: 'A minigame for each hero, rounds are short and funny', code: 'W468T', recommendedTime: 15, players: '1 - 12', chefRecommended: true, icon: '🎉', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: '6v6', description: 'Actively balanced competitive experience', code: '7HSKW', recommendedTime: 12, players: '12', chefRecommended: true, icon: '⚔️', playerNums: [12] },
+            { name: 'Lucioball (street ball)', description: 'On many maps and abilities enabled', code: '0HJ10', recommendedTime: 5, players: 'At least 4', chefRecommended: true, icon: '⚽', playerNums: [4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Bastion king kong', description: 'Flying bastion fighters vs a winston', code: '4M0XT', recommendedTime: 6, players: '4 - 12', chefRecommended: true, icon: '🦍', playerNums: [4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Reverse Junkenstein\'s', description: '', code: 'CCCGZ', recommendedTime: 15, players: '1 - 4', chefRecommended: true, icon: '🔄', playerNums: [1, 2, 3, 4] },
+            { name: 'You vs You', description: 'Duality simulator, mirrored or rotated', code: 'WF51X', recommendedTime: 3, players: 'Any', chefRecommended: false, icon: '🪞', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Echo Zombie survival', description: 'PVE survival with AI', code: '38SY3', recommendedTime: 10, players: 'Any', chefRecommended: false, icon: '🧟', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Bumper cars', description: 'Hammond bumper cars', code: 'AND2Y', recommendedTime: 3, players: 'Any', chefRecommended: false, icon: '🚗', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Infinite stairs', description: '', code: '78YQV', recommendedTime: 4, players: 'Any', chefRecommended: false, icon: '🪜', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Pictionary', description: '', code: 'FH93A', recommendedTime: 10, players: 'At least 2', chefRecommended: false, icon: '🖌️', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: '1v1 Arena', description: '', code: 'TXCXX', recommendedTime: 6, players: 'Any', chefRecommended: false, icon: '⚔️', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Kill to grow', description: '', code: 'RONRY', recommendedTime: 6, players: 'At least 2', chefRecommended: false, icon: '🌱', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Stick bug', description: '', code: '5E5XE', recommendedTime: 1, players: 'Any', chefRecommended: false, icon: '🐛', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Four square', description: 'and Heroes have unique abilities', code: '62HMC', recommendedTime: 2 - 4, players: '2 - 4', chefRecommended: false, icon: '🔲', playerNums: [2, 3, 4] },
+            { name: 'Mystery heroes', description: 'and swaps your hero when you ult', code: 'A17FP', recommendedTime: 12, players: 'At least 2', chefRecommended: false, icon: '❓', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'If I see you move you die', description: 'If a Seeker catches a Runner moving, the Runner will start burning and take damage over time.', code: 'MKRYK', recommendedTime: 10, players: '2 - 12', chefRecommended: false, icon: '👀', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Hero gauntlet', description: 'w/ scoreboard for spectators', code: '3W2AG', recommendedTime: 8, players: 'At least 3', chefRecommended: false, icon: '🏋️', playerNums: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Hot potato', description: 'Rolling hammonds, pass it on quickly', code: 'DGEBS', recommendedTime: 4, players: 'At least 3', chefRecommended: false, icon: '🥔', playerNums: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Hide and seek', description: 'Seekers have flight, radar, and collision abilities', code: 'REMRR', recommendedTime: 8, players: 'At least 2', chefRecommended: false, icon: '🙈', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: '12 hogs 1 hole', description: 'Hook insanity', code: 'BHQ6G', recommendedTime: 5, players: 'At least 2', chefRecommended: false, icon: '🐷', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Mirrored mystery deathmatch', description: '', code: 'GMW2N', recommendedTime: 8, players: '2 - 12', chefRecommended: false, icon: '🔄', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: '3v3 lockout elimination', description: '', code: 'Arcade', recommendedTime: 12, players: '6, 8', chefRecommended: false, icon: '🔒', playerNums: [6, 8] },
+            { name: 'Capture the flag blitz', description: '', code: 'Arcade', recommendedTime: 8, players: 'At least 6', chefRecommended: false, icon: '🚩', playerNums: [6, 7, 8, 9, 10, 11, 12] },
+            { name: 'No limits', description: '', code: 'Arcade', recommendedTime: 14, players: 'At least 6', chefRecommended: false, icon: '♾️', playerNums: [6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Freezethaw elimination', description: 'Frozen on death, can unthaw teammates', code: 'RSVCJ', recommendedTime: 5, players: 'At least 4', chefRecommended: false, icon: '❄️', playerNums: [4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Team gun game', description: '', code: 'GY1MN', recommendedTime: 10, players: 'At least 4', chefRecommended: false, icon: '🔫', playerNums: [4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Bastion fishing', description: 'Gotta catch \'em all', code: '6HH60', recommendedTime: 15, players: 'Any', chefRecommended: false, icon: '🎣', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Flappy mercy', description: 'flap the furthest', code: 'ZE1YV', recommendedTime: 4, players: 'Any', chefRecommended: false, icon: '🐦', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'COD zombies', description: '', code: 'SROT1', recommendedTime: 18, players: '', chefRecommended: false, icon: '🧟', playerNums: [] },
+            { name: 'Torbjorn pong', description: '', code: 'XPwon', recommendedTime: 4, players: '2', chefRecommended: false, icon: '🏓', playerNums: [2] },
+            { name: 'COD deathmatch', description: 'With killstreak rewards', code: 'WKJ5E', recommendedTime: 6, players: 'At least 2', chefRecommended: false, icon: '🔫', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Avatar pro bending', description: 'Arena, use abilities of your element', code: 'WSX9K', recommendedTime: 10, players: '2 - 6', chefRecommended: false, icon: '🌊', playerNums: [2, 3, 4, 5, 6] },
+            { name: 'Uno', description: '', code: '22FJJ', recommendedTime: 6, players: 'At least 2', chefRecommended: false, icon: '🃏', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Battle Royal', description: 'Complicated, check website', code: '5FMZW', recommendedTime: 18, players: '1-6', chefRecommended: false, icon: '👑', playerNums: [1, 2, 3, 4, 5, 6] },
+            { name: 'Bed wars', description: 'Base fights, FFA', code: '14WON', recommendedTime: 10, players: 'At least 2', chefRecommended: false, icon: '🛏️', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Snipers 1v1', description: 'Can be set to more than 1v1', code: 'FPXP3', recommendedTime: 5, players: 'Any', chefRecommended: false, icon: '🎯', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Lucio Volleyball', description: '', code: 'AJEG5', recommendedTime: 5, players: 'At least 2', chefRecommended: false, icon: '🏐', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Murder Mystery', description: '', code: '7HMMT', recommendedTime: 20, players: 'At least 6', chefRecommended: false, icon: '🔪', playerNums: [6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Connect Four', description: '', code: '0TGRD', recommendedTime: 5, players: '2', chefRecommended: false, icon: '🔲', playerNums: [2] },
+            { name: 'Bouncy Castle FFA', description: '', code: 'RRBPY', recommendedTime: 3, players: 'At least 2', chefRecommended: false, icon: '🏰', playerNums: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Mercy Parkour', description: '', code: 'Ask Osher', recommendedTime: 8, players: 'Any', chefRecommended: false, icon: '🧗', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Lucio Surf', description: '', code: 'KVKKR', recommendedTime: 8, players: 'Any', chefRecommended: false, icon: '🏄', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Moira Parkour, Pioneer', description: 'Pioneer', code: 'X8080', recommendedTime: 8, players: 'Any', chefRecommended: false, icon: '🧗', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Doomfist Parkour', description: '', code: '3VE5T', recommendedTime: 20, players: 'Any', chefRecommended: false, icon: '🧗', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Genji Parkour', description: 'Circuit Royal', code: 'B1ED1', recommendedTime: 10, players: 'Any', chefRecommended: false, icon: '🧗', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Juno Parkour', description: '', code: '1PNQ2', recommendedTime: 8, players: 'Any', chefRecommended: false, icon: '🧗', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Ana Parkour', description: '', code: 'SH9G9', recommendedTime: 9, players: 'Any', chefRecommended: false, icon: '🧗', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Venture Parkour', description: '', code: 'BY6SK', recommendedTime: 6, players: 'Any', chefRecommended: false, icon: '🧗', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Kiriko Parkour', description: '', code: 'OTB1D', recommendedTime: 9, players: 'Any', chefRecommended: false, icon: '🧗', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Ball Parkour', description: '', code: 'CAGGT', recommendedTime: 8, players: 'Any', chefRecommended: false, icon: '🧗', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Widow Parkour', description: 'Hookshots!', code: 'BAAFZ', recommendedTime: 7, players: 'Any', chefRecommended: false, icon: '🧗', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Quidditch Parkour', description: '', code: 'YKYBV', recommendedTime: 5, players: 'Any', chefRecommended: false, icon: '🧗', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+            { name: 'Co-op Parkour', description: 'Survasa', code: '3DBW9', recommendedTime: 10, players: '2', chefRecommended: false, icon: '🧗', playerNums: [2] },
+            { name: 'Mercy training range', description: '', code: '34ZYZ', recommendedTime: 6, players: 'Any', chefRecommended: false, icon: '🎯', playerNums: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] }
+        ];
+
+        function renderPlayers() {
+            const playerList = document.getElementById('playerList');
+            const afkList = document.getElementById('afkList');
+            playerList.innerHTML = '';
+            afkList.innerHTML = '';
+            players.slice().reverse().forEach((player) => {
+                const div = document.createElement('div');
+                div.className = `player-item p-4 ${player.afk ? 'afk' : ''} ${highlightedPlayer === player ? 'highlighted' : ''}`;
+                div.onclick = () => toggleHighlight(player);
+                div.dataset.id = player.id;
+                div.style.color = player.color;
+                div.innerHTML = `
+                    <div class="text-center flex-1 player-name">${player.name}</div>
+                    <div class="flex space-x-2">
+                        <button onclick="toggleAFK(event, '${player.id}')" class="btn px-1 py-1 text-xs">
+                            ${player.afk ? 'Activate' : 'AFK'}
+                        </button>
+                        <button onclick="removePlayer(event, '${player.id}')" class="btn px-1 py-1 text-xs" style="color: red; font-size: 10px; border: none; margin-right: 5px;">
+                            &#10006;
+                        </button>
+                    </div>
+                `;
+                if (player.afk) {
+                    afkList.appendChild(div);
+                } else {
+                    playerList.appendChild(div);
+                }
+            });
+
+            // Update the highlighted player display
+            const highlightedPlayerDiv = document.getElementById('highlightedPlayer');
+            if (highlightedPlayer) {
+                highlightedPlayerDiv.innerHTML = `<div style="color: ${highlightedPlayer.color};">${highlightedPlayer.name}</div>`;
+            } else {
+                highlightedPlayerDiv.innerHTML = '';
+            }
+        }
+
+        function addPlayer() {
+            const input = document.getElementById('newPlayerInput');
+            const name = input.value.trim();
+            if (name) {
+                const color = getRandomBrightColor(); // Generate a random bright color for new players
+                players.push({ id: generatePlayerId(), name, afk: false, lastSelected: null, color });
+                input.value = '';
+                renderPlayers();
+            }
+        }
+
+        function toggleAFK(event, id) {
+            event.stopPropagation();
+            const player = players.find(p => p.id === id);
+            if (player) {
+                player.afk = !player.afk;
+                renderPlayers();
+            }
+        }
+
+        function removePlayer(event, id) {
+            event.stopPropagation();
+            players = players.filter(p => p.id !== id);
+            renderPlayers();
+        }
+
+        function toggleHighlight(player) {
+            if (highlightedPlayer === player) {
+                highlightedPlayer = null;
+            } else {
+                highlightedPlayer = player;
+            }
+            renderPlayers();
+        }
+
+        function selectRandomPlayer() {
+            const playerElements2 = Array.from(document.querySelectorAll('.player-item:not(.afk)'));
+            const activePlayers = playerElements2.map(el => {
+                const playerId = el.dataset.id;
+                return players.find(p => p.id === playerId);
+            }).filter(p => p !== undefined).reverse();
+
+            if (activePlayers.length === 0) {
+                showAlert('No active gamers to select from!');
+                return;
+            }
+
+            highlightedPlayer = null; // Unselect the currently selected player
+            renderPlayers();
+
+            const playerElements = document.querySelectorAll('.player-item:not(.afk)');
+            // const totalDuration = 5000; // 5 seconds
+            let currentStep = 0;
+
+            // Select the final player before the animation
+            highlightedPlayer = selectFinalPlayer(activePlayers);
+            const finalPlayerIndex = activePlayers.indexOf(highlightedPlayer);
+
+            // Compute the number of steps so that the final player gets chosen at the end of the animation
+            const minimumSteps = 25;
+            const num_laps = Math.max(Math.ceil(minimumSteps / activePlayers.length), 3);
+            const steps = num_laps * activePlayers.length + finalPlayerIndex;
+
+            console.log('Number of steps:', steps);
+            console.log('Final player index:', finalPlayerIndex);
+            console.log('Final player name:', highlightedPlayer.name);
+            console.log('Initial index:', currentStep);
+
+            activePlayers.forEach((player, index) => {
+                console.log(`Active player: ${player.name}, Index: ${index}`);
+            });
+
+            function getStepDuration(step) {
+                const initialEnergy = 40; // Initial energy of the wheel
+                const energyDecay = initialEnergy / steps; // Uniform energy decay per step
+                const energy = initialEnergy - (energyDecay * step);
+                const velocity = Math.sqrt(energy);
+                const duration = 0.5 / (velocity+0.0001)* 1000;// Convert to milliseconds
+                return Math.min(duration, 1000);
+            }
+
+            function highlightNextPlayer() {
+                playerElements.forEach(el => {
+                    el.classList.remove('selected');
+                    el.style.transform = 'scale(1)';
+                });
+                const index = currentStep % activePlayers.length;
+                // console.log(`Name: ${activePlayers[index].name}, Index: ${index}`);
+                const playerElement = Array.from(playerElements).find(el => el.textContent.includes(activePlayers[index].name));
+                playerElement.classList.add('selected');
+                playerElement.style.transform = 'scale(1.03)';
+
+                currentStep++;
+                const stepDuration = getStepDuration(currentStep);
+
+                if (currentStep <= steps) {
+                    console.log('Current step:', currentStep, stepDuration);
+                    setTimeout(highlightNextPlayer, stepDuration);
+                } else {
+                    console.log('Final index:', index);
+                    console.log('Current step:', currentStep);
+                    console.log(activePlayers[index]);
+                    // highlightedPlayer = activePlayers[index]; // Fix: Ensure highlightedPlayer is set correctly
+
+                    renderPlayers();
+                    console.log('Highlighted player:', highlightedPlayer ? highlightedPlayer.name : 'None');
+                }
+            }
+
+            highlightNextPlayer();
+        }
+        function selectFinalPlayer(activePlayers) {
+            activePlayers.sort((a, b) => {
+                if (a.lastSelected === null) return -1;
+                if (b.lastSelected === null) return 1;
+                return a.lastSelected - b.lastSelected;
+            });
+
+            const leastRecentlySelectedTime = activePlayers[0].lastSelected;
+            const selectionPool = activePlayers.filter(player => player.lastSelected === leastRecentlySelectedTime);
+
+            const selectedPlayer = selectionPool[Math.floor(Math.random() * selectionPool.length)];
+            console.log('Selected player:', selectedPlayer.name);
+            return selectedPlayer;
+        }
+
+        function confirmSelection() {
+            if (highlightedPlayer) {
+                highlightedPlayer.lastSelected = Date.now();
+                renderPlayers();
+                loadRandomGameModes();
+            }
+        }
+
+        function updateMatchHistory() {
+            const roundNumber = matchHistory.length + 1;
+            const lobbyLeader = highlightedPlayer ? highlightedPlayer.name : '';
+            const modeName = selectedGameMode ? selectedGameMode.name : '';
+            // const match = `${selectedGameMode.icon} ${selectedGameMode.name}`;
+            matchHistory.unshift({ matchNumber: roundNumber, playerName: lobbyLeader, gameModeName: modeName});
+            
+            const historyList = document.getElementById('matchHistory');
+            historyList.innerHTML = matchHistory.map(entry => {
+                const player = players.find(p => p.name === entry.playerName);
+                const playerColor = player ? player.color : '#fff';
+                const gameMode = gameModes.find(gm => gm.name === entry.gameModeName);
+                const gameModeIcon = gameMode ? gameMode.icon : '';
+                return `<div class="text-sm" style="color: ${playerColor};">${entry.playerName}: <span style="font-size: 18px;">${gameModeIcon}</span><span style="font-size: 14px;">${entry.gameModeName}</span></div>`;
+            }).join('');
+        }
+
+        function updateGameModeDescription(gameMode) {
+            const gameModeDescription = document.getElementById('gameModeDescription');
+            gameModeDescription.innerHTML = `
+                <h3 class="text-lg text-left">${gameMode.icon} ${gameMode.name}</h3>
+                <p class="text-left">${gameMode.description}</p>
+                <p class="text-left">⏰:${gameMode.recommendedTime}m</p>
+                <p class="text-left">👥: ${gameMode.players}</p>
+            `;
+        }
+        function filterGameModes(gameModes) {
+            console.log('Allow Played Games:', allowPlayedModes);
+            console.log('Allow Spectators:', allowSpectators);
+            return gameModes.filter(gameMode => {
+                const played = matchHistory.map(entry => entry.gameModeName).includes(gameMode.name);
+                const playerCount = players.filter(player => !player.afk).length;
+
+                if (played && !allowPlayedModes) {
+                    console.log(`Filtered out: played ${gameMode.name} - Players: ${playerCount}, GameMode Players: ${gameMode.players}`);
+                    return false;
+                }
+
+                if (gameMode.playerNums.includes(playerCount)) return true;
+                if ((playerCount > Math.max(...gameMode.playerNums)) && allowSpectators) return true;
+
+                console.log(`Filtered out: ${gameMode.name} - Players: ${playerCount}, GameMode Players: ${gameMode.players}`);
+                return false;
+            });
+        }
+
+        // function hideGameModes
+
+        function showGameModes(gameModes) {
+            const gameModeList = document.getElementById('gameModeList');
+            gameModeList.innerHTML = '';
+            const filteredGameModes = filterGameModes(gameModes);
+
+            filteredGameModes.forEach((gameMode, index) => {
+                const div = document.createElement('div');
+                div.className = 'game-mode-item';
+                div.innerHTML = `<span style="font-size: 18px;">${gameMode.icon}</span> ${gameMode.name}`;
+                div.onclick = () => {
+                    document.querySelectorAll('.game-mode-item').forEach(item => item.classList.remove('selected'));
+                    div.classList.add('selected');
+                    updateGameModeDescription(gameMode);
+                    updateSelectedGameMode(gameMode);
+                };
+                gameModeList.appendChild(div);
+            });
+        }
+        
+        let shuffleTimeout;
+
+        function loadRandomGameModes() {
+            const playedGameModes = matchHistory.map(entry => entry.gameModeName);
+            const unplayedGameModes = filterGameModes(gameModes).filter(gameMode => !playedGameModes.includes(gameMode.name));
+            const randomGameModes = unplayedGameModes.sort(() => 0.5 - Math.random()).slice(0, 3);
+            console.log("Played Game Modes:", playedGameModes);
+            console.log("Unplayed Game Modes:", unplayedGameModes);
+            const gameModeList = document.getElementById('gameModeList');
+            const gameModeDescription = document.getElementById('gameModeDescription');
+            gameModeList.innerHTML = '';
+            gameModeDescription.innerHTML = '';
+
+            let currentStep = 0;
+            const steps = 30; // Number of steps for the animation
+
+            console.log("Random Game Modes:", randomGameModes);
+
+            function getStepDuration(step) {
+                const initialEnergy = 40; // Initial energy of the wheel
+                const energyDecay = initialEnergy / steps; // Uniform energy decay per step
+                const energy = initialEnergy - (energyDecay * step);
+                const velocity = Math.sqrt(energy);
+                const duration = 0.5 / (velocity+0.0001)* 1000;// Convert to milliseconds
+                return Math.min(duration, 1000);
+            }
+
+            function shuffleEmojis() {
+                const emojis = gameModes.map(gameMode => gameMode.icon);
+                gameModeList.innerHTML = '';
+                for (let i = 0; i < 3; i++) {
+                    const div = document.createElement('div');
+                    div.className = 'game-mode-item';
+                    div.style.fontSize = '28px'; // Increase the font size
+                    if (currentStep < steps-1) {
+                        div.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    } else {
+                        div.textContent = randomGameModes[i].icon;
+                    }
+                    gameModeList.appendChild(div);
+                }
+
+                currentStep++;
+                const stepDuration = getStepDuration(currentStep);
+
+                if (currentStep <= steps) {
+                    shuffleTimeout = setTimeout(shuffleEmojis, stepDuration);
+                } else {
+                    showGameModes(randomGameModes);
+                    currentGameModes = randomGameModes;
+                }
+            }
+
+            shuffleEmojis();
+        }
+        
+        function showAllGameModes() {
+            clearTimeout(shuffleTimeout); // Interrupt the random game modes loading
+            showGameModes(gameModes);
+            currentGameModes = gameModes;
+        }
+
+        function showChefsChoiceModes() {
+            const chefsChoiceModes = gameModes.filter(gameMode => gameMode.chefRecommended);
+            clearTimeout(shuffleTimeout); // Interrupt the random game modes loading
+            showGameModes(chefsChoiceModes);
+            currentGameModes = chefsChoiceModes;
+        }
+
+        function toggleAllowPlayedModes() {
+            allowPlayedModes = !allowPlayedModes;
+            document.getElementById('allowPlayedModesBtn').textContent = allowPlayedModes ? 'Disallow Played Modes' : 'Allow Played Modes';
+            showGameModes(currentGameModes);
+            if (selectedGameMode) {
+                updateGameModeDescription(selectedGameMode);
+                updateSelectedGameMode(selectedGameMode);
+            }
+        }
+
+        function toggleAllowSpectators() {
+            allowSpectators = !allowSpectators;
+            document.getElementById('allowSpectatorsBtn').textContent = allowSpectators ? 'Disallow Spectators' : 'Allow Spectators';
+            showGameModes(currentGameModes);
+            if (selectedGameMode) {
+                updateGameModeDescription(selectedGameMode);
+                updateSelectedGameMode(selectedGameMode);
+            }
+        }
+
+        function updateSelectedGameMode(gameMode) {
+            selectedGameMode = gameMode;
+            const selectedGameModeDiv = document.getElementById('selectedGameMode');
+            selectedGameModeDiv.innerHTML = `<h3 style="font-size: 15pt;">${gameMode.icon} ${gameMode.name}</h3><p id="gameModeCode" style="cursor: pointer; font-size: 14pt;">Code: ${gameMode.code}</p>`;
+
+            const gameModeCode = document.getElementById('gameModeCode');
+            gameModeCode.addEventListener('click', () => {
+                navigator.clipboard.writeText(gameMode.code).then(() => {
+                    showAlert('Code copied to clipboard!');
+                }).catch(err => {
+                    console.error('Failed to copy code: ', err);
+                });
+            });
+        }
+        
+        function startTimer() {
+            const startButton = document.getElementById('startButton');
+            const endButton = document.getElementById('endButton');
+            const timerDiv = document.getElementById('timer');
+
+            if (!selectedGameMode) {
+                showAlert('Please select a game mode first!');
+                return;
+            }
+            startButton.classList.add('btn-hidden');
+            endButton.classList.remove('btn-hidden');
+            timerDiv.style.display = 'block';
+
+            let seconds = selectedGameMode.recommendedTime * 60;
+            function updateTimer() {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                timerDiv.innerHTML = `<p>Recommended time</p>${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+                if (seconds > 0) {
+                    seconds--;
+                } else {
+                    clearInterval(timerInterval);
+                    showAlert('Time is up!');
+                    // const audio = new Audio('ping-sound.mp3'); // Assuming you have a ping-sound.mp3 file
+                    // audio.play();
+                }
+            }
+
+            const timerInterval = setInterval(updateTimer, 1000);
+            updateTimer(); // Initial call to display the timer immediately
+
+            // Add to match history
+            // if (highlightedPlayer && selectedGameMode) {
+            // updateMatchHistory(highlightedPlayer, selectedGameMode);
+            updateMatchHistory();
+            // }
+
+            // Store the interval ID to clear it later
+            endButton.dataset.timerInterval = timerInterval;
+
+            // Reset game mode selection
+            const gameModeList = document.getElementById('gameModeList');
+            const gameModeDescription = document.getElementById('gameModeDescription');
+            gameModeList.innerHTML = '';
+            gameModeDescription.innerHTML = '';
+        }
+
+        function endTimer() {
+            const startButton = document.getElementById('startButton');
+            const endButton = document.getElementById('endButton');
+            const timerDiv = document.getElementById('timer');
+
+            clearInterval(endButton.dataset.timerInterval);
+            endButton.classList.add('btn-hidden');
+            startButton.classList.remove('btn-hidden');
+            timerDiv.style.display = 'none';
+        }
+
+        function showAlert(message) {
+            const alertDiv = document.getElementById('alertDiv');
+            alertDiv.textContent = message;
+            alertDiv.style.display = 'block';
+            alertDiv.style.padding = '20px'; // Make the div a little larger
+            alertDiv.style.fontSize = '1.15rem'; // Make the text font a little larger
+
+            setTimeout(() => {
+                alertDiv.style.transition = 'opacity 0.5s';
+                alertDiv.style.opacity = '0';
+                setTimeout(() => {
+                    alertDiv.style.display = 'none';
+                    alertDiv.style.opacity = '1';
+                }, 500);
+            }, 1000);
+        }
+
+        function selectModeButton(button) {
+            const mode = button.textContent.trim();
+            const previouslySelectedButton = document.querySelector('.highlightable-btn.selected');
+
+            if (previouslySelectedButton === button) {
+                // Clear the mode selection if the button was already selected
+                previouslySelectedButton.classList.remove('selected');
+                const gameModeList = document.getElementById('gameModeList');
+                const gameModeDescription = document.getElementById('gameModeDescription');
+                gameModeList.innerHTML = '';
+                gameModeDescription.innerHTML = '';
+            } else {
+                // Deselect any previously selected button
+                if (previouslySelectedButton) {
+                    previouslySelectedButton.classList.remove('selected');
+                }
+                // Select the new button
+                button.classList.add('selected');
+
+                if (mode === "Chef's Choice") {
+                    showChefsChoiceModes();
+                } else if (mode === "I'm Feeling Lucky") {
+                    loadRandomGameModes();
+                } else if (mode === "All Games") {
+                    showAllGameModes();
+                }
+            }
+        }
+
+        renderPlayers();
+    </script>
+</body>
+</html>
