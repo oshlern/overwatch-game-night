@@ -48,7 +48,7 @@ if uploaded_file is not None:
         st.text_area("Teams", get_team_txt(result_df), height=60)
 
         avg_comf, sr_diff, overall_avg_sr = compute_team_metrics(result_df)
-        
+
         # st.write("### Team Metrics")
         st.write(f"Average Comfort Score: {avg_comf:.2f}")
         st.write(f"SR Difference: {sr_diff:.2f}")
