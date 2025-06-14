@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Overwatch Game Night{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <style>
+        :root {
+            --arcade-purple: #6a0dad;
+            --arcade-pink: #ff1493;
+            --arcade-cyan: #00ffff;
+            --arcade-dark: #0a0a1a;
+            --arcade-gray: #1a1a2e;
+            --neon-green: #39ff14;
+            --neon-yellow: #ffff00;
+        }
+
+        html, body {
+            background: linear-gradient(135deg, var(--arcade-dark) 0%, var(--arcade-gray) 100%) !important;
+            background-image:
+                radial-gradient(circle at 25% 25%, #6a0dad22 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #ff149322 0%, transparent 50%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="bodygrid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="%236a0dad" stroke-width="1" opacity="0.2"/></pattern></defs><rect width="100%" height="100%" fill="%230a0a1a"/><rect width="100%" height="100%" fill="url(%23bodygrid)"/></svg>') !important;
+            background-attachment: fixed !important;
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
+            color: white !important;
+            min-height: 100vh !important;
+            font-family: 'Courier New', monospace !important;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3) !important;
+        }
+
+        .navbar {
+            background: rgba(26, 0, 51, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--arcade-purple);
+            box-shadow: 0 0 20px rgba(106, 13, 173, 0.5);
+        }
+
+        .navbar-brand {
+            color: var(--neon-yellow) !important;
+            font-weight: bold;
+            font-size: 1.5rem;
+            text-shadow: 0 0 10px var(--neon-yellow);
+            font-family: 'Courier New', monospace;
+        }
+
+        .nav-link {
+            color: var(--arcade-cyan) !important;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+        }
+
+        .nav-link:hover {
+            color: var(--arcade-pink) !important;
+            text-shadow: 0 0 10px var(--arcade-pink);
+            transform: scale(1.05);
+        }
+
+        .card {
+            background: rgba(45, 27, 105, 0.9);
+            border: 2px solid var(--arcade-purple);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 15px rgba(106, 13, 173, 0.3);
+            border-radius: 15px;
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, var(--arcade-purple), var(--arcade-pink));
+            border-bottom: 2px solid var(--arcade-cyan);
+            border-radius: 13px 13px 0 0 !important;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--arcade-purple), var(--arcade-pink));
+            border: 2px solid var(--arcade-cyan);
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px rgba(106, 13, 173, 0.5);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(45deg, var(--arcade-pink), var(--arcade-purple));
+            box-shadow: 0 5px 20px rgba(255, 20, 147, 0.6);
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, var(--neon-yellow), #ffa500);
+            border: 2px solid var(--arcade-cyan);
+            color: var(--arcade-dark) !important;
+            font-weight: bold;
+            text-shadow: none;
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 255, 0, 0.6);
+        }
+
+        .btn-info {
+            background: linear-gradient(45deg, var(--arcade-cyan), #0099cc);
+            border: 2px solid var(--arcade-purple);
+            color: var(--arcade-dark) !important;
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, var(--neon-green), #20c997);
+            border: 2px solid var(--arcade-purple);
+            color: var(--arcade-dark) !important;
+        }
+
+        .alert {
+            border: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-control, .form-select {
+            background: rgba(26, 0, 51, 0.8);
+            border: 2px solid var(--arcade-purple);
+            color: var(--arcade-cyan);
+            font-family: 'Courier New', monospace;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: rgba(26, 0, 51, 0.9);
+            border-color: var(--arcade-cyan);
+            box-shadow: 0 0 0 0.2rem rgba(0, 255, 255, 0.25);
+            color: var(--arcade-cyan);
+        }
+
+        .table-dark {
+            background: rgba(26, 0, 51, 0.9);
+            border: 1px solid var(--arcade-purple);
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(26,0,51,0.8), rgba(45,27,105,0.8)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="%236a0dad" stroke-width="2" opacity="0.3"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            background-size: cover;
+            padding: 4rem 0;
+            text-align: center;
+            border: 3px solid var(--arcade-cyan);
+            border-radius: 20px;
+            margin: 20px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+        }
+
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        .token-badge {
+            background: linear-gradient(45deg, var(--neon-yellow), #ffd700);
+            color: var(--arcade-dark);
+            font-weight: bold;
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            border: 2px solid var(--arcade-purple);
+            text-shadow: none;
+            box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+        }
+
+        .award-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .team-card {
+            border-left: 4px solid var(--arcade-pink);
+            margin-bottom: 1rem;
+            box-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
+        }
+
+        .team-card.team-1 {
+            border-left-color: var(--arcade-cyan);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .role-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .role-tank { background-color: #1e88e5; }
+        .role-dps { background-color: #e53935; }
+        .role-support { background-color: #43a047; }
+
+        /* Overwatch-style player names */
+        .player-name {
+            text-transform: uppercase !important;
+            font-style: italic !important;
+            font-weight: bold !important;
+            font-family: 'Impact', 'Arial Black', sans-serif !important;
+            letter-spacing: 1px !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) !important;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                <i class="fas fa-gamepad"></i> Overwatch Game Night
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('team_balance') }}">
+                            <i class="fas fa-users"></i> Team Balance
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('arcade_picker') }}">
+                            <i class="fas fa-dice"></i> Arcade Picker
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('awards') }}">
+                            <i class="fas fa-trophy"></i> Awards
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin') }}">
+                            <i class="fas fa-cog"></i> Admin
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Active Players Sidebar -->
+    <div id="players-sidebar" class="position-fixed" style="left: 10px; top: 80px; width: 250px; z-index: 1000; background: rgba(26, 0, 51, 0.95); border-radius: 15px; padding: 15px; backdrop-filter: blur(10px); border: 3px solid var(--arcade-purple); box-shadow: 0 0 20px rgba(106, 13, 173, 0.6); transition: all 0.3s ease;">
+        <h6 class="text-center mb-3" style="color: var(--neon-yellow); text-shadow: 0 0 10px var(--neon-yellow); font-family: 'Courier New', monospace; margin-bottom: 0.5rem;">
+            <div class="d-flex justify-content-between align-items-center">
+                <span id="sidebar-title"><i class="fas fa-users"></i> PLAYERS</span>
+                <button class="btn btn-sm" onclick="toggleSidebar()" style="font-size: 0.7rem; background: var(--arcade-purple); border: 1px solid var(--arcade-cyan); color: var(--arcade-cyan); padding: 0.2rem 0.4rem;">
+                    <i class="fas fa-minus" id="sidebar-toggle-icon"></i>
+                </button>
+            </div>
+        </h6>
+        <div id="sidebar-content">
+            <div id="active-players-list">
+                <!-- Players will be loaded here -->
+            </div>
+            <div class="mt-3">
+                <small style="color: var(--arcade-cyan); font-family: 'Courier New', monospace;">🎮 Click to nominate or set AFK</small>
+            </div>
+        </div>
+    </div>
+
+    <main style="margin-left: 270px;">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+    <!-- Global Players Sidebar Script -->
+    <script>
+        let activePlayers = {};
+        let playerTokens = {};
+        let selectedPlayersForTeamBalance = new Set();
+        let sidebarCollapsed = false;
+
+        // Load active players on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadActivePlayers();
+            loadPlayerTokens();
+
+            // Connect to socket for real-time updates
+            if (typeof io !== 'undefined') {
+                const socket = io();
+                socket.on('player_status_update', function(data) {
+                    updatePlayerStatus(data.player, data.status);
+                });
+            }
+        });
+
+        async function loadActivePlayers() {
+            try {
+                const response = await fetch('/api/players');
+                activePlayers = await response.json();
+                displayActivePlayers();
+            } catch (error) {
+                console.error('Error loading players:', error);
+            }
+        }
+
+        async function loadPlayerTokens() {
+            try {
+                const response = await fetch('/api/tokens');
+                playerTokens = await response.json();
+                displayActivePlayers();
+            } catch (error) {
+                console.error('Error loading tokens:', error);
+            }
+        }
+
+        function displayActivePlayers() {
+            const playersList = document.getElementById('active-players-list');
+            if (!playersList) return;
+
+            // Sort players: active players first, then AFK players
+            const sortedPlayers = Object.values(activePlayers).sort((a, b) => {
+                const statusA = a.status || 'active';
+                const statusB = b.status || 'active';
+
+                // Active players (status !== 'afk') come first
+                if (statusA === 'afk' && statusB !== 'afk') return 1;
+                if (statusA !== 'afk' && statusB === 'afk') return -1;
+
+                // Within same status group, sort alphabetically by name
+                return a.bnet.localeCompare(b.bnet);
+            });
+
+            let playersHTML = '';
+            sortedPlayers.forEach(player => {
+                const status = player.status || 'active';
+                const statusIcon = status === 'afk' ? '💤' : '🟢';
+                const statusClass = status === 'afk' ? 'text-muted' : '';
+                const playerColor = status === 'afk' ? 'color: #666;' : 'color: var(--arcade-cyan); text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);';
+                const tokenCount = playerTokens[player.bnet] || 0;
+                const tokenDisplay = tokenCount > 0 ? `<span class="token-badge" style="font-size: 0.6rem; margin-left: 4px;">${tokenCount}🏆</span>` : '';
+
+                playersHTML += `
+                    <div class="player-item mb-2 ${statusClass}" data-player="${player.bnet}" style="background: rgba(106, 13, 173, 0.2); border-radius: 8px; padding: 8px; border: 1px solid var(--arcade-purple);">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="small" style="${playerColor} font-family: 'Courier New', monospace;">${statusIcon} <span class="player-name">${player.bnet}</span>${tokenDisplay}</span>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-sm" onclick="togglePlayerStatus('${player.bnet}')" title="Toggle AFK" style="background: var(--arcade-gray); border: 1px solid var(--neon-yellow); color: var(--neon-yellow); font-size: 0.7rem;">
+                                    <i class="fas fa-bed"></i>
+                                </button>
+                                <button class="btn btn-sm" onclick="quickNominate('${player.bnet}')" title="Quick Nominate" style="background: var(--arcade-gray); border: 1px solid var(--arcade-pink); color: var(--arcade-pink); font-size: 0.7rem;">
+                                    <i class="fas fa-star"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            playersList.innerHTML = playersHTML || '<p class="small" style="color: var(--arcade-cyan); font-family: \'Courier New\', monospace;">No players loaded</p>';
+        }
+
+        async function togglePlayerStatus(playerName) {
+            const currentStatus = activePlayers[playerName]?.status || 'active';
+            const newStatus = currentStatus === 'active' ? 'afk' : 'active';
+
+            try {
+                const response = await fetch('/api/players/status', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ player: playerName, status: newStatus })
+                });
+
+                if (response.ok) {
+                    activePlayers[playerName].status = newStatus;
+                    displayActivePlayers();
+                }
+            } catch (error) {
+                console.error('Error updating player status:', error);
+            }
+        }
+
+        function quickNominate(playerName) {
+            // Show modal or redirect to awards page with pre-selected player
+            if (window.location.pathname === '/awards') {
+                // If on awards page, trigger nomination
+                const categories = ['Most Improved on New Hero', 'Biggest Clutch', 'Most Stylish Play/Skin'];
+                const category = prompt('Select category:\n1. Most Improved on New Hero\n2. Biggest Clutch\n3. Most Stylish Play/Skin\n\nEnter 1, 2, or 3:');
+
+                if (category && categories[parseInt(category) - 1]) {
+                    const explanation = prompt('Why are you nominating ' + playerName + '?');
+                    if (explanation) {
+                        // Call nomination function if available
+                        if (typeof nominatePlayerWithExplanation === 'function') {
+                            nominatePlayerWithExplanation(categories[parseInt(category) - 1], playerName, explanation);
+                        }
+                    }
+                }
+            } else {
+                // Redirect to awards page
+                window.location.href = '/awards';
+            }
+        }
+
+        function updatePlayerStatus(playerName, status) {
+            if (activePlayers[playerName]) {
+                activePlayers[playerName].status = status;
+                displayActivePlayers();
+            }
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('players-sidebar');
+            const content = document.getElementById('sidebar-content');
+            const icon = document.getElementById('sidebar-toggle-icon');
+            const title = document.getElementById('sidebar-title');
+            const main = document.querySelector('main');
+
+            if (sidebarCollapsed) {
+                // Expand sidebar
+                content.style.display = 'block';
+                sidebar.style.width = '250px';
+                sidebar.style.padding = '15px';
+                title.innerHTML = '<i class="fas fa-users"></i> PLAYERS';
+                main.style.marginLeft = '270px';
+                icon.className = 'fas fa-minus';
+                sidebarCollapsed = false;
+            } else {
+                // Collapse sidebar
+                content.style.display = 'none';
+                sidebar.style.width = '60px';
+                sidebar.style.padding = '10px 5px';
+                title.innerHTML = '<i class="fas fa-users"></i>';
+                main.style.marginLeft = '80px';
+                icon.className = 'fas fa-plus';
+                sidebarCollapsed = true;
+            }
+        }
+
+        // Mobile responsiveness
+        function checkMobile() {
+            const sidebar = document.getElementById('players-sidebar');
+            const main = document.querySelector('main');
+
+            if (window.innerWidth < 768) {
+                // Mobile: hide sidebar completely
+                if (sidebar) {
+                    sidebar.style.display = 'none';
+                }
+                if (main) {
+                    main.style.marginLeft = '0';
+                }
+            } else {
+                // Desktop: show sidebar
+                if (sidebar) {
+                    sidebar.style.display = 'block';
+                    if (sidebarCollapsed) {
+                        sidebar.style.width = '60px';
+                        main.style.marginLeft = '80px';
+                    } else {
+                        sidebar.style.width = '250px';
+                        main.style.marginLeft = '270px';
+                    }
+                }
+            }
+        }
+
+        // Check on load and resize
+        window.addEventListener('resize', checkMobile);
+        setTimeout(checkMobile, 100);
+    </script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

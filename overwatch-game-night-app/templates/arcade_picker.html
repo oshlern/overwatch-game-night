@@ -1,0 +1,515 @@
+{% extends "base.html" %}
+
+{% block title %}Arcade Picker - Overwatch Game Night{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">
+                <i class="fas fa-dice text-warning"></i>
+                Arcade Game Picker
+            </h2>
+        </div>
+    </div>
+
+    <!-- Random Game Picker Section -->
+    <div class="row mb-4">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-random"></i>
+                        Random Game Selection
+                    </h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="row mb-3">
+                        <div class="col-md-6 mx-auto">
+                            <label for="player-count-input" class="form-label">Number of Players</label>
+                            <input type="number" class="form-control" id="player-count-input"
+                                   min="1" max="12" value="6" placeholder="How many playing?">
+                        </div>
+                    </div>
+
+                    <div id="selected-game" class="mb-4" style="display: none;">
+                        <div class="alert alert-success">
+                            <h4 id="game-name" class="mb-2"></h4>
+                            <p id="game-description" class="mb-2"></p>
+                            <small id="game-details" class="text-muted"></small>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-warning btn-lg me-3" onclick="pickRandomGame()">
+                        <i class="fas fa-dice"></i> Pick Game
+                    </button>
+
+                    <button class="btn btn-success" onclick="logSelectedGame()" id="log-game-btn" style="display: none;">
+                        <i class="fas fa-save"></i> Play This
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Custom Game Section -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-plus"></i>
+                        Add Custom Game
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="game-form">
+                        <div class="mb-3">
+                            <label for="game-code" class="form-label">Code</label>
+                            <input type="text" class="form-control" id="game-code" placeholder="43KZV" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="game-title" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="game-title" placeholder="Route 66" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="game-desc" class="form-label">Description</label>
+                            <textarea class="form-control" id="game-desc" rows="2" placeholder="What's this game about?"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="game-category" class="form-label">Category</label>
+                                <select class="form-select" id="game-category">
+                                    <option value="Arcade">Arcade</option>
+                                    <option value="Workshop">Workshop</option>
+                                    <option value="Custom">Custom</option>
+                                    <option value="Event">Event</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="recommended-time" class="form-label">Time (min)</label>
+                                <input type="number" class="form-control" id="recommended-time" min="1" max="60" value="10">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add Game
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-upload"></i>
+                        Import Games
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="games-csv" class="form-label">Upload CSV File</label>
+                        <input type="file" class="form-control" id="games-csv" accept=".csv">
+                        <div class="form-text">
+                            Format: Code, Name, Description, Category, Time
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-info" onclick="importGamesCSV()">
+                        <i class="fas fa-file-import"></i> Import CSV
+                    </button>
+
+                    <hr>
+
+                    <div class="mb-3">
+                        <label class="form-label">Quick Add Popular Games</label>
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addPopularGames()">
+                                <i class="fas fa-star"></i> Add Popular Games
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Available Games List -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list"></i>
+                        Games
+                    </h5>
+                    <div>
+                        <select class="form-select form-select-sm" id="category-filter" onchange="filterGames()">
+                            <option value="">All Categories</option>
+                            <option value="Arcade">Arcade</option>
+                            <option value="Workshop">Workshop</option>
+                            <option value="Custom">Custom</option>
+                            <option value="Event">Event</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="games-list" class="row">
+                        <!-- Games will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game History -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-history"></i>
+                        Game History
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="game-history">
+                        <!-- Game history will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let availableGames = [];
+let gameHistory = [];
+let currentSelectedGame = null;
+
+// Load data on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadGames();
+    loadGameHistory();
+});
+
+async function loadGames() {
+    try {
+        const response = await fetch('/api/gamemodes');
+        if (response.ok) {
+            availableGames = await response.json();
+            console.log('Loaded games:', availableGames.length);
+            displayGames();
+        } else {
+            console.error('Failed to load games:', response.status);
+            showAlert('Failed to load games', 'warning');
+        }
+    } catch (error) {
+        console.error('Error loading games:', error);
+        showAlert('Error loading games: ' + error.message, 'danger');
+    }
+}
+
+async function loadGameHistory() {
+    try {
+        const response = await fetch('/api/games-history');
+        if (response.ok) {
+            gameHistory = await response.json();
+            displayGameHistory();
+        }
+    } catch (error) {
+        console.error('Error loading game history:', error);
+    }
+}
+
+function displayGames() {
+    const gamesList = document.getElementById('games-list');
+    const categoryFilter = document.getElementById('category-filter').value;
+
+    const filteredGames = categoryFilter ?
+        availableGames.filter(game => game.category === categoryFilter) :
+        availableGames;
+
+    if (filteredGames.length === 0) {
+        gamesList.innerHTML = '<div class="col-12"><p class="text-muted text-center">No games available. Add some games to get started!</p></div>';
+        return;
+    }
+
+    gamesList.innerHTML = filteredGames.map(game => `
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h6 class="card-title">
+                        ${game.name || game.title}
+                        <span class="badge bg-secondary ms-2">${game.category || 'Arcade'}</span>
+                    </h6>
+                    <p class="card-text">
+                        <strong>Code:</strong> ${game.code}<br>
+                        <small class="text-muted">${game.description || 'No description'}</small>
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">
+                            <i class="fas fa-clock"></i> ${game.recommended_time || 10} min
+                            ${game.player_count ? `<br><i class="fas fa-users"></i> ${game.player_count.min}-${game.player_count.max} players (${game.player_count.optimal} optimal)` : ''}
+                        </small>
+                        <button class="btn btn-sm btn-outline-danger" onclick="removeGame('${game.id || game.code}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function displayGameHistory() {
+    const historyDiv = document.getElementById('game-history');
+
+    if (gameHistory.length === 0) {
+        historyDiv.innerHTML = '<p class="text-muted text-center">No games played yet.</p>';
+        return;
+    }
+
+    const sortedHistory = gameHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    historyDiv.innerHTML = `
+        <div class="table-responsive">
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Game</th>
+                        <th>Code</th>
+                        <th>Category</th>
+                        <th>Players</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${sortedHistory.slice(0, 10).map(game => `
+                        <tr>
+                            <td>${new Date(game.timestamp).toLocaleDateString()}</td>
+                            <td>${game.name || game.title}</td>
+                            <td><code>${game.code}</code></td>
+                            <td><span class="badge bg-secondary">${game.category || 'Arcade'}</span></td>
+                            <td>${game.players ? game.players.join(', ') : 'N/A'}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
+
+async function pickRandomGame() {
+    if (availableGames.length === 0) {
+        showAlert('No games available! Please add some games first.', 'warning');
+        return;
+    }
+
+    const playerCount = parseInt(document.getElementById('player-count-input').value) || 6;
+
+    // Filter games based on player count
+    const suitableGames = availableGames.filter(game => {
+        if (!game.player_count) return true; // Include games without player count data
+        return playerCount >= game.player_count.min && playerCount <= game.player_count.max;
+    });
+
+    if (suitableGames.length === 0) {
+        showAlert(`No games available for ${playerCount} players. Showing all games instead.`, 'warning');
+        const randomIndex = Math.floor(Math.random() * availableGames.length);
+        currentSelectedGame = availableGames[randomIndex];
+    } else {
+        const randomIndex = Math.floor(Math.random() * suitableGames.length);
+        currentSelectedGame = suitableGames[randomIndex];
+    }
+
+    document.getElementById('game-name').textContent = currentSelectedGame.name || currentSelectedGame.title;
+    document.getElementById('game-description').textContent = currentSelectedGame.description || 'No description available';
+
+    let detailsText = `Code: ${currentSelectedGame.code} | Category: ${currentSelectedGame.category || 'Arcade'} | Time: ${currentSelectedGame.recommended_time || 10} min`;
+    if (currentSelectedGame.player_count) {
+        detailsText += ` | Players: ${currentSelectedGame.player_count.min}-${currentSelectedGame.player_count.max} (${currentSelectedGame.player_count.optimal} optimal)`;
+    }
+    document.getElementById('game-details').textContent = detailsText;
+
+    document.getElementById('selected-game').style.display = 'block';
+    document.getElementById('log-game-btn').style.display = 'inline-block';
+}
+
+async function logSelectedGame() {
+    if (!currentSelectedGame) return;
+
+    const gameData = {
+        ...currentSelectedGame,
+        timestamp: new Date().toISOString(),
+        players: [] // Could be populated with current players
+    };
+
+    try {
+        const response = await fetch('/api/games-history', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(gameData)
+        });
+
+        if (response.ok) {
+            showAlert('Game logged successfully!', 'success');
+            loadGameHistory();
+            document.getElementById('selected-game').style.display = 'none';
+            document.getElementById('log-game-btn').style.display = 'none';
+            currentSelectedGame = null;
+        }
+    } catch (error) {
+        showAlert('Error logging game: ' + error.message, 'danger');
+    }
+}
+
+// Game form submission
+document.getElementById('game-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const gameData = {
+        code: document.getElementById('game-code').value,
+        name: document.getElementById('game-title').value,
+        title: document.getElementById('game-title').value,
+        description: document.getElementById('game-desc').value,
+        category: document.getElementById('game-category').value,
+        recommended_time: parseInt(document.getElementById('recommended-time').value)
+    };
+
+    availableGames.push(gameData);
+    displayGames();
+
+    // Clear form
+    document.getElementById('game-form').reset();
+    showAlert('Game added successfully!', 'success');
+});
+
+function filterGames() {
+    displayGames();
+}
+
+function removeGame(gameId) {
+    availableGames = availableGames.filter(game => (game.id || game.code) !== gameId);
+    displayGames();
+    showAlert('Game removed successfully!', 'info');
+}
+
+function addPopularGames() {
+    const popularGames = [
+        {
+            code: "43KZV",
+            name: "Route 66",
+            title: "Route 66",
+            description: "Classic payload map",
+            category: "Arcade",
+            recommended_time: 15
+        },
+        {
+            code: "ATAHA",
+            name: "Havana",
+            title: "Havana",
+            description: "Escort payload through the streets",
+            category: "Arcade",
+            recommended_time: 15
+        },
+        {
+            code: "MYSTERY",
+            name: "Mystery Heroes",
+            title: "Mystery Heroes",
+            description: "Random hero on each spawn",
+            category: "Arcade",
+            recommended_time: 10
+        },
+        {
+            code: "3V3",
+            name: "3v3 Elimination",
+            title: "3v3 Elimination",
+            description: "Small team elimination matches",
+            category: "Arcade",
+            recommended_time: 8
+        },
+        {
+            code: "FFA",
+            name: "Free For All",
+            title: "Free For All",
+            description: "Every player for themselves",
+            category: "Arcade",
+            recommended_time: 12
+        }
+    ];
+
+    popularGames.forEach(game => {
+        if (!availableGames.find(g => g.code === game.code)) {
+            availableGames.push(game);
+        }
+    });
+
+    displayGames();
+    showAlert('Popular games added!', 'success');
+}
+
+function importGamesCSV() {
+    const fileInput = document.getElementById('games-csv');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        showAlert('Please select a CSV file', 'warning');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const csv = e.target.result;
+            const lines = csv.split('\n');
+
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',').map(v => v.trim());
+                if (values.length >= 3 && values[0]) {
+                    const gameData = {
+                        code: values[0],
+                        name: values[1],
+                        title: values[1],
+                        description: values[2] || '',
+                        category: values[3] || 'Arcade',
+                        recommended_time: parseInt(values[4]) || 10
+                    };
+
+                    if (!availableGames.find(g => g.code === gameData.code)) {
+                        availableGames.push(gameData);
+                    }
+                }
+            }
+
+            displayGames();
+            showAlert('CSV imported successfully!', 'success');
+
+        } catch (error) {
+            showAlert('Error parsing CSV: ' + error.message, 'danger');
+        }
+    };
+
+    reader.readAsText(file);
+}
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+
+    document.querySelector('.container').insertBefore(alertDiv, document.querySelector('.container').firstChild);
+
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+</script>
+{% endblock %}
