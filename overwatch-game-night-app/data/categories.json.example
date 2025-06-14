@@ -1,0 +1,18 @@
+[
+    {
+        "name": "Most Improved on New Hero",
+        "description": "Recognize someone who showed great improvement on a hero they don't usually play"
+    },
+    {
+        "name": "Biggest Clutch",
+        "description": "Award the most game-changing play that turned the tide"
+    },
+    {
+        "name": "Most Stylish Play/Skin",
+        "description": "Celebrate the most impressive play or best skin combination"
+    },
+    {
+        "name": "Custom Category Example",
+        "description": "This is an example of a custom category with its description"
+    }
+]
