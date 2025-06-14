@@ -51,8 +51,8 @@
     "wants_dps": -1,
     "wants_support": -1,
     "imported_from": "5v5 - RanksData2.csv",
-    "status": "active",
-    "last_updated": "2025-06-14T12:37:38.623800",
+    "status": "afk",
+    "last_updated": "2025-06-14T14:05:44.173459",
     "color": "#96CEB4"
   },
   "Fry": {
@@ -317,8 +317,8 @@
     "wants_dps": 1,
     "wants_support": -1,
     "imported_from": "5v5 - RanksData2.csv",
-    "status": "active",
-    "last_updated": "2025-06-14T13:11:36.388994",
+    "status": "afk",
+    "last_updated": "2025-06-14T14:05:43.664497",
     "color": "#EBDEF0"
   },
   "Thiccjibooty": {
