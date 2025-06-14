@@ -26,7 +26,10 @@
                 <div class="card-body">
                     {% for category in categories %}
                     <div class="voting-control mb-4" id="admin-{{ loop.index0 }}">
-                        <h6>{{ category }}</h6>
+                        <h6>{{ category.name if category is mapping else category }}</h6>
+                        {% if category is mapping and category.description %}
+                        <small class="text-muted d-block mb-2">{{ category.description }}</small>
+                        {% endif %}
 
                         <!-- Current Status -->
                         <div class="row mb-3">
@@ -54,10 +57,10 @@
 
                         <!-- Controls -->
                         <div class="d-flex gap-2">
-                            <button class="btn btn-danger" onclick="closeVoting('{{ category }}', '{{ loop.index0 }}')">
+                            <button class="btn btn-danger" onclick="closeVoting('{{ category.name if category is mapping else category }}', '{{ loop.index0 }}')">
                                 <i class="fas fa-stop"></i> Close Voting & Reveal Winner
                             </button>
-                            <button class="btn btn-warning" onclick="resetVoting('{{ category }}', '{{ loop.index0 }}')">
+                            <button class="btn btn-warning" onclick="resetVoting('{{ category.name if category is mapping else category }}', '{{ loop.index0 }}')">
                                 <i class="fas fa-redo"></i> Reset Category
                             </button>
                         </div>
@@ -65,14 +68,26 @@
                     <hr>
                     {% endfor %}
 
-                    <!-- Custom Categories Section -->
-                    <div id="custom-categories-admin">
-                        <h5 class="mt-4 mb-3">
+                    <!-- Add New Category Section -->
+                    <div class="mt-4">
+                        <h5 class="mb-3">
                             <i class="fas fa-plus-circle text-success"></i>
-                            Custom Categories
+                            Add New Category
                         </h5>
-                        <div id="custom-categories-list">
-                            <p class="text-muted">No custom categories yet</p>
+                        <div class="row">
+                            <div class="col-md-4 mb-2">
+                                <input type="text" class="form-control" id="admin-new-category-input"
+                                       placeholder="Enter category name...">
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <input type="text" class="form-control" id="admin-new-category-description"
+                                       placeholder="Enter description (optional)...">
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-success w-100" onclick="addNewCategory()">
+                                    <i class="fas fa-plus"></i> Add Category
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -188,9 +203,10 @@ socket.on('voting_closed', function(data) {
     showVotingResults(data.category, data.winner, data.all_votes);
 });
 
-// Listen for custom category updates
-socket.on('custom_category_update', function(data) {
-    addCustomCategoryToAdmin(data.category, data.nominations, data.explanations);
+// Listen for new category creation
+socket.on('category_created', function(data) {
+    // Reload the page to show the new category
+    location.reload();
 });
 
 // Load existing voting state on page load
@@ -198,19 +214,48 @@ document.addEventListener('DOMContentLoaded', function() {
     loadVotingState();
 });
 
-function updateAdminNominations(category, nominations, explanations) {
-    const categoryIndex = getCategoryIndex(category);
-    let nominationsDiv;
+function addNewCategory() {
+    const nameInput = document.getElementById('admin-new-category-input');
+    const descriptionInput = document.getElementById('admin-new-category-description');
+    const categoryName = nameInput.value.trim();
+    const categoryDescription = descriptionInput.value.trim();
 
-    if (categoryIndex !== -1) {
-        // Standard category
-        nominationsDiv = document.getElementById(`admin-nominations-${categoryIndex}`);
-    } else {
-        // Custom category
-        const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
-        nominationsDiv = document.getElementById(`custom-admin-nominations-${categoryId}`);
+    if (!categoryName) {
+        showAlert('Please enter a category name', 'warning');
+        return;
     }
 
+    // Send request to add category
+    fetch('/api/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            name: categoryName,
+            description: categoryDescription
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            showAlert(`Category "${categoryName}" added successfully`, 'success');
+            nameInput.value = '';
+            descriptionInput.value = '';
+            // Reload page to show new category
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            showAlert(data.error || 'Error adding category', 'danger');
+        }
+    })
+    .catch(error => {
+        showAlert('Error adding category: ' + error.message, 'danger');
+    });
+}
+
+function updateAdminNominations(category, nominations, explanations) {
+    const categoryIndex = getCategoryIndex(category);
+    if (categoryIndex === -1) return;
+
+    const nominationsDiv = document.getElementById(`admin-nominations-${categoryIndex}`);
     if (!nominationsDiv) return;
 
     if (Object.keys(nominations).length === 0) {
@@ -236,17 +281,9 @@ function updateAdminNominations(category, nominations, explanations) {
 
 function updateAdminVotes(category, votes) {
     const categoryIndex = getCategoryIndex(category);
-    let votesDiv;
+    if (categoryIndex === -1) return;
 
-    if (categoryIndex !== -1) {
-        // Standard category
-        votesDiv = document.getElementById(`admin-votes-${categoryIndex}`);
-    } else {
-        // Custom category
-        const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
-        votesDiv = document.getElementById(`custom-admin-votes-${categoryId}`);
-    }
-
+    const votesDiv = document.getElementById(`admin-votes-${categoryIndex}`);
     if (!votesDiv) return;
 
     if (Object.keys(votes).length === 0) {
@@ -373,8 +410,15 @@ function balanceTeamsQuick() {
 }
 
 function getCategoryIndex(category) {
-    const categories = ['Most Improved on New Hero', 'Biggest Clutch', 'Most Stylish Play/Skin', 'Fry\'s Life-is-a-resource Award', 'Clip Farmer'];
-    return categories.indexOf(category);
+    // Get categories from the page - they're rendered server-side
+    const categoryElements = document.querySelectorAll('.voting-control');
+    for (let i = 0; i < categoryElements.length; i++) {
+        const categoryName = categoryElements[i].querySelector('h6').textContent.trim();
+        if (categoryName === category) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 function showVotingResults(category, winner, allVotes) {
@@ -391,128 +435,17 @@ async function loadVotingState() {
         const response = await fetch('/api/voting-state');
         const votingState = await response.json();
 
-        // Load both standard and custom categories
+        // Load all categories from the main list
         for (const [category, data] of Object.entries(votingState)) {
             if (data.nominations && Object.keys(data.nominations).length > 0) {
-                const categoryIndex = getCategoryIndex(category);
-                if (categoryIndex !== -1) {
-                    // Standard category
-                    updateAdminNominations(category, data.nominations, data.explanations || {});
-                } else {
-                    // Custom category
-                    addCustomCategoryToAdmin(category, data.nominations, data.explanations || {});
-                }
+                updateAdminNominations(category, data.nominations, data.explanations || {});
+            }
+            if (data.votes && Object.keys(data.votes).length > 0) {
+                updateAdminVotes(category, data.votes);
             }
         }
     } catch (error) {
         console.error('Error loading voting state:', error);
-    }
-}
-
-function addCustomCategoryToAdmin(category, nominations, explanations) {
-    const customCategoriesList = document.getElementById('custom-categories-list');
-    const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
-
-    // Remove "no custom categories" message if it exists
-    const noCustomMsg = customCategoriesList.querySelector('.text-muted');
-    if (noCustomMsg && noCustomMsg.textContent.includes('No custom categories')) {
-        noCustomMsg.remove();
-    }
-
-    // Check if category already exists
-    let existingCategory = document.getElementById(`custom-admin-${categoryId}`);
-    if (!existingCategory) {
-        // Create new custom category admin section
-        const categoryDiv = document.createElement('div');
-        categoryDiv.className = 'voting-control mb-4 border border-success rounded p-3';
-        categoryDiv.id = `custom-admin-${categoryId}`;
-        categoryDiv.innerHTML = `
-            <h6 class="text-success">${category} <span class="badge bg-success">Custom</span></h6>
-
-            <!-- Current Status -->
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <div class="card bg-dark">
-                        <div class="card-body">
-                            <h6>Nominations</h6>
-                            <div id="custom-admin-nominations-${categoryId}">
-                                <p class="text-muted">No nominations yet</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card bg-dark">
-                        <div class="card-body">
-                            <h6>Current Votes (Hidden)</h6>
-                            <div id="custom-admin-votes-${categoryId}">
-                                <p class="text-muted">No votes yet</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Controls -->
-            <div class="d-flex gap-2">
-                <button class="btn btn-danger" onclick="closeCustomVoting('${category}')">
-                    <i class="fas fa-stop"></i> Close Voting & Reveal Winner
-                </button>
-                <button class="btn btn-warning" onclick="resetCustomVoting('${category}')">
-                    <i class="fas fa-redo"></i> Reset Category
-                </button>
-            </div>
-        `;
-        customCategoriesList.appendChild(categoryDiv);
-    }
-
-    // Update nominations using the unified function
-    updateAdminNominations(category, nominations, explanations);
-}
-
-async function closeCustomVoting(category) {
-    try {
-        const response = await fetch('/api/admin/close-voting', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ category: category })
-        });
-
-        const result = await response.json();
-        if (response.ok) {
-            showAlert(`Voting closed! ${result.winner} wins with ${result.votes} votes!`, 'success');
-        } else {
-            showAlert(result.error, 'danger');
-        }
-    } catch (error) {
-        showAlert('Error closing voting: ' + error.message, 'danger');
-    }
-}
-
-async function resetCustomVoting(category) {
-    if (confirm(`Reset all nominations and votes for "${category}"?`)) {
-        try {
-            const response = await fetch('/api/admin/reset-category', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ category: category })
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-                const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
-                // Reset the display
-                document.getElementById(`custom-admin-nominations-${categoryId}`).innerHTML = '<p class="text-muted">No nominations yet</p>';
-                const votesDiv = document.getElementById(`custom-admin-votes-${categoryId}`);
-                if (votesDiv) votesDiv.innerHTML = '<p class="text-muted">No votes yet</p>';
-
-                showAlert(result.message, 'success');
-            } else {
-                showAlert(result.error, 'danger');
-            }
-        } catch (error) {
-            showAlert('Error resetting category: ' + error.message, 'danger');
-        }
     }
 }
 

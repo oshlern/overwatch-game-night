@@ -60,19 +60,9 @@
                 <div class="card-body">
                     {% for category in categories %}
                         <div class="mb-3">
-                            <h6 class="text-warning">{{ category }}</h6>
+                            <h6 class="text-warning">{{ category.name if category is mapping else category }}</h6>
                             <small class="text-muted">
-                                {% if category == "Most Improved on New Hero" %}
-                                    Recognize someone who showed great improvement on a hero they don't usually play
-                                {% elif category == "Biggest Clutch" %}
-                                    Award the most game-changing play that turned the tide
-                                {% elif category == "Most Stylish Play/Skin" %}
-                                    Celebrate the most impressive play or best skin combination
-                                {% elif category == "Fry's Life-is-a-resource Award" %}
-                                    For the player who makes the ultimate sacrifice for the team
-                                {% elif category == "Clip Farmer" %}
-                                    Person with the most hype play that deserves to be clipped
-                                {% endif %}
+                                {{ category.description if category is mapping else "" }}
                             </small>
                         </div>
                     {% endfor %}
@@ -83,15 +73,15 @@
 
     <!-- Award Voting Sections Container -->
     <div id="awards-container">
-        <!-- Standard categories will be rendered here -->
+        <!-- All categories will be rendered here -->
         {% for category in categories %}
-        <div class="row mb-4" data-category="{{ category }}">
+        <div class="row mb-4" data-category="{{ category.name if category is mapping else category }}">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="mb-0">
                             <i class="fas fa-star text-warning"></i>
-                            {{ category }}
+                            {{ category.name if category is mapping else category }}
                         </h5>
                     </div>
                     <div class="card-body">
@@ -116,17 +106,18 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 d-flex align-items-center">
-                                    <button class="btn btn-primary w-100" onclick="nominatePlayer('{{ category }}', '{{ loop.index0 }}')">
-                                        <i class="fas fa-hand-point-up"></i> Nominate Player
+                                    <button class="btn btn-primary w-100" onclick="nominatePlayer('{{ category.name if category is mapping else category }}', '{{ loop.index0 }}')">
+                                        <i class="fas fa-hand-point-up"></i>
                                     </button>
                                 </div>
                             </div>
 
                             <!-- Current Nominations -->
                             <div class="mt-3" id="nominations-{{ loop.index0 }}">
-                                <h6>Nominees:</h6>
+                                <div class="nominees-header" style="display: none;">
+                                    <h6>Nominees:</h6>
+                                </div>
                                 <div class="nominations-list">
-                                    <p class="text-muted">No nominations yet</p>
                                 </div>
                             </div>
                         </div>
@@ -146,17 +137,17 @@
             </div>
         </div>
         {% endfor %}
-        <!-- Custom categories will be dynamically added here -->
+        <!-- New categories will be dynamically added here -->
     </div>
 
-    <!-- Custom Award Creation (moved to bottom) -->
+    <!-- Create New Category -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-0">
                         <i class="fas fa-plus-circle text-success"></i>
-                        Create Custom Award
+                        Create New Category
                     </h5>
                 </div>
                 <div class="card-body">
@@ -164,47 +155,20 @@
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-12 mb-2">
-                                    <input type="text" class="form-control" id="custom-category-input"
-                                           placeholder="Enter custom award name...">
+                                    <input type="text" class="form-control" id="new-category-input"
+                                           placeholder="Enter new category name...">
                                 </div>
-                                <div class="col-6 mb-2">
-                                    <select class="form-select" id="custom-nominate-select">
-                                        <option value="">Select a player to nominate...</option>
-                                        {% for player in players.keys() %}
-                                            <option value="{{ player }}">{{ player }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-6 mb-2">
-                                    <input type="text" class="form-control" id="custom-explanation"
-                                           placeholder="Why? (optional explanation)">
+                                <div class="col-12 mb-2">
+                                    <input type="text" class="form-control" id="new-category-description"
+                                           placeholder="Enter category description (optional)...">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 d-flex align-items-center">
-                            <button class="btn btn-success w-100" onclick="nominateCustomCategory()">
-                                <i class="fas fa-star"></i> Create & Nominate for Custom Award
+                            <button class="btn btn-success w-100" onclick="createNewCategory()">
+                                <i class="fas fa-plus"></i> Create Category
                             </button>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Recent Awards History -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">
-                        <i class="fas fa-history"></i>
-                        Recent Awards
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div id="awards-history">
-                        <p class="text-muted text-center">No awards given yet</p>
                     </div>
                 </div>
             </div>
@@ -269,15 +233,14 @@ socket.on('category_reset', function(data) {
     const categoryIndex = getCategoryIndex(data.category);
     if (categoryIndex !== -1) {
         resetCategory(categoryIndex);
-    } else {
-        // Handle custom category reset
-        resetCustomCategory(data.category);
     }
 });
 
-// Handle custom category updates
-socket.on('custom_category_update', function(data) {
-    createOrUpdateCustomCategory(data.category, data.nominations, data.explanations);
+
+// Handle new category creation
+socket.on('category_created', function(data) {
+    // Reload the page to show the new category in the main list
+    location.reload();
 });
 
 function nominatePlayer(category, categoryIndex) {
@@ -361,24 +324,22 @@ function updateBallotIcons(category, selectedPlayer) {
 
 function updateNominations(category, nominations, explanations) {
     const categoryIndex = getCategoryIndex(category);
-    let nominationsDiv;
+    if (categoryIndex === -1) return;
 
-    if (categoryIndex !== -1) {
-        // Standard category
-        nominationsDiv = document.getElementById(`nominations-${categoryIndex}`);
-    } else {
-        // Custom category
-        const customIndex = `custom-${category.replace(/[^a-zA-Z0-9]/g, '-')}`;
-        nominationsDiv = document.getElementById(`nominations-${customIndex}`);
-    }
-
+    const nominationsDiv = document.getElementById(`nominations-${categoryIndex}`);
     if (!nominationsDiv) return;
 
+    const nomineesHeader = nominationsDiv.querySelector('.nominees-header');
+    const nominationsList = nominationsDiv.querySelector('.nominations-list');
+
     if (Object.keys(nominations).length === 0) {
-        nominationsDiv.querySelector('.nominations-list').innerHTML =
-            '<p class="text-muted">No nominations yet</p>';
+        nomineesHeader.style.display = 'none';
+        nominationsList.innerHTML = '';
         return;
     }
+
+    // Show the "Nominees:" header when there are nominations
+    nomineesHeader.style.display = 'block';
 
     let nominationsHTML = '';
     for (const [player, nominators] of Object.entries(nominations)) {
@@ -400,7 +361,7 @@ function updateNominations(category, nominations, explanations) {
         `;
     }
 
-    nominationsDiv.querySelector('.nominations-list').innerHTML = nominationsHTML;
+    nominationsList.innerHTML = nominationsHTML;
 }
 
 
@@ -412,17 +373,9 @@ function updateVotes(category, votes) {
 
 function announceWinner(category, winner, votes, explanations) {
     const categoryIndex = getCategoryIndex(category);
-    let winnerDiv;
+    if (categoryIndex === -1) return;
 
-    if (categoryIndex !== -1) {
-        // Standard category
-        winnerDiv = document.getElementById(`winner-${categoryIndex}`);
-    } else {
-        // Custom category
-        const customIndex = `custom-${category.replace(/[^a-zA-Z0-9]/g, '-')}`;
-        winnerDiv = document.getElementById(`winner-${customIndex}`);
-    }
-
+    const winnerDiv = document.getElementById(`winner-${categoryIndex}`);
     if (!winnerDiv) return;
 
     // Set winner name with color
@@ -455,13 +408,7 @@ function announceWinner(category, winner, votes, explanations) {
     winnerDiv.style.display = 'block';
 
     // Hide nomination section
-    if (categoryIndex !== -1) {
-        document.getElementById(`nomination-${categoryIndex}`).style.display = 'none';
-    } else {
-        const customIndex = `custom-${category.replace(/[^a-zA-Z0-9]/g, '-')}`;
-        const nominationDiv = document.getElementById(`nomination-${customIndex}`);
-        if (nominationDiv) nominationDiv.style.display = 'none';
-    }
+    document.getElementById(`nomination-${categoryIndex}`).style.display = 'none';
 
     // Scroll to winner announcement
     winnerDiv.scrollIntoView({ behavior: 'smooth' });
@@ -479,13 +426,16 @@ function resetCategory(categoryIndex) {
     // Hide winner section
     document.getElementById(`winner-${categoryIndex}`).style.display = 'none';
 
-    // Reset nominations
-    document.getElementById(`nominations-${categoryIndex}`).querySelector('.nominations-list').innerHTML =
-        '<p class="text-muted">No nominations yet</p>';
+    // Reset nominations and hide header
+    const nominationsDiv = document.getElementById(`nominations-${categoryIndex}`);
+    nominationsDiv.querySelector('.nominees-header').style.display = 'none';
+    nominationsDiv.querySelector('.nominations-list').innerHTML = '';
 }
 
 function getCategoryIndex(category) {
-    const categories = ['Most Improved on New Hero', 'Biggest Clutch', 'Most Stylish Play/Skin', 'Fry\'s Life-is-a-resource Award', 'Clip Farmer'];
+    // Get categories from the page - they're rendered server-side
+    const categoryElements = document.querySelectorAll('[data-category]');
+    const categories = Array.from(categoryElements).map(el => el.getAttribute('data-category'));
     return categories.indexOf(category);
 }
 
@@ -737,14 +687,7 @@ async function loadCurrentVotingState() {
         // Update nominations and voting options for each category
         for (const [category, data] of Object.entries(votingState)) {
             if (data.nominations && Object.keys(data.nominations).length > 0) {
-                const categoryIndex = getCategoryIndex(category);
-                if (categoryIndex !== -1) {
-                    // Standard category
-                    updateNominations(category, data.nominations, data.explanations || {});
-                } else {
-                    // Custom category
-                    createOrUpdateCustomCategory(category, data.nominations, data.explanations || {});
-                }
+                updateNominations(category, data.nominations, data.explanations || {});
             }
         }
     } catch (error) {
@@ -752,146 +695,44 @@ async function loadCurrentVotingState() {
     }
 }
 
-function nominateCustomCategory() {
-    const customCategoryInput = document.getElementById('custom-category-input');
-    const customNominateSelect = document.getElementById('custom-nominate-select');
-    const customExplanation = document.getElementById('custom-explanation');
+function createNewCategory() {
+    const newCategoryInput = document.getElementById('new-category-input');
+    const newDescriptionInput = document.getElementById('new-category-description');
 
-    const customCategory = customCategoryInput.value.trim();
-    const selectedPlayer = customNominateSelect.value;
-    const explanation = customExplanation.value.trim();
+    const categoryName = newCategoryInput.value.trim();
+    const categoryDescription = newDescriptionInput.value.trim();
 
-    if (!customCategory) {
-        showAlert('Please enter a custom award name', 'warning');
+    if (!categoryName) {
+        showAlert('Please enter a category name', 'warning');
         return;
     }
 
-    if (!selectedPlayer) {
-        showAlert('Please select a player to nominate', 'warning');
-        return;
-    }
-
-    // Emit custom category nomination to server
-    socket.emit('nominate_custom_category', {
-        custom_category: customCategory,
-        player: selectedPlayer,
-        explanation: explanation
+    // Send request to add category via API
+    fetch('/api/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            name: categoryName,
+            description: categoryDescription
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            showAlert(`Category "${categoryName}" created successfully`, 'success');
+            // Clear inputs
+            newCategoryInput.value = '';
+            newDescriptionInput.value = '';
+            // Reload page to show new category
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            showAlert(data.error || 'Error creating category', 'danger');
+        }
+    })
+    .catch(error => {
+        showAlert('Error creating category: ' + error.message, 'danger');
     });
-
-    // Clear inputs
-    customCategoryInput.value = '';
-    customNominateSelect.value = '';
-    customExplanation.value = '';
-
-    showAlert(`Created custom award "${customCategory}" and nominated ${selectedPlayer}`, 'success');
 }
 
-function createOrUpdateCustomCategory(category, nominations, explanations) {
-    const container = document.getElementById('awards-container');
-    let categoryDiv = document.getElementById(`custom-category-${category.replace(/[^a-zA-Z0-9]/g, '-')}`);
-
-    if (!categoryDiv) {
-        // Create new custom category section by cloning the template
-        const template = document.querySelector('[data-category]').cloneNode(true);
-        const customIndex = `custom-${category.replace(/[^a-zA-Z0-9]/g, '-')}`;
-
-        // Update IDs and attributes
-        template.id = `custom-category-${category.replace(/[^a-zA-Z0-9]/g, '-')}`;
-        template.setAttribute('data-category', category);
-
-        // Update category name
-        template.querySelector('.card-header h5').innerHTML = `<i class="fas fa-star text-warning"></i> ${category}`;
-
-        // Update nomination section IDs
-        const nominationSection = template.querySelector('.nomination-section');
-        nominationSection.id = `nomination-${customIndex}`;
-
-        // Update select and input IDs
-        const select = nominationSection.querySelector('select');
-        select.id = `nominate-select-${customIndex}`;
-
-        const input = nominationSection.querySelector('input');
-        input.id = `explanation-${customIndex}`;
-
-        // Update nominations div ID
-        const nominationsDiv = nominationSection.querySelector('.mt-3');
-        nominationsDiv.id = `nominations-${customIndex}`;
-
-        // Update winner section ID
-        const winnerSection = template.querySelector('.winner-section');
-        winnerSection.id = `winner-${customIndex}`;
-
-        // Update button onclick handler
-        const button = nominationSection.querySelector('button');
-        button.setAttribute('onclick', `nominatePlayer('${category}', '${customIndex}')`);
-
-        // Insert before the custom award creation section
-        const customCreationSection = container.nextElementSibling;
-        container.parentNode.insertBefore(template, customCreationSection);
-
-        // Populate player options
-        populatePlayerOptions(`nominate-select-${customIndex}`);
-    }
-
-    // Update nominations using the unified function
-    updateNominations(category, nominations, explanations);
-}
-
-function populatePlayerOptions(selectId) {
-    const selectElement = document.getElementById(selectId);
-    if (selectElement && players) {
-        selectElement.innerHTML = '<option value="">Select a player to nominate...</option>';
-        Object.keys(players).forEach(player => {
-            const option = document.createElement('option');
-            option.value = player;
-            option.textContent = player;
-            selectElement.appendChild(option);
-        });
-    }
-}
-
-// Remove updateCustomCategoryNominations - now using unified updateNominations
-
-function nominatePlayerForCustomCategory(category) {
-    const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
-    const selectElement = document.getElementById(`custom-nominate-select-${categoryId}`);
-    const explanationElement = document.getElementById(`custom-explanation-${categoryId}`);
-    const selectedPlayer = selectElement.value;
-    const explanation = explanationElement.value.trim();
-
-    if (!selectedPlayer) {
-        showAlert('Please select a player to nominate', 'warning');
-        return;
-    }
-
-    // Emit nomination to server
-    socket.emit('nominate_player', {
-        category: category,
-        player: selectedPlayer,
-        explanation: explanation
-    });
-
-    // Clear inputs
-    selectElement.value = '';
-    explanationElement.value = '';
-
-    showAlert(`Nominated ${selectedPlayer} for ${category}`, 'success');
-}
-
-function resetCustomCategory(category) {
-    const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
-    const categoryDiv = document.getElementById(`custom-category-${categoryId}`);
-
-    if (categoryDiv) {
-        // Reset nominations and voting
-        const nominationsDiv = categoryDiv.querySelector('.nominations-list');
-        const winnerDiv = categoryDiv.querySelector(`#winner-custom-${categoryId}`);
-        const nominationDiv = categoryDiv.querySelector(`#nomination-custom-${categoryId}`);
-
-        if (nominationsDiv) nominationsDiv.innerHTML = '<p class="text-muted">No nominations yet</p>';
-        if (winnerDiv) winnerDiv.style.display = 'none';
-        if (nominationDiv) nominationDiv.style.display = 'block';
-    }
-}
 </script>
 {% endblock %}

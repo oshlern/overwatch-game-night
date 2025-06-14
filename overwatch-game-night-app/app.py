@@ -23,10 +23,10 @@ TOKENS_FILE = os.path.join(DATA_DIR, "tokens.json")
 MATCHES_FILE = os.path.join(DATA_DIR, "matches.json")
 VOTES_FILE = os.path.join(DATA_DIR, "votes.json")
 AWARD_HISTORY_FILE = os.path.join(DATA_DIR, "award_history.json")
+CATEGORIES_FILE = os.path.join(DATA_DIR, "categories.json")
 
 # Ensure data directory exists
 os.makedirs(DATA_DIR, exist_ok=True)
-
 
 # Initialize data files if they don't exist
 def init_data_files():
@@ -85,6 +85,10 @@ def init_data_files():
         with open(AWARD_HISTORY_FILE, "w") as f:
             json.dump([], f)
 
+    if not os.path.exists(CATEGORIES_FILE):
+        with open(CATEGORIES_FILE, "w") as f:
+            json.dump([], f)
+
 
 init_data_files()
 
@@ -96,14 +100,7 @@ WEIGHTS = {
     "AVG_COMF_WEIGHT": 1.0,
 }
 
-# Award categories
-AWARD_CATEGORIES = [
-    "Most Improved on New Hero",
-    "Biggest Clutch",
-    "Most Stylish Play/Skin",
-    "Fry's Life-is-a-resource Award",
-    "Clip Farmer",
-]
+
 
 
 def generate_player_color():
@@ -197,6 +194,32 @@ def get_user_id():
     return session["user_id"]
 
 
+def load_categories():
+    """Load categories from file"""
+    return load_json_file(CATEGORIES_FILE)
+
+
+def save_categories(categories):
+    """Save categories to file"""
+    save_json_file(CATEGORIES_FILE, categories)
+
+
+def add_category(category_name, description=""):
+    """Add a new category if it doesn't exist"""
+    categories = load_categories()
+
+    # Check if category already exists (by name)
+    existing_names = [cat.get("name") if isinstance(cat, dict) else cat for cat in categories]
+    if category_name not in existing_names:
+        new_category = {
+            "name": category_name,
+            "description": description
+        }
+        categories.append(new_category)
+        save_categories(categories)
+    return categories
+
+
 @app.route("/")
 def home():
     """Home page with navigation"""
@@ -222,8 +245,9 @@ def awards():
     """Award voting page"""
     players = load_json_file(PLAYERS_FILE)
     tokens = load_json_file(TOKENS_FILE)
+    categories = load_categories()
     return render_template(
-        "awards.html", players=players, tokens=tokens, categories=AWARD_CATEGORIES
+        "awards.html", players=players, tokens=tokens, categories=categories
     )
 
 
@@ -233,12 +257,13 @@ def admin():
     players = load_json_file(PLAYERS_FILE)
     tokens = load_json_file(TOKENS_FILE)
     votes = load_json_file(VOTES_FILE)
+    categories = load_categories()
     return render_template(
         "admin.html",
         players=players,
         tokens=tokens,
         votes=votes,
-        categories=AWARD_CATEGORIES,
+        categories=categories,
     )
 
 
@@ -703,6 +728,24 @@ def api_adjust_tokens():
     )
 
 
+@app.route("/api/categories", methods=["GET", "POST"])
+def api_categories():
+    """API endpoint for category management"""
+    if request.method == "GET":
+        return jsonify(load_categories())
+
+    elif request.method == "POST":
+        data = request.json
+        category_name = data.get("name", "").strip()
+        category_description = data.get("description", "").strip()
+
+        if not category_name:
+            return jsonify({"error": "Category name required"}), 400
+
+        categories = add_category(category_name, category_description)
+        return jsonify({"status": "success", "categories": categories})
+
+
 # WebSocket events for real-time voting
 @socketio.on("join_voting")
 def on_join_voting(data=None):
@@ -794,60 +837,29 @@ def on_vote_player(data):
         )
 
 
-@socketio.on("nominate_custom_category")
-def on_nominate_custom_category(data):
-    """Handle custom category nomination"""
-    user_id = get_user_id()
-    custom_category = data["custom_category"].strip()
-    nominated_player = data["player"]
-    explanation = data.get("explanation", "")
+@socketio.on("create_category")
+def on_create_category(data):
+    """Handle creating a new category"""
+    category_name = data.get("name", "").strip()
+    category_description = data.get("description", "").strip()
 
-    if not custom_category:
+    if not category_name:
         return
 
-    votes = load_json_file(VOTES_FILE)
+    # Add category to the categories list
+    add_category(category_name, category_description)
 
-    # Initialize custom category if it doesn't exist
-    if custom_category not in votes:
-        votes[custom_category] = {"nominations": {}, "votes": {}, "explanations": {}}
-
-    # Ensure explanations key exists
-    if "explanations" not in votes[custom_category]:
-        votes[custom_category]["explanations"] = {}
-
-    # Add nomination
-    if nominated_player not in votes[custom_category]["nominations"]:
-        votes[custom_category]["nominations"][nominated_player] = []
-
-    if nominated_player not in votes[custom_category]["explanations"]:
-        votes[custom_category]["explanations"][nominated_player] = []
-
-    # Add nomination if not already nominated by this user
-    nomination_entry = {"user_id": user_id, "explanation": explanation}
-    existing = [
-        n
-        for n in votes[custom_category]["explanations"][nominated_player]
-        if n["user_id"] == user_id
-    ]
-
-    if not existing:
-        votes[custom_category]["nominations"][nominated_player].append(user_id)
-        votes[custom_category]["explanations"][nominated_player].append(
-            nomination_entry
-        )
-
-    save_json_file(VOTES_FILE, votes)
-
-    # Broadcast custom category creation/update
+    # Broadcast category creation
     emit(
-        "custom_category_update",
+        "category_created",
         {
-            "category": custom_category,
-            "nominations": votes[custom_category]["nominations"],
-            "explanations": votes[custom_category]["explanations"],
+            "category": category_name,
+            "categories": load_categories()
         },
         room="voting",
     )
+
+
 
 
 if __name__ == "__main__":
