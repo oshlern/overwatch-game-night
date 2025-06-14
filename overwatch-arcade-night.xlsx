@@ -1,0 +1,72 @@
+[Worksheet 1: Game Night Itinerary]
+A1:C1 = Merged, Bold, Font Size 16, Fill Color: #4A4A4A, Font Color: #FFFFFF
+A1 = "Overwatch Arcade Game Night"
+
+A3:C3 = Bold, Font Size 14, Fill Color: #D9D9D9
+A3 = "Custom Game Night"
+A4:A22 = Font Size 12
+A4 = "CS Surf"
+A5 = "Ana paintball"
+A6 = "Doom sumo"
+A7 = "Lucio Tag"
+A8 = "Hot potato"
+A9 = "Sleep n Yeet"
+A10 = "Where is it? (Runasapi)"
+A11 = "If I see you move you die"
+A12 = "Torbjorn Golf"
+A13 = "Lunapark 2/Summer Coast Park"
+A14 = "Mei get high together"
+A15 = ""
+A16 = "Keep talking and nobody explodes"
+A17 = "The Beast"
+A18 = "Dva dogfight"
+A19 = "Island party"
+A20 = "6v6"
+A21 = "Lucioball"
+A22 = ""
+
+A23:C23 = Bold, Font Size 14, Fill Color: #D9D9D9
+A23 = "Queue"
+A24:A27 = Font Size 12
+A24 = "Infinite stairs"
+A25 = "Cassidy deathmatch"
+A26 = "1v1 Arena Kill to grow"
+
+[Worksheet 2: CS Surf Explanation]
+A1:C1 = Merged, Bold, Font Size 16, Fill Color: #4A4A4A, Font Color: #FFFFFF
+A1 = "CS Surf Explanation"
+
+A3:B3 = Bold, Font Size 14, Fill Color: #D9D9D9
+A3 = "Map"
+B3 = "Difficulty"
+
+A4:B12 = Font Size 12
+A4 = "Lighthouse"
+B4 = "2.8/5"
+A5 = "BlizzWorld"
+B5 = "1.5/5"
+A6 = "Paris"
+B6 = "3.8/5"
+A7 = "Route69"
+B7 = "4/5"
+A8 = "Junkertown"
+B8 = "3.4/5"
+A9 = "Workshop Island"
+B9 = "4/5"
+A10 = "Doritos"
+B10 = "4/5"
+A11 = "Hollywood"
+B11 = "3/5"
+A12 = "Expanse"
+B12 = "4.5/5"
+
+A14:C14 = Merged, Bold, Font Size 14, Fill Color: #D9D9D9
+A14 = "Tips"
+
+A15:C15 = Merged, Font Size 12
+A15 = "- DON'T hold W"
+A16:C16 = Merged, Font Size 12
+A16 = "- Always hold A/D against the slope"
+A17:C17 = Merged, Font Size 12
+A17 = "- In air, Always hold A/D along with the direction you're turning. Aka strafe."
+

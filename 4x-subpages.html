@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4x Subpages</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .subpage {
+            width: 50%;
+            height: 50%;
+            border: none;
+            overflow: auto;
+        }
+        .retro-container {
+            background: linear-gradient(45deg, #6a0dad, #000);
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 4px #000, 0 0 0 8px #fff;
+        }
+        .player-item {
+            background: #000;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 4px #000;
+            transition: all 0.3s ease;
+            image-rendering: pixelated;
+            margin: 8px;
+            text-align: center;
+        }
+        .player-item:hover {
+            transform: scale(1.05);
+        }
+        .player-item.selected, .player-item.highlighted {
+            background: #6a0dad;
+        }
+        .btn {
+            background: #000;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #000;
+            transition: all 0.3s ease;
+            color: #fff;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 0 2px #000;
+            background: #6a0dad;
+        }
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 0 0 2px #000;
+        }
+        .title {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 4px 4px #6a0dad, -4px -4px #000;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        .pixel-art {
+            image-rendering: pixelated;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="subpage"></div>
+    <div class="subpage"></div>
+    <div class="subpage"></div>
+    <div class="subpage"></div>
+
+    <script>
+        const subpageContent = `
+            <div class="max-w-4xl mx-auto retro-container rounded-lg p-6 relative overflow-hidden">
+                <div class="pixel-art absolute top-0 left-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAnSURBVHgBzc4xDQAACANB9l/zuICrwqcTXZBkFRiUgBQt7pGThG9jxVsPFMbYA+AAAAAASUVORK5CYII=');"></div>
+                <div class="pixel-art absolute top-0 right-0 w-16 h-16" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAmSURBVHgBY2RgYPjPgAMwMbAwwZkgglgPXQUyGJUEKmChnvfwAACDwQcBh7GtRAAAAABJRU5ErkJggg==');"></div>
+                <h1 class="title text-center mb-8">Overwatch Gamers</h1>
+                
+                <div id="playerList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8"></div>
+
+                <div class="mb-8">
+                    <input type="text" id="newPlayerInput" placeholder="New gamer name" class="w-full p-2 bg-black border-2 border-white text-white mb-2">
+                    <button onclick="addPlayer()" class="btn w-full text-white p-2 hover:bg-white hover:text-black">Add Gamer</button>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
+                    <button onclick="selectRandomPlayer()" class="btn flex-1 text-white p-4 hover:bg-white hover:text-black">Select Random Gamer</button>
+                    <button onclick="confirmSelection()" id="confirmBtn" class="btn flex-1 text-white p-4 hover:bg-white hover:text-black" disabled>Confirm Selection</button>
+                </div>
+                
+                <div class="mb-8">
+                    <h2 class="text-xl mb-4">Match History</h2>
+                    <ul id="selectionHistory" class="list-disc pl-5 space-y-2"></ul>
+                </div>
+
+                <div>
+                    <h2 class="text-xl mb-4">AFK Gamers</h2>
+                    <div id="afkList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+                </div>
+            </div>
+        `;
+
+        document.querySelectorAll('.subpage').forEach(subpage => {
+            subpage.innerHTML = subpageContent;
+        });
+
+        let players = [
+            { name: 'Osher', afk: false, lastSelected: null },
+            { name: 'Moogle', afk: false, lastSelected: null },
+            { name: 'Fry', afk: false, lastSelected: null }
+        ];
+        let selectionHistory = [];
+        let highlightedPlayer = null;
+
+        function renderPlayers() {
+            const playerList = document.getElementById('playerList');
+            const afkList = document.getElementById('afkList');
+            playerList.innerHTML = '';
+            afkList.innerHTML = '';
+            players.forEach((player, index) => {
+                const div = document.createElement('div');
+                div.className = `player-item p-4 ${player.afk ? 'afk' : ''} ${highlightedPlayer === player ? 'highlighted' : ''}`;
+                div.onclick = () => toggleHighlight(player);
+                div.innerHTML = `
+                    <div class="text-center mb-4">${player.name}</div>
+                    <div class="flex justify-between relative space-x-96">
+                        <button onclick="toggleAFK(${index})" class="btn px-2 py-1 text-xs">
+                            ${player.afk ? 'Activate' : 'AFK'}
+                        </button>
+                        <button onclick="removePlayer(${index})" class="btn px-2 py-1 text-xs">
+                            Remove
+                        </button>
+                    </div>
+                `;
+                if (player.afk) {
+                    afkList.appendChild(div);
+                } else {
+                    playerList.appendChild(div);
+                }
+            });
+        }
+
+        function addPlayer() {
+            const input = document.getElementById('newPlayerInput');
+            const name = input.value.trim();
+            if (name) {
+                players.push({ name, afk: false, lastSelected: null });
+                input.value = '';
+                renderPlayers();
+            }
+        }
+
+        function toggleAFK(index) {
+            players[index].afk = !players[index].afk;
+            renderPlayers();
+        }
+
+        function removePlayer(index) {
+            players.splice(index, 1);
+            renderPlayers();
+        }
+
+        function toggleHighlight(player) {
+            if (highlightedPlayer === player) {
+                highlightedPlayer = null;
+            } else {
+                highlightedPlayer = player;
+            }
+            renderPlayers();
+            updateConfirmButton();
+        }
+
+        function updateConfirmButton() {
+            const confirmBtn = document.getElementById('confirmBtn');
+            confirmBtn.disabled = !highlightedPlayer;
+        }
+
+        function selectRandomPlayer() {
+            const activePlayers = players.filter(p => !p.afk);
+            if (activePlayers.length === 0) {
+                alert('No active gamers to select from!');
+                return;
+            }
+
+            const playerElements = document.querySelectorAll('.player-item:not(.afk)');
+            const totalDuration = 5000; // 5 seconds
+            const steps = 50; // Number of highlight changes
+            let currentStep = 0;
+
+            function getStepDuration(step) {
+                return 50 + (step / steps) * 150;
+            }
+
+            function highlightNextPlayer() {
+                playerElements.forEach(el => el.classList.remove('selected', 'blink'));
+                const index = currentStep % activePlayers.length;
+                playerElements[activePlayers.indexOf(activePlayers[index])].classList.add('selected', 'blink');
+
+                currentStep++;
+                const stepDuration = getStepDuration(currentStep);
+
+                if (currentStep < steps) {
+                    setTimeout(highlightNextPlayer, stepDuration);
+                } else {
+                    highlightedPlayer = selectFinalPlayer(activePlayers);
+                    renderPlayers();
+                    updateConfirmButton();
+                }
+            }
+
+            highlightNextPlayer();
+        }
+
+        function selectFinalPlayer(activePlayers) {
+            activePlayers.sort((a, b) => {
+                if (a.lastSelected === null) return -1;
+                if (b.lastSelected === null) return 1;
+                return a.lastSelected - b.lastSelected;
+            });
+
+            const selectionPool = activePlayers.slice(0, Math.ceil(activePlayers.length / 2));
+            return selectionPool[Math.floor(Math.random() * selectionPool.length)];
+        }
+
+        function confirmSelection() {
+            if (highlightedPlayer) {
+                highlightedPlayer.lastSelected = Date.now();
+                selectionHistory.unshift(`Match ${selectionHistory.length + 1}: ${highlightedPlayer.name}`);
+                updateSelectionHistory();
+                highlightedPlayer = null;
+                renderPlayers();
+                updateConfirmButton();
+            }
+        }
+
+        function updateSelectionHistory() {
+            const historyList = document.getElementById('selectionHistory');
+            historyList.innerHTML = selectionHistory.map(entry => `<li class="text-sm">${entry}</li>`).join('');
+        }
+
+        renderPlayers();
+        updateConfirmButton();
+    </script>
+</body>
+</html>
