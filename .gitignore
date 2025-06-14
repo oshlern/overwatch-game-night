@@ -155,4 +155,5 @@ cython_debug/
 # Visual Studio Code
 # .vscode/
 
-players.json
+overwatch-game-night-app/data/players.json
+overwatch-game-night-app/data/matches.json
