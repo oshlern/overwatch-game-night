@@ -13,7 +13,7 @@ overwatch-game-night-app/data/*.json
 !overwatch-game-night-app/data/gamemodes.json
 
 # DS Store
-*.DS_Store
+**/.DS_Store
 
 # Python
 __pycache__/
