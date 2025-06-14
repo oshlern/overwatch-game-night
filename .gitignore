@@ -7,6 +7,13 @@ matchings/*.txt
 **/matchings*.csv
 **/grouped_teams.txt
 
+# Ignore everything in data directory except gamemodes.json
+overwatch-game-night-app/data/*
+!overwatch-game-night-app/data/gamemodes.json
+
+# DS Store
+*.DS_Store
+
 # Python
 __pycache__/
 *.py[cod]
@@ -154,6 +161,3 @@ cython_debug/
 
 # Visual Studio Code
 # .vscode/
-
-overwatch-game-night-app/data/players.json
-overwatch-game-night-app/data/matches.json
