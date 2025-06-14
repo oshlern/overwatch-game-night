@@ -46,15 +46,23 @@
 
                         <!-- Player Count Filter and Options -->
                         <div class="row mb-3">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="player-count-filter" class="form-label small">Filter by Player Count:</label>
                                 <input type="number" class="form-control form-control-sm" id="player-count-filter" min="1" max="12" onchange="updatePlayerCountFilter()">
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-check mt-4">
                                     <input class="form-check-input" type="checkbox" id="allow-spectators" onchange="toggleAllowSpectators()">
                                     <label class="form-check-label small" for="allow-spectators">
                                         Allow Spectators
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check mt-4">
+                                    <input class="form-check-input" type="checkbox" id="shuffle-games" checked onchange="toggleShuffle()">
+                                    <label class="form-check-label small" for="shuffle-games">
+                                        Shuffle Games
                                     </label>
                                 </div>
                             </div>
@@ -125,10 +133,11 @@
 let availableGames = [];
 let gameHistory = [];
 let currentSelectedGame = null;
-let currentModeType = null;
+let currentModeType = 'all-games';
 let isAnimating = false;
 let playerCountFilter = null;
 let allowSpectators = false;
+let shuffleGames = true;
 
 // Default fallback icons for games without icons in JSON
 const defaultGameIcons = ['🎮', '🎯', '🎲', '🎪', '🎨', '🎭', '🎪', '🎊'];
@@ -138,6 +147,10 @@ document.addEventListener('DOMContentLoaded', function() {
     loadGames();
     loadGameHistory();
     updatePlayerCountInput();
+    // Show all games by default
+    setTimeout(() => {
+        selectModeType('all-games');
+    }, 200);
 });
 
 function updatePlayerCountInput() {
@@ -299,6 +312,24 @@ function toggleAllowSpectators() {
     }
 }
 
+function toggleShuffle() {
+    shuffleGames = document.getElementById('shuffle-games').checked;
+
+    // Re-apply current filter if a mode is selected
+    if (currentModeType) {
+        selectModeType(currentModeType);
+    }
+}
+
+function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
 function displayGameGrid(games) {
     const grid = document.getElementById('gamemode-grid');
 
@@ -307,7 +338,10 @@ function displayGameGrid(games) {
         return;
     }
 
-    grid.innerHTML = games.map(game => {
+    // Shuffle games if option is enabled
+    const displayGames = shuffleGames ? shuffleArray(games) : games;
+
+    grid.innerHTML = displayGames.map(game => {
         const icon = game.icon || '🎮';
         return `
             <div class="col-md-4 col-lg-3 mb-3">
