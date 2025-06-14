@@ -1257,5 +1257,341 @@
       5.75
     ],
     "avg_comfort": 0.8333333333333334
+  },
+  {
+    "id": "7a357ec6-2e6d-43a8-8c6d-5f31884fc2e0",
+    "timestamp": "2025-06-14T12:46:51.822685",
+    "type": "5v5",
+    "players": [
+      "Byes",
+      "Doublerambow",
+      "Emprage",
+      "Ericcckky",
+      "Eternal",
+      "FigBishes",
+      "Jeannie",
+      "Kaz",
+      "Lightningirl",
+      "Pickleman",
+      "Rknrknrknrkn",
+      "Russia"
+    ],
+    "teams": [
+      {
+        "Battletag": "FigBishes",
+        "Discord": "FigBishes",
+        "SR": 5.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Pickleman",
+        "Discord": "Pickleman",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Lightningirl",
+        "Discord": "Lightningirl",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Kaz",
+        "Discord": "Kaz",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Doublerambow",
+        "Discord": "Buffetbandit",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Ericcckky",
+        "Discord": "Ericcckky",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Byes",
+        "Discord": "LuckyPants",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Rknrknrknrkn",
+        "Discord": "Rknrknrknrkn",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Eternal",
+        "Discord": "Eternal",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.35,
+      5.4
+    ],
+    "avg_comfort": 0.8333333333333334
+  },
+  {
+    "id": "5eac810a-ed41-4757-a527-0a91e214e313",
+    "timestamp": "2025-06-14T13:02:39.538973",
+    "type": "6v6",
+    "players": [
+      "Byes",
+      "Doublerambow",
+      "Emprage",
+      "Ericcckky",
+      "Eternal",
+      "Kaz",
+      "Lightningirl",
+      "Pickleman",
+      "Rknrknrknrkn",
+      "Russia",
+      "Blueboss",
+      "Catboy"
+    ],
+    "teams": [
+      {
+        "Battletag": "Emprage",
+        "Discord": "EmpatheticRage",
+        "SR": 1.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Ericcckky",
+        "Discord": "Ericcckky",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Rknrknrknrkn",
+        "Discord": "Rknrknrknrkn",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Pickleman",
+        "Discord": "Pickleman",
+        "SR": 3.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Blueboss",
+        "Discord": "Osher",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Doublerambow",
+        "Discord": "Buffetbandit",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Catboy",
+        "Discord": "Savi",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Byes",
+        "Discord": "LuckyPants",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Lightningirl",
+        "Discord": "Lightningirl",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Eternal",
+        "Discord": "Eternal",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      },
+      {
+        "Battletag": "Kaz",
+        "Discord": "Kaz",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.5,
+      5.5
+    ],
+    "avg_comfort": 1.0
+  },
+  {
+    "id": "5e4b7c9b-27b7-4396-b421-47a18d12f379",
+    "timestamp": "2025-06-14T13:06:51.973470",
+    "type": "5v5",
+    "players": [
+      "Blueboss",
+      "Byes",
+      "Catboy",
+      "Doublerambow",
+      "Emprage",
+      "Ericcckky",
+      "Eternal",
+      "FigBishes",
+      "Kaz",
+      "Lightningirl",
+      "Pickleman",
+      "Rknrknrknrkn",
+      "Russia",
+      "Thiccjibooty"
+    ],
+    "teams": [
+      {
+        "Battletag": "Doublerambow",
+        "Discord": "Buffetbandit",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Ericcckky",
+        "Discord": "Ericcckky",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Blueboss",
+        "Discord": "Osher",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Rknrknrknrkn",
+        "Discord": "Rknrknrknrkn",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Kaz",
+        "Discord": "Kaz",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Catboy",
+        "Discord": "Savi",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "FigBishes",
+        "Discord": "FigBishes",
+        "SR": 5.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Pickleman",
+        "Discord": "Pickleman",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Eternal",
+        "Discord": "Eternal",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      6.3,
+      6.25
+    ],
+    "avg_comfort": 0.8571428571428571
   }
 ]

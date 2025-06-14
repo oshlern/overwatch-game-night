@@ -10,7 +10,8 @@
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "afk",
-    "last_updated": "2025-06-12T22:17:29.081558"
+    "last_updated": "2025-06-12T22:17:29.081558",
+    "color": "#FF6B6B"
   },
   "Moogle": {
     "bnet": "Moogle",
@@ -23,7 +24,8 @@
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "afk",
-    "last_updated": "2025-06-14T11:58:24.909420"
+    "last_updated": "2025-06-14T11:58:24.909420",
+    "color": "#4ECDC4"
   },
   "Kaz": {
     "bnet": "Kaz",
@@ -36,7 +38,8 @@
     "wants_support": 0,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "active",
-    "last_updated": "2025-06-14T12:01:44.208598"
+    "last_updated": "2025-06-14T13:03:20.395337",
+    "color": "#45B7D1"
   },
   "Eternal": {
     "bnet": "Eternal",
@@ -48,8 +51,9 @@
     "wants_dps": -1,
     "wants_support": -1,
     "imported_from": "5v5 - RanksData2.csv",
-    "status": "afk",
-    "last_updated": "2025-06-11T21:39:59.315307"
+    "status": "active",
+    "last_updated": "2025-06-14T12:37:38.623800",
+    "color": "#96CEB4"
   },
   "Fry": {
     "bnet": "Fry",
@@ -62,7 +66,8 @@
     "wants_support": 0,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "afk",
-    "last_updated": "2025-06-14T11:58:32.314029"
+    "last_updated": "2025-06-14T11:58:32.314029",
+    "color": "#FFEAA7"
   },
   "Blueboss": {
     "bnet": "Blueboss",
@@ -75,7 +80,8 @@
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "active",
-    "last_updated": "2025-06-14T11:57:40.710710"
+    "last_updated": "2025-06-14T13:02:34.412934",
+    "color": "#DDA0DD"
   },
   "Smizzle": {
     "bnet": "Smizzle",
@@ -88,7 +94,8 @@
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "afk",
-    "last_updated": "2025-06-12T22:17:27.863682"
+    "last_updated": "2025-06-12T22:17:27.863682",
+    "color": "#98D8C8"
   },
   "Lightningirl": {
     "bnet": "Lightningirl",
@@ -101,7 +108,8 @@
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "active",
-    "last_updated": "2025-06-14T12:01:43.838035"
+    "last_updated": "2025-06-14T12:01:43.838035",
+    "color": "#F7DC6F"
   },
   "Russia": {
     "bnet": "Russia",
@@ -114,7 +122,8 @@
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "active",
-    "last_updated": "2025-06-14T12:01:43.332545"
+    "last_updated": "2025-06-14T12:01:43.332545",
+    "color": "#BB8FCE"
   },
   "JippyTheLion": {
     "bnet": "JippyTheLion",
@@ -127,7 +136,8 @@
     "wants_support": 0,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "afk",
-    "last_updated": "2025-06-14T11:58:31.030619"
+    "last_updated": "2025-06-14T11:58:31.030619",
+    "color": "#85C1E9"
   },
   "Jeannie": {
     "bnet": "Jeannie",
@@ -139,8 +149,9 @@
     "wants_dps": -1,
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
-    "status": "active",
-    "last_updated": "2025-06-14T12:01:38.289135"
+    "status": "afk",
+    "last_updated": "2025-06-14T13:01:44.110257",
+    "color": "#F8C471"
   },
   "Tetsuei": {
     "bnet": "Tetsuei",
@@ -153,7 +164,8 @@
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "afk",
-    "last_updated": "2025-06-12T22:17:29.558157"
+    "last_updated": "2025-06-14T13:06:20.746261",
+    "color": "#82E0AA"
   },
   "Ericcckky": {
     "bnet": "Ericcckky",
@@ -165,8 +177,9 @@
     "wants_dps": 1,
     "wants_support": -1,
     "imported_from": "5v5 - RanksData2.csv",
-    "status": "afk",
-    "last_updated": "2025-06-11T21:39:58.706955"
+    "status": "active",
+    "last_updated": "2025-06-14T12:37:40.133353",
+    "color": "#F1948A"
   },
   "Byes": {
     "bnet": "Byes",
@@ -179,7 +192,8 @@
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "active",
-    "last_updated": "2025-06-14T11:56:22.975199"
+    "last_updated": "2025-06-14T11:56:22.975199",
+    "color": "#85C1E9"
   },
   "Slayingbeast": {
     "bnet": "Slayingbeast",
@@ -192,7 +206,8 @@
     "wants_support": 0,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "afk",
-    "last_updated": "2025-06-12T22:17:27.112653"
+    "last_updated": "2025-06-12T22:17:27.112653",
+    "color": "#D7BDE2"
   },
   "Kotana": {
     "bnet": "Kotana",
@@ -205,7 +220,8 @@
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "afk",
-    "last_updated": "2025-06-14T11:58:25.704391"
+    "last_updated": "2025-06-14T11:58:25.704391",
+    "color": "#A9DFBF"
   },
   "Rknrknrknrkn": {
     "bnet": "Rknrknrknrkn",
@@ -218,7 +234,8 @@
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "active",
-    "last_updated": "2025-06-14T12:01:43.082467"
+    "last_updated": "2025-06-14T12:01:43.082467",
+    "color": "#F9E79F"
   },
   "GarlicBread": {
     "bnet": "GarlicBread",
@@ -231,7 +248,8 @@
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "afk",
-    "last_updated": "2025-06-14T11:59:30.974348"
+    "last_updated": "2025-06-14T11:59:30.974348",
+    "color": "#D2B4DE"
   },
   "Vitallion": {
     "bnet": "Vitallion",
@@ -244,7 +262,8 @@
     "wants_support": 0,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "afk",
-    "last_updated": "2025-06-12T22:41:01.097842"
+    "last_updated": "2025-06-12T22:41:01.097842",
+    "color": "#AED6F1"
   },
   "Pufferfish": {
     "bnet": "Pufferfish",
@@ -257,7 +276,8 @@
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "afk",
-    "last_updated": "2025-06-14T11:58:23.938020"
+    "last_updated": "2025-06-14T11:58:23.938020",
+    "color": "#FADBD8"
   },
   "FigBishes": {
     "bnet": "FigBishes",
@@ -270,7 +290,8 @@
     "wants_support": -1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "active",
-    "last_updated": "2025-06-14T12:07:01.850054"
+    "last_updated": "2025-06-14T13:03:20.392284",
+    "color": "#D5F4E6"
   },
   "Emprage": {
     "bnet": "Emprage",
@@ -283,7 +304,8 @@
     "wants_support": -1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "active",
-    "last_updated": "2025-06-14T12:01:36.981752"
+    "last_updated": "2025-06-14T13:03:20.389122",
+    "color": "#FCF3CF"
   },
   "Catboy": {
     "bnet": "Catboy",
@@ -296,7 +318,8 @@
     "wants_support": -1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "active",
-    "last_updated": "2025-06-14T11:56:38.550462"
+    "last_updated": "2025-06-14T13:03:20.384814",
+    "color": "#EBDEF0"
   },
   "Thiccjibooty": {
     "bnet": "Thiccjibooty",
@@ -308,8 +331,9 @@
     "wants_dps": 0,
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
-    "status": "afk",
-    "last_updated": "2025-06-14T11:51:38.447818"
+    "status": "active",
+    "last_updated": "2025-06-14T13:06:18.162613",
+    "color": "#D6EAF8"
   },
   "Pickleman": {
     "bnet": "Pickleman",
@@ -322,7 +346,8 @@
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "active",
-    "last_updated": "2025-06-14T12:01:45.361824"
+    "last_updated": "2025-06-14T13:03:20.397755",
+    "color": "#D1F2EB"
   },
   "Doublerambow": {
     "bnet": "Doublerambow",
@@ -335,7 +360,8 @@
     "wants_support": -1,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "active",
-    "last_updated": "2025-06-14T12:07:02.497212"
+    "last_updated": "2025-06-14T12:07:02.497212",
+    "color": "#FEF9E7"
   },
   "Test": {
     "bnet": "Test",
@@ -348,7 +374,8 @@
     "wants_support": 0,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "afk",
-    "last_updated": "2025-06-14T11:46:47.592452"
+    "last_updated": "2025-06-14T11:46:47.592452",
+    "color": "#FDEDEC"
   },
   "Yomi": {
     "bnet": "Yomi",
@@ -361,6 +388,7 @@
     "wants_support": 0,
     "imported_from": "5v5 - RanksData2.csv",
     "status": "afk",
-    "last_updated": "2025-06-12T22:40:59.663150"
+    "last_updated": "2025-06-12T22:40:59.663150",
+    "color": "#EAF2F8"
   }
 }

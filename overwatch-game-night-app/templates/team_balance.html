@@ -234,6 +234,11 @@
 let players = {};
 let selectedPlayers = new Set();
 
+// Function to get player color from player data
+function getPlayerColor(playerName) {
+    return players[playerName]?.color || '#FFFFFF'; // Default to white if not found
+}
+
 // Load players on page load
 document.addEventListener('DOMContentLoaded', function() {
     loadPlayers();
@@ -299,6 +304,7 @@ function displayPlayers() {
         playerCard.className = 'col-md-4 mb-3';
         const isActive = player.status === 'active';
 
+        const playerColor = getPlayerColor(player.bnet);
         playerCard.innerHTML = `
             <div class="card player-card ${isActive ? 'border-info' : 'border-secondary opacity-50'}"
                  data-player="${player.bnet}"
@@ -307,7 +313,7 @@ function displayPlayers() {
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
-                            <span class="player-name" style="color: ${isActive ? 'var(--arcade-cyan)' : '#666'}; text-shadow: ${isActive ? '0 0 5px rgba(0, 255, 255, 0.5)' : 'none'};">${player.bnet}</span>
+                            <span class="player-name" style="color: ${playerColor}; font-weight: bold; text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);">${player.bnet}</span>
                         </div>
                     </div>
                     <small class="text-muted d-block">
@@ -545,13 +551,14 @@ function displayTeamResults(result, teamFormat = '5v5') {
                             const roleColor = player.Role === 'Tank' ? 'primary' :
                                             player.Role === 'DPS' ? 'danger' :
                                             'success';
+                            const playerColor = getPlayerColor(player.Battletag);
                             return `
                                 <div class="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style="background: rgba(106, 13, 173, 0.2); border: 1px solid var(--arcade-purple);">
                                     <span class="d-flex align-items-center">
                                         <span class="badge bg-${roleColor} me-2 d-flex align-items-center justify-content-center" style="width: 2rem; height: 1.5rem;">
                                             <i class="${roleIcon}"></i>
                                         </span>
-                                        <span class="player-name" style="color: var(--arcade-cyan); text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);">${player.Battletag}</span>
+                                        <span class="player-name" style="color: ${playerColor}; font-weight: bold; text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);">${player.Battletag}</span>
                                     </span>
                                     <span style="color: var(--neon-yellow); font-family: 'Courier New', monospace; font-size: 0.9rem;">SR: ${player.SR.toFixed(1)}</span>
                                 </div>

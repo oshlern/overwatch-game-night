@@ -102,6 +102,41 @@ AWARD_CATEGORIES = [
     "Clip Farmer"
 ]
 
+def generate_player_color():
+    """Generate a vibrant color for a new player"""
+    import random
+
+    # Predefined vibrant colors that work well on dark backgrounds
+    vibrant_colors = [
+        '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD',
+        '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9', '#F8C471', '#82E0AA',
+        '#F1948A', '#D7BDE2', '#A9DFBF', '#F9E79F', '#D2B4DE', '#AED6F1',
+        '#FADBD8', '#D5F4E6', '#FCF3CF', '#EBDEF0', '#D6EAF8', '#D1F2EB',
+        '#FEF9E7', '#FDEDEC', '#EAF2F8', '#FF9F43', '#10AC84', '#EE5A24',
+        '#0984E3', '#A29BFE', '#FD79A8', '#FDCB6E', '#6C5CE7', '#74B9FF'
+    ]
+
+    # Get existing colors to avoid duplicates
+    players = load_json_file(PLAYERS_FILE)
+    used_colors = {player.get('color') for player in players.values() if player.get('color')}
+
+    # Find available colors
+    available_colors = [color for color in vibrant_colors if color not in used_colors]
+
+    # If all predefined colors are used, generate a random one
+    if not available_colors:
+        # Generate a random vibrant color
+        hue = random.randint(0, 360)
+        saturation = random.randint(70, 100)
+        lightness = random.randint(50, 80)
+
+        # Convert HSL to RGB (simplified)
+        import colorsys
+        r, g, b = colorsys.hls_to_rgb(hue/360, lightness/100, saturation/100)
+        return f"#{int(r*255):02x}{int(g*255):02x}{int(b*255):02x}"
+
+    return random.choice(available_colors)
+
 def load_json_file(filepath):
     """Load JSON data from file"""
     try:
@@ -172,6 +207,10 @@ def api_players():
 
         # Add timestamp
         player_data['last_updated'] = datetime.now().isoformat()
+
+        # Assign color if this is a new player or if color is missing
+        if player_data['bnet'] not in players or 'color' not in players.get(player_data['bnet'], {}):
+            player_data['color'] = generate_player_color()
 
         # Store player data
         players[player_data['bnet']] = player_data
