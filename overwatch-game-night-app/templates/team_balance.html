@@ -1,0 +1,666 @@
+{% extends "base.html" %}
+
+{% block title %}Team Balance - Overwatch Game Night{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">
+                <i class="fas fa-users text-info"></i>
+                Team Balance
+            </h2>
+        </div>
+    </div>
+
+    <!-- Team Balancing Controls -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-sliders-h"></i>
+                        Balancing Settings
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- Team Format Selection -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Team Format</label>
+                            <div class="btn-group w-100" role="group" aria-label="Team format">
+                                <input type="radio" class="btn-check" name="team-format" id="format-5v5" value="5v5" checked>
+                                <label class="btn btn-outline-primary" for="format-5v5">
+                                    <i class="fas fa-users"></i> 5v5 (1T/2D/2S)
+                                </label>
+                                <input type="radio" class="btn-check" name="team-format" id="format-6v6" value="6v6">
+                                <label class="btn btn-outline-primary" for="format-6v6">
+                                    <i class="fas fa-users"></i> 6v6 (2T/2D/2S)
+                                </label>
+                            </div>
+                            <div class="form-text" id="format-help">
+                                5v5 requires 10+ players, 6v6 requires 12+ players
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-end">
+                            <button type="button" class="btn btn-success btn-lg w-100" id="balance-btn" onclick="balanceTeams()" disabled>
+                                <i class="fas fa-balance-scale"></i> Balance Teams
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Settings -->
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="avg-sr-weight" class="form-label">Average SR Weight</label>
+                            <input type="range" class="form-range" id="avg-sr-weight" min="0" max="1" step="0.01" value="0.15">
+                            <span class="form-text" id="avg-sr-weight-value">0.15</span>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="sr-diff-weight" class="form-label">SR Difference Penalty</label>
+                            <input type="range" class="form-range" id="sr-diff-weight" min="0" max="1" step="0.01" value="0.8">
+                            <span class="form-text" id="sr-diff-weight-value">0.8</span>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="comfort-weight" class="form-label">Comfort Weight</label>
+                            <input type="range" class="form-range" id="comfort-weight" min="0" max="2" step="0.01" value="1.0">
+                            <span class="form-text" id="comfort-weight-value">1.0</span>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="max-sr-diff" class="form-label">Max SR Difference</label>
+                            <input type="range" class="form-range" id="max-sr-diff" min="1" max="10" step="0.1" value="5.0">
+                            <span class="form-text" id="max-sr-diff-value">5.0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="row" id="results-section" style="display: none;">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-trophy"></i>
+                        Balanced Teams
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="team-results">
+                        <!-- Results will be displayed here -->
+                    </div>
+                    <div class="mt-3" id="team-metrics">
+                        <!-- Metrics will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Player Selection Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list"></i>
+                        Player Selection
+                    </h5>
+                    <div>
+                        <button class="btn btn-sm btn-outline-primary" onclick="selectAll()">
+                            <i class="fas fa-check-double"></i> Select All
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="clearSelection()">
+                            <i class="fas fa-times"></i> Clear All
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="player-list" class="row">
+                        <!-- Players will be loaded here -->
+                    </div>
+                    <div class="mt-3">
+                        <span class="badge bg-info" id="selected-count">0 selected</span>
+                        <span class="text-muted ms-2" id="selection-help">Need 10+ players for 5v5 team balancing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Player Management Section -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-plus"></i>
+                        Add/Edit Player
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="player-form">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="bnet" class="form-label">Battletag</label>
+                                <input type="text" class="form-control" id="bnet" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="discord" class="form-label">Discord</label>
+                                <input type="text" class="form-control" id="discord">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="tank-sr" class="form-label">Tank SR</label>
+                                <input type="number" class="form-control" id="tank-sr" min="0" max="10" step="0.1">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="dps-sr" class="form-label">DPS SR</label>
+                                <input type="number" class="form-control" id="dps-sr" min="0" max="10" step="0.1">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="support-sr" class="form-label">Support SR</label>
+                                <input type="number" class="form-control" id="support-sr" min="0" max="10" step="0.1">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="wants-tank" class="form-label">Wants Tank</label>
+                                <select class="form-select" id="wants-tank">
+                                    <option value="-1">No</option>
+                                    <option value="0">Neutral</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="wants-dps" class="form-label">Wants DPS</label>
+                                <select class="form-select" id="wants-dps">
+                                    <option value="-1">No</option>
+                                    <option value="0">Neutral</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="wants-support" class="form-label">Wants Support</label>
+                                <select class="form-select" id="wants-support">
+                                    <option value="-1">No</option>
+                                    <option value="0">Neutral</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Player
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-upload"></i>
+                        Import Players
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="csv-file" class="form-label">Upload CSV File</label>
+                        <input type="file" class="form-control" id="csv-file" accept=".csv">
+                        <div class="form-text">
+                            Expected format: bnet, discord, Tank SR, DPS SR, Support SR, Wants Tank, Wants DPS, Wants Support
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-info" onclick="importCSV()">
+                        <i class="fas fa-file-import"></i> Import CSV
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let players = {};
+let selectedPlayers = new Set();
+
+// Load players on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadPlayers();
+    setupSliders();
+    setupTeamFormatListeners();
+});
+
+function setupSliders() {
+    const sliders = ['avg-sr-weight', 'sr-diff-weight', 'comfort-weight', 'max-sr-diff'];
+    sliders.forEach(id => {
+        const slider = document.getElementById(id);
+        const valueSpan = document.getElementById(id + '-value');
+        slider.addEventListener('input', function() {
+            valueSpan.textContent = this.value;
+        });
+    });
+}
+
+function setupTeamFormatListeners() {
+    const formatRadios = document.querySelectorAll('input[name="team-format"]');
+    formatRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            updateSelectedCount();
+        });
+    });
+}
+
+async function loadPlayers() {
+    try {
+        const response = await fetch('/api/players');
+        players = await response.json();
+
+        // Sync selected players with active status
+        selectedPlayers.clear();
+        Object.values(players).forEach(player => {
+            if (player.status === 'active') {
+                selectedPlayers.add(player.bnet);
+            }
+        });
+
+        displayPlayers();
+        updateSelectedCount();
+    } catch (error) {
+        console.error('Error loading players:', error);
+    }
+}
+
+function displayPlayers() {
+    const playerList = document.getElementById('player-list');
+    playerList.innerHTML = '';
+
+    // Sort players: active first, then by name
+    const sortedPlayers = Object.values(players).sort((a, b) => {
+        // Active players first
+        if (a.status === 'active' && b.status !== 'active') return -1;
+        if (a.status !== 'active' && b.status === 'active') return 1;
+        // Then sort by name
+        return a.bnet.localeCompare(b.bnet);
+    });
+
+    sortedPlayers.forEach(player => {
+        const playerCard = document.createElement('div');
+        playerCard.className = 'col-md-4 mb-3';
+        const isActive = player.status === 'active';
+
+        playerCard.innerHTML = `
+            <div class="card player-card ${isActive ? 'border-info' : 'border-secondary opacity-50'}"
+                 data-player="${player.bnet}"
+                 onclick="togglePlayer('${player.bnet}')"
+                 style="cursor: pointer; transition: all 0.2s ease; ${isActive ? '' : 'filter: grayscale(70%);'}">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <span class="player-name" style="color: ${isActive ? 'var(--arcade-cyan)' : '#666'}; text-shadow: ${isActive ? '0 0 5px rgba(0, 255, 255, 0.5)' : 'none'};">${player.bnet}</span>
+                        </div>
+                    </div>
+                    <small class="text-muted d-block">
+                        T: ${player.tank_sr || 0} | D: ${player.dps_sr || 0} | S: ${player.support_sr || 0}
+                    </small>
+                    <small class="text-muted">
+                        Wants: ${getRolePreferences(player)}
+                    </small>
+                </div>
+            </div>
+        `;
+        playerList.appendChild(playerCard);
+    });
+
+    updateSelectedCount();
+}
+
+function getRolePreferences(player) {
+    const prefs = [];
+    if (player.wants_tank == 1) prefs.push('Tank');
+    if (player.wants_dps == 1) prefs.push('DPS');
+    if (player.wants_support == 1) prefs.push('Support');
+    return prefs.length > 0 ? prefs.join(', ') : 'Any';
+}
+
+async function togglePlayer(playerName) {
+    const currentStatus = players[playerName]?.status || 'afk';
+    const newStatus = currentStatus === 'active' ? 'afk' : 'active';
+
+    await updatePlayerStatus(playerName, newStatus);
+
+    // Update selected players based on new status
+    if (newStatus === 'active') {
+        selectedPlayers.add(playerName);
+    } else {
+        selectedPlayers.delete(playerName);
+    }
+
+    updateSelectedCount();
+    displayPlayers();
+
+    // Reload sidebar players to sync
+    if (typeof loadActivePlayers === 'function') {
+        loadActivePlayers();
+    }
+}
+
+async function updatePlayerStatus(playerName, status) {
+    try {
+        await fetch('/api/players/status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                player: playerName,
+                status: status
+            })
+        });
+
+        // Update local player data
+        if (players[playerName]) {
+            players[playerName].status = status;
+        }
+    } catch (error) {
+        console.error('Error updating player status:', error);
+    }
+}
+
+function updateSelectedCount() {
+    const count = selectedPlayers.size;
+    const teamFormat = document.querySelector('input[name="team-format"]:checked').value;
+    const minPlayers = teamFormat === '6v6' ? 12 : 10;
+
+    document.getElementById('selected-count').textContent = `${count} selected`;
+    document.getElementById('balance-btn').disabled = count < minPlayers;
+
+    // Update format help text
+    const helpText = document.getElementById('format-help');
+    if (count < minPlayers) {
+        helpText.textContent = `${teamFormat} requires ${minPlayers}+ players (${minPlayers - count} more needed)`;
+        helpText.className = 'form-text text-warning';
+    } else {
+        helpText.textContent = `${teamFormat} requires ${minPlayers}+ players`;
+        helpText.className = 'form-text text-success';
+    }
+
+    // Update selection help text
+    const selectionHelp = document.getElementById('selection-help');
+    if (count < minPlayers) {
+        selectionHelp.textContent = `Need ${minPlayers}+ players for ${teamFormat} team balancing (${minPlayers - count} more needed)`;
+        selectionHelp.className = 'text-warning ms-2';
+    } else {
+        selectionHelp.textContent = `Ready for ${teamFormat} team balancing!`;
+        selectionHelp.className = 'text-success ms-2';
+    }
+}
+
+async function selectAll() {
+    selectedPlayers.clear();
+    const playerPromises = Object.keys(players).map(async (player) => {
+        selectedPlayers.add(player);
+        await updatePlayerStatus(player, 'active');
+    });
+    await Promise.all(playerPromises);
+    updateSelectedCount();
+    displayPlayers(); // Refresh display to show selection state
+}
+
+async function clearSelection() {
+    const playerPromises = Array.from(selectedPlayers).map(async (player) => {
+        await updatePlayerStatus(player, 'afk');
+    });
+    await Promise.all(playerPromises);
+    selectedPlayers.clear();
+    updateSelectedCount();
+    displayPlayers(); // Refresh display to show selection state
+}
+
+// Player form submission
+document.getElementById('player-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const playerData = {
+        bnet: document.getElementById('bnet').value,
+        discord: document.getElementById('discord').value || document.getElementById('bnet').value,
+        tank_sr: parseFloat(document.getElementById('tank-sr').value) || 0,
+        dps_sr: parseFloat(document.getElementById('dps-sr').value) || 0,
+        support_sr: parseFloat(document.getElementById('support-sr').value) || 0,
+        wants_tank: parseInt(document.getElementById('wants-tank').value),
+        wants_dps: parseInt(document.getElementById('wants-dps').value),
+        wants_support: parseInt(document.getElementById('wants-support').value)
+    };
+
+    try {
+        const response = await fetch('/api/players', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(playerData)
+        });
+
+        if (response.ok) {
+            // Clear form
+            document.getElementById('player-form').reset();
+            // Reload players
+            await loadPlayers();
+            // Show success message
+            showAlert('Player saved successfully!', 'success');
+        }
+    } catch (error) {
+        showAlert('Error saving player: ' + error.message, 'danger');
+    }
+});
+
+async function balanceTeams() {
+    const teamFormat = document.querySelector('input[name="team-format"]:checked').value;
+    const minPlayers = teamFormat === '6v6' ? 12 : 10;
+
+    if (selectedPlayers.size < minPlayers) {
+        showAlert(`Please select at least ${minPlayers} players for ${teamFormat}`, 'warning');
+        return;
+    }
+
+    const balanceBtn = document.getElementById('balance-btn');
+    balanceBtn.disabled = true;
+    balanceBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Balancing...';
+
+    try {
+        const response = await fetch('/api/balance-teams', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                players: Array.from(selectedPlayers),
+                format: teamFormat
+            })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            displayTeamResults(result, teamFormat);
+        } else {
+            showAlert('Error balancing teams: ' + result.error, 'danger');
+        }
+    } catch (error) {
+        showAlert('Error balancing teams: ' + error.message, 'danger');
+    } finally {
+        balanceBtn.disabled = false;
+        balanceBtn.innerHTML = '<i class="fas fa-balance-scale"></i> Balance Teams';
+    }
+}
+
+function displayTeamResults(result, teamFormat = '5v5') {
+    const resultsSection = document.getElementById('results-section');
+    const teamResults = document.getElementById('team-results');
+    const teamMetrics = document.getElementById('team-metrics');
+
+    // Group players by team
+    const teams = {};
+    result.teams.forEach(player => {
+        if (!teams[player.Team]) {
+            teams[player.Team] = [];
+        }
+        teams[player.Team].push(player);
+    });
+
+    // Sort players within each team by role (Tank, DPS, Support)
+    const roleOrder = { 'Tank': 0, 'DPS': 1, 'Support': 2 };
+    Object.keys(teams).forEach(teamNum => {
+        teams[teamNum].sort((a, b) => roleOrder[a.Role] - roleOrder[b.Role]);
+    });
+
+    // Display teams
+    let teamsHTML = '<div class="row">';
+    Object.keys(teams).forEach(teamNum => {
+        const team = teams[teamNum];
+        teamsHTML += `
+            <div class="col-md-6">
+                <div class="card team-card team-${teamNum}">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="fas fa-users"></i> Team ${parseInt(teamNum) + 1}
+                            <span class="badge bg-secondary ms-2">${teamFormat}</span>
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        ${team.map(player => {
+                            const roleIcon = player.Role === 'Tank' ? 'fas fa-shield-alt' :
+                                           player.Role === 'DPS' ? 'fas fa-crosshairs' :
+                                           'fas fa-heart';
+                            const roleColor = player.Role === 'Tank' ? 'primary' :
+                                            player.Role === 'DPS' ? 'danger' :
+                                            'success';
+                            return `
+                                <div class="d-flex justify-content-between align-items-center mb-2 p-2 rounded" style="background: rgba(106, 13, 173, 0.2); border: 1px solid var(--arcade-purple);">
+                                    <span class="d-flex align-items-center">
+                                        <span class="badge bg-${roleColor} me-2 d-flex align-items-center justify-content-center" style="width: 2rem; height: 1.5rem;">
+                                            <i class="${roleIcon}"></i>
+                                        </span>
+                                        <span class="player-name" style="color: var(--arcade-cyan); text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);">${player.Battletag}</span>
+                                    </span>
+                                    <span style="color: var(--neon-yellow); font-family: 'Courier New', monospace; font-size: 0.9rem;">SR: ${player.SR.toFixed(1)}</span>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    teamsHTML += '</div>';
+
+    teamResults.innerHTML = teamsHTML;
+
+    // Display metrics
+    teamMetrics.innerHTML = `
+        <div class="row">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <h6>Average Comfort</h6>
+                    <span class="badge bg-info fs-6">${result.metrics.avg_comfort.toFixed(2)}</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <h6>SR Difference</h6>
+                    <span class="badge bg-warning fs-6">${result.metrics.sr_difference.toFixed(2)}</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <h6>Overall Average SR</h6>
+                    <span class="badge bg-success fs-6">${result.metrics.overall_avg_sr.toFixed(2)}</span>
+                </div>
+            </div>
+        </div>
+    `;
+
+    resultsSection.style.display = 'block';
+    resultsSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+
+    document.querySelector('.container').insertBefore(alertDiv, document.querySelector('.container').firstChild);
+
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+
+function importCSV() {
+    const fileInput = document.getElementById('csv-file');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        showAlert('Please select a CSV file', 'warning');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const csv = e.target.result;
+            const lines = csv.split('\n');
+            const headers = lines[0].split(',').map(h => h.trim());
+
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',').map(v => v.trim());
+                if (values.length >= 8 && values[0]) {
+                    const playerData = {
+                        bnet: values[0],
+                        discord: values[1] || values[0],
+                        tank_sr: parseFloat(values[2]) || 0,
+                        dps_sr: parseFloat(values[3]) || 0,
+                        support_sr: parseFloat(values[4]) || 0,
+                        wants_tank: parseInt(values[5]) || 0,
+                        wants_dps: parseInt(values[6]) || 0,
+                        wants_support: parseInt(values[7]) || 0
+                    };
+
+                    // Save player
+                    fetch('/api/players', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(playerData)
+                    });
+                }
+            }
+
+            setTimeout(() => {
+                loadPlayers();
+                showAlert('CSV imported successfully!', 'success');
+            }, 1000);
+
+        } catch (error) {
+            showAlert('Error parsing CSV: ' + error.message, 'danger');
+        }
+    };
+
+    reader.readAsText(file);
+}
+</script>
+{% endblock %}

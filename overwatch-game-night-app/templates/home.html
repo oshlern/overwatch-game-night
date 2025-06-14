@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Overwatch Game Night{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <h1 class="display-4 mb-4">
+            <i class="fas fa-gamepad text-warning"></i>
+            Overwatch Game Night
+        </h1>
+        <p class="lead mb-4">
+            Balance teams, pick games, vote for best plays!
+        </p>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card feature-card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-users fa-3x text-info mb-3"></i>
+                                <h5 class="card-title">Team Balance</h5>
+                                <p class="card-text">Make fair 6v6 teams</p>
+                                <a href="{{ url_for('team_balance') }}" class="btn btn-info">
+                                    <i class="fas fa-balance-scale"></i> Balance Teams
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card feature-card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-dice fa-3x text-warning mb-3"></i>
+                                <h5 class="card-title">Game Picker</h5>
+                                <p class="card-text">Pick random games to play</p>
+                                <a href="{{ url_for('arcade_picker') }}" class="btn btn-warning">
+                                    <i class="fas fa-random"></i> Pick Game
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card feature-card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-trophy fa-3x text-success mb-3"></i>
+                                <h5 class="card-title">Awards</h5>
+                                <p class="card-text">Vote for best plays, earn tokens</p>
+                                <a href="{{ url_for('awards') }}" class="btn btn-success">
+                                    <i class="fas fa-medal"></i> Awards
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle text-info"></i>
+                        How To Use
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <ol class="list-unstyled">
+                        <li class="mb-3">
+                            <span class="badge bg-primary rounded-pill me-2">1</span>
+                            <strong>Add Players:</strong> Import or add player data
+                        </li>
+                        <li class="mb-3">
+                            <span class="badge bg-primary rounded-pill me-2">2</span>
+                            <strong>Balance Teams:</strong> Make fair 6v6 matches
+                        </li>
+                        <li class="mb-3">
+                            <span class="badge bg-primary rounded-pill me-2">3</span>
+                            <strong>Play Games:</strong> Pick and play games
+                        </li>
+                        <li class="mb-3">
+                            <span class="badge bg-primary rounded-pill me-2">4</span>
+                            <strong>Vote:</strong> Award best plays with tokens
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-star text-warning"></i>
+                        Features
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Smart team balancing
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Real-time voting
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Game history tracking
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Token rewards
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Local hosting
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Mobile friendly
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-network-wired text-info"></i>
+                        Connection Info
+                    </h5>
+                </div>
+                <div class="card-body text-center">
+                    <p class="mb-3">Share this with your friends:</p>
+                    <div class="alert alert-info">
+                        <strong>Server Address:</strong>
+                        <code id="server-address">Loading...</code>
+                        <button class="btn btn-sm btn-outline-primary ms-2" onclick="copyAddress()">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    <small class="text-muted">
+                        Everyone needs to be on the same network
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Get server address
+function getServerAddress() {
+    const address = window.location.host;
+    document.getElementById('server-address').textContent = `http://${address}`;
+}
+
+function copyAddress() {
+    const address = document.getElementById('server-address').textContent;
+    navigator.clipboard.writeText(address).then(() => {
+        // Show success feedback
+        const btn = event.target.closest('button');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        btn.classList.remove('btn-outline-primary');
+        btn.classList.add('btn-success');
+
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.classList.remove('btn-success');
+            btn.classList.add('btn-outline-primary');
+        }, 2000);
+    });
+}
+
+// Load server address on page load
+document.addEventListener('DOMContentLoaded', getServerAddress);
+</script>
+{% endblock %}

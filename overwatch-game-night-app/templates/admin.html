@@ -1,0 +1,544 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Overwatch Game Night{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">
+                <i class="fas fa-cog text-warning"></i>
+                Admin Panel
+            </h2>
+        </div>
+    </div>
+
+    <!-- Voting Control Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-vote-yea"></i>
+                        Voting Control
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% for category in categories %}
+                    <div class="voting-control mb-4" id="admin-{{ loop.index0 }}">
+                        <h6>{{ category }}</h6>
+
+                        <!-- Current Status -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="card bg-dark">
+                                    <div class="card-body">
+                                        <h6>Nominations</h6>
+                                        <div id="admin-nominations-{{ loop.index0 }}">
+                                            <p class="text-muted">No nominations yet</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-dark">
+                                    <div class="card-body">
+                                        <h6>Current Votes (Hidden)</h6>
+                                        <div id="admin-votes-{{ loop.index0 }}">
+                                            <p class="text-muted">No votes yet</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Controls -->
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-danger" onclick="closeVoting('{{ category }}', '{{ loop.index0 }}')">
+                                <i class="fas fa-stop"></i> Close Voting & Reveal Winner
+                            </button>
+                            <button class="btn btn-warning" onclick="resetVoting('{{ category }}', '{{ loop.index0 }}')">
+                                <i class="fas fa-redo"></i> Reset Category
+                            </button>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endfor %}
+
+                    <!-- Custom Categories Section -->
+                    <div id="custom-categories-admin">
+                        <h5 class="mt-4 mb-3">
+                            <i class="fas fa-plus-circle text-success"></i>
+                            Custom Categories
+                        </h5>
+                        <div id="custom-categories-list">
+                            <p class="text-muted">No custom categories yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Player Management -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-users"></i>
+                        Player Status
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="admin-players-list">
+                        {% for player_name, player_data in players.items() %}
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>
+                                <strong>{{ player_name }}</strong>
+                                <span class="badge bg-{{ 'secondary' if player_data.get('status') == 'afk' else 'success' }}">
+                                    {{ player_data.get('status', 'active') }}
+                                </span>
+                            </span>
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-outline-warning" onclick="setPlayerStatus('{{ player_name }}', 'afk')">
+                                    AFK
+                                </button>
+                                <button class="btn btn-sm btn-outline-success" onclick="setPlayerStatus('{{ player_name }}', 'active')">
+                                    Active
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-coins"></i>
+                        Tokens Available
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if tokens %}
+                        {% for player, token_count in tokens.items() %}
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span><strong>{{ player }}</strong></span>
+                            <div>
+                                <span class="token-badge me-2">{{ token_count }} tokens</span>
+                                <button class="btn btn-sm btn-outline-primary" onclick="adjustTokens('{{ player }}', 1)">+</button>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="adjustTokens('{{ player }}', -1)">-</button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">No tokens awarded yet</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Management -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-gamepad"></i>
+                        Quick Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="player-count" class="form-label">Active Players</label>
+                            <input type="number" class="form-control" id="player-count" min="1" max="12" value="6">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">&nbsp;</label>
+                            <button class="btn btn-info w-100" onclick="pickGameForPlayers()">
+                                <i class="fas fa-dice"></i> Pick Game for Player Count
+                            </button>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">&nbsp;</label>
+                            <button class="btn btn-success w-100" onclick="balanceTeamsQuick()">
+                                <i class="fas fa-users"></i> Quick Team Balance
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// WebSocket connection for real-time updates
+const socket = io();
+socket.emit('join_voting');
+
+// Listen for voting updates
+socket.on('nomination_update', function(data) {
+    updateAdminNominations(data.category, data.nominations, data.explanations);
+});
+
+socket.on('vote_update', function(data) {
+    updateAdminVotes(data.category, data.votes);
+});
+
+socket.on('voting_closed', function(data) {
+    showVotingResults(data.category, data.winner, data.all_votes);
+});
+
+// Listen for custom category updates
+socket.on('custom_category_update', function(data) {
+    addCustomCategoryToAdmin(data.category, data.nominations, data.explanations);
+});
+
+// Load existing voting state on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadVotingState();
+});
+
+function updateAdminNominations(category, nominations, explanations) {
+    const categoryIndex = getCategoryIndex(category);
+    const nominationsDiv = document.getElementById(`admin-nominations-${categoryIndex}`);
+
+    if (Object.keys(nominations).length === 0) {
+        nominationsDiv.innerHTML = '<p class="text-muted">No nominations yet</p>';
+        return;
+    }
+
+    let html = '';
+    for (const [player, nominators] of Object.entries(nominations)) {
+        const playerExplanations = explanations[player] || [];
+        html += `
+            <div class="mb-2">
+                <strong>${player}</strong> (${nominators.length} nominations)
+                ${playerExplanations.map(exp =>
+                    `<div class="small text-muted ms-3">"${exp.explanation}"</div>`
+                ).join('')}
+            </div>
+        `;
+    }
+
+    nominationsDiv.innerHTML = html;
+}
+
+function updateAdminVotes(category, votes) {
+    const categoryIndex = getCategoryIndex(category);
+    const votesDiv = document.getElementById(`admin-votes-${categoryIndex}`);
+
+    if (Object.keys(votes).length === 0) {
+        votesDiv.innerHTML = '<p class="text-muted">No votes yet</p>';
+        return;
+    }
+
+    let html = '';
+    for (const [player, voters] of Object.entries(votes)) {
+        html += `
+            <div class="d-flex justify-content-between mb-1">
+                <span>${player}</span>
+                <span class="badge bg-info">${voters.length} votes</span>
+            </div>
+        `;
+    }
+
+    votesDiv.innerHTML = html;
+}
+
+async function closeVoting(category, categoryIndex) {
+    try {
+        const response = await fetch('/api/admin/close-voting', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ category: category })
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            showAlert(`Voting closed! ${result.winner} wins with ${result.votes} votes!`, 'success');
+        } else {
+            showAlert(result.error, 'danger');
+        }
+    } catch (error) {
+        showAlert('Error closing voting: ' + error.message, 'danger');
+    }
+}
+
+async function resetVoting(category, categoryIndex) {
+    if (confirm(`Reset all nominations and votes for "${category}"?`)) {
+        try {
+            const response = await fetch('/api/admin/reset-category', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ category: category })
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                // Reset the display
+                document.getElementById(`admin-nominations-${categoryIndex}`).innerHTML = '<p class="text-muted">No nominations yet</p>';
+                document.getElementById(`admin-votes-${categoryIndex}`).innerHTML = '<p class="text-muted">No votes yet</p>';
+
+                showAlert(result.message, 'success');
+            } else {
+                showAlert(result.error, 'danger');
+            }
+        } catch (error) {
+            showAlert('Error resetting category: ' + error.message, 'danger');
+        }
+    }
+}
+
+async function setPlayerStatus(playerName, status) {
+    try {
+        const response = await fetch('/api/players/status', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ player: playerName, status: status })
+        });
+
+        if (response.ok) {
+            showAlert(`${playerName} set to ${status}`, 'success');
+            // Reload page to update display
+            setTimeout(() => location.reload(), 1000);
+        }
+    } catch (error) {
+        showAlert('Error updating player status: ' + error.message, 'danger');
+    }
+}
+
+async function adjustTokens(playerName, change) {
+    try {
+        const response = await fetch('/api/admin/adjust-tokens', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ player: playerName, change: change })
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            showAlert(`${playerName}: ${change > 0 ? '+' : ''}${change} tokens (now ${result.new_total})`, 'success');
+            // Update the display
+            const tokenBadge = document.querySelector(`[onclick="adjustTokens('${playerName}', 1)"]`).previousElementSibling;
+            tokenBadge.textContent = `${result.new_total} tokens`;
+        } else {
+            showAlert(result.error, 'danger');
+        }
+    } catch (error) {
+        showAlert('Error adjusting tokens: ' + error.message, 'danger');
+    }
+}
+
+async function pickGameForPlayers() {
+    const playerCount = document.getElementById('player-count').value;
+
+    try {
+        const response = await fetch(`/api/random-arcade?players=${playerCount}`);
+        const game = await response.json();
+
+        if (response.ok) {
+            showAlert(`Picked: ${game.name} (${game.code}) - ${game.description}`, 'success');
+        } else {
+            showAlert(game.error, 'warning');
+        }
+    } catch (error) {
+        showAlert('Error picking game: ' + error.message, 'danger');
+    }
+}
+
+function balanceTeamsQuick() {
+    window.location.href = '/team-balance';
+}
+
+function getCategoryIndex(category) {
+    const categories = ['Most Improved on New Hero', 'Biggest Clutch', 'Most Stylish Play/Skin', 'Fry\'s Life-is-a-resource Award', 'Clip Farmer'];
+    return categories.indexOf(category);
+}
+
+function showVotingResults(category, winner, allVotes) {
+    let resultsText = `🏆 ${category} Winner: ${winner}\n\nAll votes:\n`;
+    for (const [player, votes] of Object.entries(allVotes)) {
+        resultsText += `${player}: ${votes} votes\n`;
+    }
+
+    showAlert(resultsText, 'success');
+}
+
+async function loadVotingState() {
+    try {
+        const response = await fetch('/api/voting-state');
+        const votingState = await response.json();
+
+        // Load custom categories
+        for (const [category, data] of Object.entries(votingState)) {
+            const categoryIndex = getCategoryIndex(category);
+            if (categoryIndex === -1 && data.nominations && Object.keys(data.nominations).length > 0) {
+                // This is a custom category
+                addCustomCategoryToAdmin(category, data.nominations, data.explanations || {});
+            }
+        }
+    } catch (error) {
+        console.error('Error loading voting state:', error);
+    }
+}
+
+function addCustomCategoryToAdmin(category, nominations, explanations) {
+    const customCategoriesList = document.getElementById('custom-categories-list');
+    const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
+
+    // Remove "no custom categories" message if it exists
+    const noCustomMsg = customCategoriesList.querySelector('.text-muted');
+    if (noCustomMsg && noCustomMsg.textContent.includes('No custom categories')) {
+        noCustomMsg.remove();
+    }
+
+    // Check if category already exists
+    let existingCategory = document.getElementById(`custom-admin-${categoryId}`);
+    if (!existingCategory) {
+        // Create new custom category admin section
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'voting-control mb-4 border border-success rounded p-3';
+        categoryDiv.id = `custom-admin-${categoryId}`;
+        categoryDiv.innerHTML = `
+            <h6 class="text-success">${category} <span class="badge bg-success">Custom</span></h6>
+
+            <!-- Current Status -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="card bg-dark">
+                        <div class="card-body">
+                            <h6>Nominations</h6>
+                            <div id="custom-admin-nominations-${categoryId}">
+                                <p class="text-muted">No nominations yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card bg-dark">
+                        <div class="card-body">
+                            <h6>Current Votes (Hidden)</h6>
+                            <div id="custom-admin-votes-${categoryId}">
+                                <p class="text-muted">No votes yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="d-flex gap-2">
+                <button class="btn btn-danger" onclick="closeCustomVoting('${category}')">
+                    <i class="fas fa-stop"></i> Close Voting & Reveal Winner
+                </button>
+                <button class="btn btn-warning" onclick="resetCustomVoting('${category}')">
+                    <i class="fas fa-redo"></i> Reset Category
+                </button>
+            </div>
+        `;
+        customCategoriesList.appendChild(categoryDiv);
+    }
+
+    // Update nominations
+    updateCustomAdminNominations(category, nominations, explanations);
+}
+
+function updateCustomAdminNominations(category, nominations, explanations) {
+    const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
+    const nominationsDiv = document.getElementById(`custom-admin-nominations-${categoryId}`);
+
+    if (!nominationsDiv) return;
+
+    if (Object.keys(nominations).length === 0) {
+        nominationsDiv.innerHTML = '<p class="text-muted">No nominations yet</p>';
+        return;
+    }
+
+    let html = '';
+    for (const [player, nominators] of Object.entries(nominations)) {
+        const playerExplanations = explanations[player] || [];
+        html += `
+            <div class="mb-2">
+                <strong>${player}</strong> (${nominators.length} nominations)
+                ${playerExplanations.map(exp =>
+                    `<div class="small text-muted ms-3">"${exp.explanation}"</div>`
+                ).join('')}
+            </div>
+        `;
+    }
+
+    nominationsDiv.innerHTML = html;
+}
+
+async function closeCustomVoting(category) {
+    try {
+        const response = await fetch('/api/admin/close-voting', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ category: category })
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            showAlert(`Voting closed! ${result.winner} wins with ${result.votes} votes!`, 'success');
+        } else {
+            showAlert(result.error, 'danger');
+        }
+    } catch (error) {
+        showAlert('Error closing voting: ' + error.message, 'danger');
+    }
+}
+
+async function resetCustomVoting(category) {
+    if (confirm(`Reset all nominations and votes for "${category}"?`)) {
+        try {
+            const response = await fetch('/api/admin/reset-category', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ category: category })
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
+                // Reset the display
+                document.getElementById(`custom-admin-nominations-${categoryId}`).innerHTML = '<p class="text-muted">No nominations yet</p>';
+                const votesDiv = document.getElementById(`custom-admin-votes-${categoryId}`);
+                if (votesDiv) votesDiv.innerHTML = '<p class="text-muted">No votes yet</p>';
+
+                showAlert(result.message, 'success');
+            } else {
+                showAlert(result.error, 'danger');
+            }
+        } catch (error) {
+            showAlert('Error resetting category: ' + error.message, 'danger');
+        }
+    }
+}
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        ${message.replace(/\n/g, '<br>')}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+
+    document.querySelector('.container').insertBefore(alertDiv, document.querySelector('.container').firstChild);
+
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}
+</script>
+{% endblock %}

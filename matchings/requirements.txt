@@ -1,0 +1,6 @@
+streamlit-aggrid
+pandas
+numpy
+matplotlib
+st_aggrid
+cvxpy 

@@ -1,0 +1,1261 @@
+[
+  {
+    "id": "7308aaab-92e2-4f55-9c8c-27a63d9abee0",
+    "timestamp": "2025-06-11T21:13:09.891731",
+    "type": "6v6",
+    "players": [
+      "Sushi",
+      "Rknrknrknrkn",
+      "Fry",
+      "FigBishes",
+      "Jeannie",
+      "Eternal",
+      "Doublerambow",
+      "Emprage",
+      "Ericcckky",
+      "Catboy",
+      "Byes"
+    ],
+    "teams": [
+      {
+        "Battletag": "FigBishes",
+        "Discord": "FigBishes",
+        "SR": 5.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Doublerambow",
+        "Discord": "Buffetbandit",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Rknrknrknrkn",
+        "Discord": "Rknrknrknrkn",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Fry",
+        "Discord": "Fry",
+        "SR": 5.25,
+        "Comf": 0,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Byes",
+        "Discord": "LuckyPants",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Ericcckky",
+        "Discord": "Ericcckky",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Catboy",
+        "Discord": "Savi",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Sushi",
+        "Discord": "Salmonnigirii",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Jeannie",
+        "Discord": "Jeannie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Eternal",
+        "Discord": "Eternal",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.1,
+      5.1
+    ],
+    "avg_comfort": 0.7272727272727273
+  },
+  {
+    "id": "d737d322-84c5-42ad-bfdf-c8be2ba43e6f",
+    "timestamp": "2025-06-12T21:58:04.189509",
+    "type": "6v6",
+    "players": [
+      "Rknrknrknrkn",
+      "Pickleman",
+      "Kotana",
+      "Jeannie",
+      "Eternal",
+      "Ericcckky",
+      "Slayingbeast",
+      "Pufferfish",
+      "Lightningirl",
+      "JippyTheLion"
+    ],
+    "teams": [
+      {
+        "Battletag": "Pickleman",
+        "Discord": "Pickleman",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Kotana",
+        "Discord": "Kotana",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Rknrknrknrkn",
+        "Discord": "Rknrknrknrkn",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Pufferfish",
+        "Discord": "Sophie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Eternal",
+        "Discord": "Eternal",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Ericcckky",
+        "Discord": "Ericcckky",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "JippyTheLion",
+        "Discord": "Syl",
+        "SR": 4.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Jeannie",
+        "Discord": "Jeannie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Lightningirl",
+        "Discord": "Lightningirl",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Slayingbeast",
+        "Discord": "Slayingbeast",
+        "SR": 10.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.1,
+      5.1
+    ],
+    "avg_comfort": 1.0
+  },
+  {
+    "id": "9cbf169c-dd68-499b-a660-890e848aa83a",
+    "timestamp": "2025-06-12T21:58:28.708477",
+    "type": "6v6",
+    "players": [
+      "Rknrknrknrkn",
+      "Pickleman",
+      "Kotana",
+      "Jeannie",
+      "Eternal",
+      "Ericcckky",
+      "Slayingbeast",
+      "Pufferfish",
+      "Lightningirl",
+      "JippyTheLion",
+      "Yomi"
+    ],
+    "teams": [
+      {
+        "Battletag": "Ericcckky",
+        "Discord": "Ericcckky",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "JippyTheLion",
+        "Discord": "Syl",
+        "SR": 4.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Jeannie",
+        "Discord": "Jeannie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Lightningirl",
+        "Discord": "Lightningirl",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Slayingbeast",
+        "Discord": "Slayingbeast",
+        "SR": 10.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Pickleman",
+        "Discord": "Pickleman",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Kotana",
+        "Discord": "Kotana",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Rknrknrknrkn",
+        "Discord": "Rknrknrknrkn",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Pufferfish",
+        "Discord": "Sophie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Eternal",
+        "Discord": "Eternal",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.1,
+      5.1
+    ],
+    "avg_comfort": 0.9090909090909091
+  },
+  {
+    "id": "4f99147c-8793-4a8b-a978-b29483d8dec6",
+    "timestamp": "2025-06-12T21:58:29.530866",
+    "type": "6v6",
+    "players": [
+      "Rknrknrknrkn",
+      "Pickleman",
+      "Kotana",
+      "Jeannie",
+      "Eternal",
+      "Ericcckky",
+      "Slayingbeast",
+      "Pufferfish",
+      "Lightningirl",
+      "JippyTheLion",
+      "Yomi"
+    ],
+    "teams": [
+      {
+        "Battletag": "Ericcckky",
+        "Discord": "Ericcckky",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "JippyTheLion",
+        "Discord": "Syl",
+        "SR": 4.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Jeannie",
+        "Discord": "Jeannie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Lightningirl",
+        "Discord": "Lightningirl",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Slayingbeast",
+        "Discord": "Slayingbeast",
+        "SR": 10.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Pickleman",
+        "Discord": "Pickleman",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Kotana",
+        "Discord": "Kotana",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Rknrknrknrkn",
+        "Discord": "Rknrknrknrkn",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Pufferfish",
+        "Discord": "Sophie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Eternal",
+        "Discord": "Eternal",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.1,
+      5.1
+    ],
+    "avg_comfort": 0.9090909090909091
+  },
+  {
+    "id": "354660d0-02ee-424f-aa60-0665e0fa84f0",
+    "timestamp": "2025-06-12T21:58:32.488206",
+    "type": "6v6",
+    "players": [
+      "Rknrknrknrkn",
+      "Pickleman",
+      "Kotana",
+      "Jeannie",
+      "Eternal",
+      "Ericcckky",
+      "Slayingbeast",
+      "Pufferfish",
+      "Lightningirl",
+      "JippyTheLion",
+      "Yomi",
+      "Smizzle"
+    ],
+    "teams": [
+      {
+        "Battletag": "JippyTheLion",
+        "Discord": "Syl",
+        "SR": 4.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Yomi",
+        "Discord": "Yomitsu",
+        "SR": 4.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Jeannie",
+        "Discord": "Jeannie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Smizzle",
+        "Discord": "Tyler",
+        "SR": 7.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Slayingbeast",
+        "Discord": "Slayingbeast",
+        "SR": 10.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Kotana",
+        "Discord": "Kotana",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Ericcckky",
+        "Discord": "Ericcckky",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Rknrknrknrkn",
+        "Discord": "Rknrknrknrkn",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Lightningirl",
+        "Discord": "Lightningirl",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Eternal",
+        "Discord": "Eternal",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.7,
+      5.7
+    ],
+    "avg_comfort": 1.0
+  },
+  {
+    "id": "8e70adf2-869a-4ae7-a359-dd166b3d8ff4",
+    "timestamp": "2025-06-12T21:58:33.276212",
+    "type": "6v6",
+    "players": [
+      "Rknrknrknrkn",
+      "Pickleman",
+      "Kotana",
+      "Jeannie",
+      "Eternal",
+      "Ericcckky",
+      "Slayingbeast",
+      "Pufferfish",
+      "Lightningirl",
+      "JippyTheLion",
+      "Yomi",
+      "Smizzle"
+    ],
+    "teams": [
+      {
+        "Battletag": "JippyTheLion",
+        "Discord": "Syl",
+        "SR": 4.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Yomi",
+        "Discord": "Yomitsu",
+        "SR": 4.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Jeannie",
+        "Discord": "Jeannie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Smizzle",
+        "Discord": "Tyler",
+        "SR": 7.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Slayingbeast",
+        "Discord": "Slayingbeast",
+        "SR": 10.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Kotana",
+        "Discord": "Kotana",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Ericcckky",
+        "Discord": "Ericcckky",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Rknrknrknrkn",
+        "Discord": "Rknrknrknrkn",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Lightningirl",
+        "Discord": "Lightningirl",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Eternal",
+        "Discord": "Eternal",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.7,
+      5.7
+    ],
+    "avg_comfort": 1.0
+  },
+  {
+    "id": "bfbe8381-636c-4e03-baee-b72e89f39f91",
+    "timestamp": "2025-06-12T21:58:42.492163",
+    "type": "6v6",
+    "players": [
+      "Pickleman",
+      "Kotana",
+      "Jeannie",
+      "Eternal",
+      "Ericcckky",
+      "Slayingbeast",
+      "Pufferfish",
+      "Lightningirl",
+      "JippyTheLion",
+      "Smizzle",
+      "Rknrknrknrkn",
+      "Tetsuei"
+    ],
+    "teams": [
+      {
+        "Battletag": "Kotana",
+        "Discord": "Kotana",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Tetsuei",
+        "Discord": "FilthyCasual",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Pufferfish",
+        "Discord": "Sophie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Smizzle",
+        "Discord": "Tyler",
+        "SR": 7.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Eternal",
+        "Discord": "Eternal",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Pickleman",
+        "Discord": "Pickleman",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "JippyTheLion",
+        "Discord": "Syl",
+        "SR": 4.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Jeannie",
+        "Discord": "Jeannie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Rknrknrknrkn",
+        "Discord": "Rknrknrknrkn",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Slayingbeast",
+        "Discord": "Slayingbeast",
+        "SR": 10.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.2,
+      5.2
+    ],
+    "avg_comfort": 0.8333333333333334
+  },
+  {
+    "id": "7132aa1d-c146-4f89-ba7c-1f0e59456f6c",
+    "timestamp": "2025-06-14T11:44:44.181707",
+    "type": "6v6",
+    "players": [
+      "Rknrknrknrkn",
+      "Pickleman",
+      "Moogle",
+      "Kotana",
+      "Kaz",
+      "Jeannie",
+      "GarlicBread",
+      "FigBishes",
+      "Eternal",
+      "Russia"
+    ],
+    "teams": [
+      {
+        "Battletag": "Pickleman",
+        "Discord": "Pickleman",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "FigBishes",
+        "Discord": "FigBishes",
+        "SR": 5.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Kotana",
+        "Discord": "Kotana",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "GarlicBread",
+        "Discord": "Tete",
+        "SR": 2.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Kaz",
+        "Discord": "Kaz",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Rknrknrknrkn",
+        "Discord": "Rknrknrknrkn",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Moogle",
+        "Discord": "Moogle",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Jeannie",
+        "Discord": "Jeannie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Eternal",
+        "Discord": "Eternal",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.15,
+      5.2
+    ],
+    "avg_comfort": 1.0
+  },
+  {
+    "id": "44baa421-5a87-4c4c-badc-72bdb9479b76",
+    "timestamp": "2025-06-14T11:50:55.668053",
+    "type": "5v5",
+    "players": [
+      "Sushi",
+      "Smizzle",
+      "Pufferfish",
+      "Russia",
+      "Slayingbeast",
+      "Test",
+      "Vitallion",
+      "Thiccjibooty",
+      "Tetsuei",
+      "Yomi"
+    ],
+    "teams": [
+      {
+        "Battletag": "Test",
+        "Discord": "Test",
+        "SR": 1.0,
+        "Comf": 0,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Yomi",
+        "Discord": "Yomitsu",
+        "SR": 4.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Sushi",
+        "Discord": "Salmonnigirii",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Smizzle",
+        "Discord": "Tyler",
+        "SR": 7.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Vitallion",
+        "Discord": "Vitallion",
+        "SR": 10.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Tetsuei",
+        "Discord": "FilthyCasual",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Pufferfish",
+        "Discord": "Sophie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Thiccjibooty",
+        "Discord": "Door",
+        "SR": 2.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Slayingbeast",
+        "Discord": "Slayingbeast",
+        "SR": 10.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.0,
+      5.0
+    ],
+    "avg_comfort": 0.9
+  },
+  {
+    "id": "0c442160-67c9-47b0-b2cd-242a60361431",
+    "timestamp": "2025-06-14T12:01:47.925215",
+    "type": "5v5",
+    "players": [
+      "Blueboss",
+      "Byes",
+      "Catboy",
+      "Emprage",
+      "Jeannie",
+      "Rknrknrknrkn",
+      "Russia",
+      "Lightningirl",
+      "Kaz",
+      "Pickleman"
+    ],
+    "teams": [
+      {
+        "Battletag": "Catboy",
+        "Discord": "Savi",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Pickleman",
+        "Discord": "Pickleman",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Jeannie",
+        "Discord": "Jeannie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Lightningirl",
+        "Discord": "Lightningirl",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Kaz",
+        "Discord": "Kaz",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Emprage",
+        "Discord": "EmpatheticRage",
+        "SR": 1.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Rknrknrknrkn",
+        "Discord": "Rknrknrknrkn",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Blueboss",
+        "Discord": "Osher",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Byes",
+        "Discord": "LuckyPants",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      4.7,
+      4.8
+    ],
+    "avg_comfort": 1.0
+  },
+  {
+    "id": "93accfee-2ad6-4d3b-9179-54c2c860402b",
+    "timestamp": "2025-06-14T12:06:50.967791",
+    "type": "5v5",
+    "players": [
+      "Blueboss",
+      "Byes",
+      "Catboy",
+      "Emprage",
+      "Jeannie",
+      "Kaz",
+      "Lightningirl",
+      "Pickleman",
+      "Rknrknrknrkn",
+      "Russia"
+    ],
+    "teams": [
+      {
+        "Battletag": "Emprage",
+        "Discord": "EmpatheticRage",
+        "SR": 1.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Rknrknrknrkn",
+        "Discord": "Rknrknrknrkn",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Blueboss",
+        "Discord": "Osher",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Pickleman",
+        "Discord": "Pickleman",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Kaz",
+        "Discord": "Kaz",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Catboy",
+        "Discord": "Savi",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Jeannie",
+        "Discord": "Jeannie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Lightningirl",
+        "Discord": "Lightningirl",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Byes",
+        "Discord": "LuckyPants",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      4.8,
+      4.7
+    ],
+    "avg_comfort": 1.0
+  },
+  {
+    "id": "9e5e9c29-a25c-46f0-95da-54b254434964",
+    "timestamp": "2025-06-14T12:07:04.761155",
+    "type": "5v5",
+    "players": [
+      "Blueboss",
+      "Byes",
+      "Catboy",
+      "Emprage",
+      "Jeannie",
+      "Kaz",
+      "Lightningirl",
+      "Pickleman",
+      "Rknrknrknrkn",
+      "Russia",
+      "FigBishes",
+      "Doublerambow"
+    ],
+    "teams": [
+      {
+        "Battletag": "Catboy",
+        "Discord": "Savi",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Byes",
+        "Discord": "LuckyPants",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Jeannie",
+        "Discord": "Jeannie",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Kaz",
+        "Discord": "Kaz",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "FigBishes",
+        "Discord": "FigBishes",
+        "SR": 5.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Doublerambow",
+        "Discord": "Buffetbandit",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Pickleman",
+        "Discord": "Pickleman",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Rknrknrknrkn",
+        "Discord": "Rknrknrknrkn",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Blueboss",
+        "Discord": "Osher",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.7,
+      5.75
+    ],
+    "avg_comfort": 0.8333333333333334
+  }
+]

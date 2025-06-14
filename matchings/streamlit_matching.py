@@ -19,7 +19,7 @@ tm.WEIGHTS["AVG_COMF_WEIGHT"] = st.slider("Average Comfort Weight", min_value=0.
 tm.WEIGHTS["MAX_SR_DIFF"] = st.slider("Max SR Difference", min_value=0.0, max_value=10.0, value=5.0, step=0.01)
 
 if uploaded_file is None:
-    uploaded_file = "5v5 - RanksData.csv"
+    uploaded_file = "5v5 - RanksData (10).csv"
 
 
 if uploaded_file is not None:

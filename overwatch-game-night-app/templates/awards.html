@@ -1,0 +1,861 @@
+{% extends "base.html" %}
+
+{% block title %}Awards - Overwatch Game Night{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">
+                <i class="fas fa-trophy text-warning"></i>
+                Awards & Voting
+            </h2>
+        </div>
+    </div>
+
+    <!-- Connection Status -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="alert alert-info" id="connection-status">
+                <i class="fas fa-wifi"></i> Connecting to voting system...
+            </div>
+        </div>
+    </div>
+
+    <!-- Previous Winners Slideshow -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-trophy text-warning"></i>
+                        Previous Winners
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="winners-slideshow" class="text-center" style="min-height: 120px; display: flex; align-items: center; justify-content: center;">
+                        <div id="slideshow-content">
+                            <div class="spinner-border text-warning" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center mt-3">
+                        <div id="slideshow-indicators" class="d-flex gap-2">
+                            <!-- Indicators will be added dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle text-info"></i>
+                        Award Categories
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% for category in categories %}
+                        <div class="mb-3">
+                            <h6 class="text-warning">{{ category }}</h6>
+                            <small class="text-muted">
+                                {% if category == "Most Improved on New Hero" %}
+                                    Recognize someone who showed great improvement on a hero they don't usually play
+                                {% elif category == "Biggest Clutch" %}
+                                    Award the most game-changing play that turned the tide
+                                {% elif category == "Most Stylish Play/Skin" %}
+                                    Celebrate the most impressive play or best skin combination
+                                {% elif category == "Fry's Life-is-a-resource Award" %}
+                                    For the player who makes the ultimate sacrifice for the team
+                                {% elif category == "Clip Farmer" %}
+                                    Person with the most hype play that deserves to be clipped
+                                {% endif %}
+                            </small>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Award Voting Sections -->
+    {% for category in categories %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-star text-warning"></i>
+                        {{ category }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- Nomination Phase -->
+                    <div class="nomination-section" id="nomination-{{ loop.index0 }}">
+                        <h6>Nominate a Player</h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <select class="form-select" id="nominate-select-{{ loop.index0 }}">
+                                    <option value="">Select a player to nominate...</option>
+                                    {% for player in players.keys() %}
+                                        <option value="{{ player }}">{{ player }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <input type="text" class="form-control" id="explanation-{{ loop.index0 }}"
+                                       placeholder="Why? (optional explanation)">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100" onclick="nominatePlayer('{{ category }}', '{{ loop.index0 }}')">
+                                    <i class="fas fa-hand-point-up"></i> Nominate Player
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Current Nominations -->
+                        <div class="mt-3" id="nominations-{{ loop.index0 }}">
+                            <h6>Nominations:</h6>
+                            <div class="nominations-list">
+                                <p class="text-muted">No nominations yet</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Voting Phase -->
+                    <div class="voting-section mt-4" id="voting-{{ loop.index0 }}">
+                        <h6>🗳️ Vote for Winner</h6>
+                        <div class="alert alert-info">
+                            <small><i class="fas fa-eye-slash"></i> Votes are hidden until admin closes voting</small>
+                        </div>
+                        <div class="voting-options" id="voting-options-{{ loop.index0 }}">
+                            <p class="text-muted">Need nominations first!</p>
+                        </div>
+                        <div class="mt-2">
+                            <small class="text-muted">Your vote: <span id="your-vote-{{ loop.index0 }}">None</span></small>
+                        </div>
+                    </div>
+
+                    <!-- Winner Announcement -->
+                    <div class="winner-section mt-4" id="winner-{{ loop.index0 }}" style="display: none;">
+                        <div class="alert alert-success award-animation">
+                            <h4 class="mb-2">
+                                <i class="fas fa-trophy text-warning"></i>
+                                🎉 Winner: <span class="winner-name"></span>
+                            </h4>
+                            <p class="mb-0">+1 Token earned! 🏆</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Custom Award Nomination -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-plus-circle text-success"></i>
+                        Create Custom Award
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-2">
+                            <input type="text" class="form-control" id="custom-category-input"
+                                   placeholder="Enter custom award name...">
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <select class="form-select" id="custom-nominate-select">
+                                <option value="">Select a player to nominate...</option>
+                                {% for player in players.keys() %}
+                                    <option value="{{ player }}">{{ player }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <input type="text" class="form-control" id="custom-explanation"
+                                   placeholder="Why? (optional explanation)">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button class="btn btn-success w-100" onclick="nominateCustomCategory()">
+                                <i class="fas fa-star"></i> Create & Nominate for Custom Award
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic Custom Categories -->
+    <div id="custom-categories-container">
+        <!-- Custom categories will be dynamically added here -->
+    </div>
+
+    <!-- Recent Awards History -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-history"></i>
+                        Recent Awards
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="awards-history">
+                        <p class="text-muted text-center">No awards given yet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// WebSocket connection for real-time voting
+const socket = io();
+let currentVotes = {};
+let currentNominations = {};
+
+// Connect to voting room
+socket.emit('join_voting');
+
+// Connection status
+socket.on('connect', function() {
+    document.getElementById('connection-status').innerHTML =
+        '<i class="fas fa-check-circle text-success"></i> Connected to voting system';
+    document.getElementById('connection-status').className = 'alert alert-success';
+});
+
+socket.on('disconnect', function() {
+    document.getElementById('connection-status').innerHTML =
+        '<i class="fas fa-exclamation-triangle text-warning"></i> Disconnected from voting system';
+    document.getElementById('connection-status').className = 'alert alert-warning';
+});
+
+// Handle nomination updates
+socket.on('nomination_update', function(data) {
+    updateNominations(data.category, data.nominations);
+});
+
+// Handle vote updates
+socket.on('vote_update', function(data) {
+    updateVotes(data.category, data.votes);
+});
+
+// Handle winner announcement (from automatic detection - deprecated)
+socket.on('award_winner', function(data) {
+    announceWinner(data.category, data.winner, data.votes);
+    updateTokenLeaderboard();
+});
+
+// Handle voting closed by admin (new event)
+socket.on('voting_closed', function(data) {
+    announceWinner(data.category, data.winner, data.votes);
+    updateTokenLeaderboard();
+});
+
+// Handle category reset by admin
+socket.on('category_reset', function(data) {
+    const categoryIndex = getCategoryIndex(data.category);
+    if (categoryIndex !== -1) {
+        resetCategory(categoryIndex);
+    } else {
+        // Handle custom category reset
+        resetCustomCategory(data.category);
+    }
+});
+
+// Handle custom category updates
+socket.on('custom_category_update', function(data) {
+    createOrUpdateCustomCategory(data.category, data.nominations, data.explanations);
+});
+
+function nominatePlayer(category, categoryIndex) {
+    const selectElement = document.getElementById(`nominate-select-${categoryIndex}`);
+    const explanationElement = document.getElementById(`explanation-${categoryIndex}`);
+    const selectedPlayer = selectElement.value;
+    const explanation = explanationElement.value.trim();
+
+    if (!selectedPlayer) {
+        showAlert('Please select a player to nominate', 'warning');
+        return;
+    }
+
+    // Emit nomination to server
+    socket.emit('nominate_player', {
+        category: category,
+        player: selectedPlayer,
+        explanation: explanation
+    });
+
+    // Clear inputs
+    selectElement.value = '';
+    explanationElement.value = '';
+
+    showAlert(`Nominated ${selectedPlayer} for ${category}`, 'success');
+}
+
+// Global function for sidebar quick nominations
+function nominatePlayerWithExplanation(category, player, explanation) {
+    socket.emit('nominate_player', {
+        category: category,
+        player: player,
+        explanation: explanation
+    });
+
+    showAlert(`Nominated ${player} for ${category}`, 'success');
+}
+
+function voteForPlayer(category, player) {
+    // Emit vote to server
+    socket.emit('vote_player', {
+        category: category,
+        player: player
+    });
+
+    showAlert(`Voted for ${player}`, 'info');
+}
+
+function updateNominations(category, nominations, explanations) {
+    const categoryIndex = getCategoryIndex(category);
+    const nominationsDiv = document.getElementById(`nominations-${categoryIndex}`);
+
+    if (Object.keys(nominations).length === 0) {
+        nominationsDiv.querySelector('.nominations-list').innerHTML =
+            '<p class="text-muted">No nominations yet</p>';
+        return;
+    }
+
+    let nominationsHTML = '';
+    for (const [player, nominators] of Object.entries(nominations)) {
+        const playerExplanations = explanations && explanations[player] ? explanations[player] : [];
+
+        nominationsHTML += `
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span><strong class="player-name">${player}</strong></span>
+                    <span class="badge bg-info">${nominators.length} nomination${nominators.length > 1 ? 's' : ''}</span>
+                </div>
+                ${playerExplanations.map(exp =>
+                    exp.explanation ? `<div class="small text-muted ms-3"><i class="fas fa-quote-left"></i> ${exp.explanation}</div>` : ''
+                ).join('')}
+            </div>
+        `;
+    }
+
+    nominationsDiv.querySelector('.nominations-list').innerHTML = nominationsHTML;
+
+    // Update voting options
+    updateVotingOptions(category, nominations);
+}
+
+function updateVotingOptions(category, nominations) {
+    const categoryIndex = getCategoryIndex(category);
+    const votingOptionsDiv = document.getElementById(`voting-options-${categoryIndex}`);
+
+    if (Object.keys(nominations).length === 0) {
+        votingOptionsDiv.innerHTML = '<p class="text-muted">Nominations needed before voting can begin</p>';
+        return;
+    }
+
+    let votingHTML = '<div class="row">';
+    for (const player of Object.keys(nominations)) {
+        votingHTML += `
+            <div class="col-md-6 mb-2">
+                <button class="btn btn-success w-100" onclick="voteForPlayer('${category}', '${player}')">
+                    🗳️ Vote for <span class="player-name">${player}</span>
+                </button>
+            </div>
+        `;
+    }
+    votingHTML += '</div>';
+
+    votingOptionsDiv.innerHTML = votingHTML;
+}
+
+function updateVotes(category, votes) {
+    // Votes are hidden until admin closes voting
+    // Only update the user's own vote display
+    console.log('Vote recorded (hidden until voting closes)');
+}
+
+function announceWinner(category, winner, votes) {
+    const categoryIndex = getCategoryIndex(category);
+    const winnerDiv = document.getElementById(`winner-${categoryIndex}`);
+
+    winnerDiv.querySelector('.winner-name').textContent = winner;
+    winnerDiv.style.display = 'block';
+
+    // Hide nomination and voting sections
+    document.getElementById(`nomination-${categoryIndex}`).style.display = 'none';
+    document.getElementById(`voting-${categoryIndex}`).style.display = 'none';
+
+    // Scroll to winner announcement
+    winnerDiv.scrollIntoView({ behavior: 'smooth' });
+
+    // Add to awards history
+    addToAwardsHistory(category, winner, votes);
+
+    // Results stay visible until admin manually resets
+}
+
+function resetCategory(categoryIndex) {
+    // Show nomination and voting sections
+    document.getElementById(`nomination-${categoryIndex}`).style.display = 'block';
+    document.getElementById(`voting-${categoryIndex}`).style.display = 'block';
+
+    // Hide winner section
+    document.getElementById(`winner-${categoryIndex}`).style.display = 'none';
+
+    // Reset nominations and voting
+    document.getElementById(`nominations-${categoryIndex}`).querySelector('.nominations-list').innerHTML =
+        '<p class="text-muted">No nominations yet</p>';
+    document.getElementById(`voting-options-${categoryIndex}`).innerHTML =
+        '<p class="text-muted">Nominations needed before voting can begin</p>';
+}
+
+function getCategoryIndex(category) {
+    const categories = ['Most Improved on New Hero', 'Biggest Clutch', 'Most Stylish Play/Skin', 'Fry\'s Life-is-a-resource Award', 'Clip Farmer'];
+    return categories.indexOf(category);
+}
+
+function addToAwardsHistory(category, winner, votes) {
+    const historyDiv = document.getElementById('awards-history');
+
+    if (historyDiv.querySelector('.text-muted')) {
+        historyDiv.innerHTML = '';
+    }
+
+    const timestamp = new Date().toLocaleString();
+    const historyItem = document.createElement('div');
+    historyItem.className = 'alert alert-light mb-2';
+    historyItem.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <strong>${winner}</strong> won <em>${category}</em>
+                <small class="text-muted d-block">${timestamp}</small>
+            </div>
+            <span class="badge bg-success">${votes} votes</span>
+        </div>
+    `;
+
+    historyDiv.insertBefore(historyItem, historyDiv.firstChild);
+
+    // Keep only last 10 items
+    while (historyDiv.children.length > 10) {
+        historyDiv.removeChild(historyDiv.lastChild);
+    }
+}
+
+async function updateTokenLeaderboard() {
+    // Since we replaced the token leaderboard with a slideshow,
+    // we'll reload the slideshow data to show any new winners
+    try {
+        await loadWinnersSlideshow();
+    } catch (error) {
+        console.error('Error updating winners slideshow:', error);
+    }
+}
+
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+
+    document.querySelector('.container').insertBefore(alertDiv, document.querySelector('.container').firstChild);
+
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 3000);
+}
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    // Load current voting state on page load
+    loadCurrentVotingState();
+    // Load and start slideshow
+    loadWinnersSlideshow();
+});
+
+let slideshowData = [];
+let currentSlideIndex = 0;
+let slideshowInterval;
+
+async function loadWinnersSlideshow() {
+    try {
+        const response = await fetch('/api/award-history');
+        slideshowData = await response.json();
+
+        if (slideshowData.length > 0) {
+            initializeSlideshow();
+            startSlideshow();
+        } else {
+            document.getElementById('slideshow-content').innerHTML =
+                '<p class="text-muted">No previous winners yet</p>';
+        }
+    } catch (error) {
+        console.error('Error loading winners slideshow:', error);
+        document.getElementById('slideshow-content').innerHTML =
+            '<p class="text-muted">Error loading winners</p>';
+    }
+}
+
+function initializeSlideshow() {
+    const indicatorsContainer = document.getElementById('slideshow-indicators');
+    indicatorsContainer.innerHTML = '';
+
+    // Create indicators
+    for (let i = 0; i < slideshowData.length; i++) {
+        const indicator = document.createElement('div');
+        indicator.className = `slideshow-indicator ${i === 0 ? 'active' : ''}`;
+        indicator.style.cssText = `
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: ${i === 0 ? 'var(--arcade-cyan)' : 'rgba(255,255,255,0.3)'};
+            cursor: pointer;
+            transition: all 0.3s ease;
+        `;
+        indicator.onclick = () => goToSlide(i);
+        indicatorsContainer.appendChild(indicator);
+    }
+
+    // Show first slide
+    showSlide(0);
+}
+
+function showSlide(index) {
+    if (slideshowData.length === 0) return;
+
+    currentSlideIndex = index;
+    const winner = slideshowData[index];
+
+    const content = document.getElementById('slideshow-content');
+    content.innerHTML = `
+        <div class="winner-slide" style="animation: fadeIn 0.5s ease-in-out;">
+            <div class="mb-2">
+                <i class="fas fa-trophy text-warning" style="font-size: 2rem;"></i>
+            </div>
+            <h4 class="text-warning mb-1 player-name">${winner.winner}</h4>
+            <p class="text-muted mb-1">${winner.category}</p>
+            <small class="text-muted">${formatDate(winner.date)}</small>
+        </div>
+    `;
+
+    // Update indicators
+    const indicators = document.querySelectorAll('.slideshow-indicator');
+    indicators.forEach((indicator, i) => {
+        indicator.style.backgroundColor = i === index ? 'var(--arcade-cyan)' : 'rgba(255,255,255,0.3)';
+    });
+}
+
+function nextSlide() {
+    const nextIndex = (currentSlideIndex + 1) % slideshowData.length;
+    showSlide(nextIndex);
+}
+
+function goToSlide(index) {
+    showSlide(index);
+    // Restart the interval
+    clearInterval(slideshowInterval);
+    startSlideshow();
+}
+
+function startSlideshow() {
+    if (slideshowData.length <= 1) return;
+
+    slideshowInterval = setInterval(nextSlide, 4000); // Change slide every 4 seconds
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+    });
+}
+
+// Add CSS animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slideshow-indicator:hover {
+        background-color: var(--arcade-pink) !important;
+        transform: scale(1.2);
+    }
+`;
+document.head.appendChild(style);
+
+async function loadCurrentVotingState() {
+    try {
+        const response = await fetch('/api/voting-state');
+        const votingState = await response.json();
+
+        // Update nominations and voting options for each category
+        for (const [category, data] of Object.entries(votingState)) {
+            if (data.nominations && Object.keys(data.nominations).length > 0) {
+                const categoryIndex = getCategoryIndex(category);
+                if (categoryIndex !== -1) {
+                    // Standard category
+                    updateNominations(category, data.nominations, data.explanations || {});
+                } else {
+                    // Custom category
+                    createOrUpdateCustomCategory(category, data.nominations, data.explanations || {});
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error loading voting state:', error);
+    }
+}
+
+function nominateCustomCategory() {
+    const customCategoryInput = document.getElementById('custom-category-input');
+    const customNominateSelect = document.getElementById('custom-nominate-select');
+    const customExplanation = document.getElementById('custom-explanation');
+
+    const customCategory = customCategoryInput.value.trim();
+    const selectedPlayer = customNominateSelect.value;
+    const explanation = customExplanation.value.trim();
+
+    if (!customCategory) {
+        showAlert('Please enter a custom award name', 'warning');
+        return;
+    }
+
+    if (!selectedPlayer) {
+        showAlert('Please select a player to nominate', 'warning');
+        return;
+    }
+
+    // Emit custom category nomination to server
+    socket.emit('nominate_custom_category', {
+        custom_category: customCategory,
+        player: selectedPlayer,
+        explanation: explanation
+    });
+
+    // Clear inputs
+    customCategoryInput.value = '';
+    customNominateSelect.value = '';
+    customExplanation.value = '';
+
+    showAlert(`Created custom award "${customCategory}" and nominated ${selectedPlayer}`, 'success');
+}
+
+function createOrUpdateCustomCategory(category, nominations, explanations) {
+    const container = document.getElementById('custom-categories-container');
+    let categoryDiv = document.getElementById(`custom-category-${category.replace(/[^a-zA-Z0-9]/g, '-')}`);
+
+    if (!categoryDiv) {
+        // Create new custom category section
+        categoryDiv = document.createElement('div');
+        categoryDiv.className = 'row mb-4';
+        categoryDiv.id = `custom-category-${category.replace(/[^a-zA-Z0-9]/g, '-')}`;
+        categoryDiv.innerHTML = `
+            <div class="col-12">
+                <div class="card border-success">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-star text-warning"></i>
+                            ${category} <span class="badge bg-light text-success">Custom</span>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Nomination Phase -->
+                        <div class="nomination-section" id="custom-nomination-${category.replace(/[^a-zA-Z0-9]/g, '-')}">
+                            <h6>Nominate a Player</h6>
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <select class="form-select" id="custom-nominate-select-${category.replace(/[^a-zA-Z0-9]/g, '-')}">
+                                        <option value="">Select a player to nominate...</option>
+                                        {% for player in players.keys() %}
+                                            <option value="{{ player }}">{{ player }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <input type="text" class="form-control" id="custom-explanation-${category.replace(/[^a-zA-Z0-9]/g, '-')}"
+                                           placeholder="Why? (optional explanation)">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button class="btn btn-success w-100" onclick="nominatePlayerForCustomCategory('${category}')">
+                                        <i class="fas fa-hand-point-up"></i> Nominate Player
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Current Nominations -->
+                            <div class="mt-3" id="custom-nominations-${category.replace(/[^a-zA-Z0-9]/g, '-')}">
+                                <h6>Nominations:</h6>
+                                <div class="nominations-list">
+                                    <p class="text-muted">No nominations yet</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Voting Phase -->
+                        <div class="voting-section mt-4" id="custom-voting-${category.replace(/[^a-zA-Z0-9]/g, '-')}">
+                            <h6>🗳️ Vote for Winner</h6>
+                            <div class="alert alert-info">
+                                <small><i class="fas fa-eye-slash"></i> Votes are hidden until admin closes voting</small>
+                            </div>
+                            <div class="voting-options" id="custom-voting-options-${category.replace(/[^a-zA-Z0-9]/g, '-')}">
+                                <p class="text-muted">Need nominations first!</p>
+                            </div>
+                        </div>
+
+                        <!-- Winner Announcement -->
+                        <div class="winner-section mt-4" id="custom-winner-${category.replace(/[^a-zA-Z0-9]/g, '-')}" style="display: none;">
+                            <div class="alert alert-success award-animation">
+                                <h4 class="mb-2">
+                                    <i class="fas fa-trophy text-warning"></i>
+                                    🎉 Winner: <span class="winner-name"></span>
+                                </h4>
+                                <p class="mb-0">+1 Token earned! 🏆</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.appendChild(categoryDiv);
+    }
+
+    // Update nominations
+    updateCustomCategoryNominations(category, nominations, explanations);
+}
+
+function updateCustomCategoryNominations(category, nominations, explanations) {
+    const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
+    const nominationsDiv = document.getElementById(`custom-nominations-${categoryId}`);
+
+    if (!nominationsDiv) return;
+
+    if (Object.keys(nominations).length === 0) {
+        nominationsDiv.querySelector('.nominations-list').innerHTML =
+            '<p class="text-muted">No nominations yet</p>';
+        return;
+    }
+
+    let nominationsHTML = '';
+    for (const [player, nominators] of Object.entries(nominations)) {
+        const playerExplanations = explanations && explanations[player] ? explanations[player] : [];
+
+        nominationsHTML += `
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span><strong>${player}</strong></span>
+                    <span class="badge bg-info">${nominators.length} nomination${nominators.length > 1 ? 's' : ''}</span>
+                </div>
+                ${playerExplanations.map(exp =>
+                    exp.explanation ? `<div class="small text-muted ms-3"><i class="fas fa-quote-left"></i> ${exp.explanation}</div>` : ''
+                ).join('')}
+            </div>
+        `;
+    }
+
+    nominationsDiv.querySelector('.nominations-list').innerHTML = nominationsHTML;
+
+    // Update voting options
+    updateCustomCategoryVotingOptions(category, nominations);
+}
+
+function updateCustomCategoryVotingOptions(category, nominations) {
+    const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
+    const votingOptionsDiv = document.getElementById(`custom-voting-options-${categoryId}`);
+
+    if (!votingOptionsDiv) return;
+
+    if (Object.keys(nominations).length === 0) {
+        votingOptionsDiv.innerHTML = '<p class="text-muted">Nominations needed before voting can begin</p>';
+        return;
+    }
+
+    let votingHTML = '<div class="row">';
+    for (const player of Object.keys(nominations)) {
+        votingHTML += `
+            <div class="col-md-6 mb-2">
+                <button class="btn btn-success w-100" onclick="voteForPlayer('${category}', '${player}')">
+                    🗳️ Vote for ${player}
+                </button>
+            </div>
+        `;
+    }
+    votingHTML += '</div>';
+
+    votingOptionsDiv.innerHTML = votingHTML;
+}
+
+function nominatePlayerForCustomCategory(category) {
+    const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
+    const selectElement = document.getElementById(`custom-nominate-select-${categoryId}`);
+    const explanationElement = document.getElementById(`custom-explanation-${categoryId}`);
+    const selectedPlayer = selectElement.value;
+    const explanation = explanationElement.value.trim();
+
+    if (!selectedPlayer) {
+        showAlert('Please select a player to nominate', 'warning');
+        return;
+    }
+
+    // Emit nomination to server
+    socket.emit('nominate_player', {
+        category: category,
+        player: selectedPlayer,
+        explanation: explanation
+    });
+
+    // Clear inputs
+    selectElement.value = '';
+    explanationElement.value = '';
+
+    showAlert(`Nominated ${selectedPlayer} for ${category}`, 'success');
+}
+
+function resetCustomCategory(category) {
+    const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
+    const categoryDiv = document.getElementById(`custom-category-${categoryId}`);
+
+    if (categoryDiv) {
+        // Reset nominations and voting
+        const nominationsDiv = categoryDiv.querySelector('.nominations-list');
+        const votingOptionsDiv = categoryDiv.querySelector(`#custom-voting-options-${categoryId}`);
+        const winnerDiv = categoryDiv.querySelector(`#custom-winner-${categoryId}`);
+        const nominationDiv = categoryDiv.querySelector(`#custom-nomination-${categoryId}`);
+        const votingDiv = categoryDiv.querySelector(`#custom-voting-${categoryId}`);
+
+        if (nominationsDiv) nominationsDiv.innerHTML = '<p class="text-muted">No nominations yet</p>';
+        if (votingOptionsDiv) votingOptionsDiv.innerHTML = '<p class="text-muted">Nominations needed before voting can begin</p>';
+        if (winnerDiv) winnerDiv.style.display = 'none';
+        if (nominationDiv) nominationDiv.style.display = 'block';
+        if (votingDiv) votingDiv.style.display = 'block';
+    }
+}
+</script>
+{% endblock %}

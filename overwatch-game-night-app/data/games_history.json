@@ -1,0 +1,32 @@
+[
+  {
+    "category": "Workshop",
+    "code": "AND2Y",
+    "description": "Hammond bumper cars",
+    "id": "AND2Y",
+    "name": "Bumper cars",
+    "player_count": {
+      "max": 12,
+      "min": 2,
+      "optimal": 6
+    },
+    "recommended_time": 3,
+    "timestamp": "2025-06-12T05:16:52.578Z",
+    "players": []
+  },
+  {
+    "category": "Workshop",
+    "code": "34ZYZ",
+    "description": "",
+    "id": "34ZYZ",
+    "name": "Mercy training range",
+    "player_count": {
+      "max": 12,
+      "min": 2,
+      "optimal": 6
+    },
+    "recommended_time": 6,
+    "timestamp": "2025-06-14T18:37:38.034Z",
+    "players": []
+  }
+]

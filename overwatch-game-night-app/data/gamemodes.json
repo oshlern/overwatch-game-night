@@ -1,0 +1,886 @@
+[
+  {
+    "id": "EXOTC",
+    "code": "EXOTC",
+    "name": "CS Surf",
+    "description": "Slide, fly, and race through the sky",
+    "category": "Workshop",
+    "recommended_time": 7,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "1DMTZ",
+    "code": "1DMTZ",
+    "name": "Ana paintball",
+    "description": "Free for all 1 health anas",
+    "category": "PvP",
+    "recommended_time": 6,
+    "player_count": {
+      "min": 3,
+      "max": 12,
+      "optimal": 8
+    }
+  },
+  {
+    "id": "KY0GF",
+    "code": "KY0GF",
+    "name": "Doom sumo",
+    "description": "Punch doom off the island",
+    "category": "PvP",
+    "recommended_time": 6,
+    "player_count": {
+      "min": 2,
+      "max": 8,
+      "optimal": 4
+    }
+  },
+  {
+    "id": "R5Y5Q",
+    "code": "R5Y5Q",
+    "name": "Lucio Tag",
+    "description": "Deal damage to tag a lucio, cant wallride forever",
+    "category": "PvP",
+    "recommended_time": 5,
+    "player_count": {
+      "min": 3,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "QKTTV",
+    "code": "QKTTV",
+    "name": "Sleep n Yeet",
+    "description": "put grandma to sleep with the fishes",
+    "category": "Workshop",
+    "recommended_time": 4,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "1Y2WZ",
+    "code": "1Y2WZ",
+    "name": "Where is it? (Runasapi)",
+    "description": "Chill map exploration (overwatch geoguesser)",
+    "category": "Workshop",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "MKRYK",
+    "code": "MKRYK",
+    "name": "If I see you move you die",
+    "description": "sneak across the map",
+    "category": "Workshop",
+    "recommended_time": 6,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "X3Y1A",
+    "code": "X3Y1A",
+    "name": "Torbjorn Golf",
+    "description": "be the golf ball",
+    "category": "Workshop",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 2,
+      "max": 8,
+      "optimal": 4
+    }
+  },
+  {
+    "id": "RDM3E",
+    "code": "RDM3E",
+    "name": "Lunapark 2",
+    "description": "Amusement park blizzard world",
+    "category": "Workshop",
+    "recommended_time": 15,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "PS2NR",
+    "code": "PS2NR",
+    "name": "Mei get high together",
+    "description": "work together to climb up",
+    "category": "Workshop",
+    "recommended_time": 5,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "0CK2WY",
+    "code": "0CK2WY",
+    "name": "Summer Coast Park",
+    "description": "Chill and enjoy the Havana sun",
+    "category": "Workshop",
+    "recommended_time": 6,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "3ERSY6",
+    "code": "3ERSY6",
+    "name": "Keep talking and nobody explodes",
+    "description": "2-4 players, exactly like the real game",
+    "category": "Workshop",
+    "recommended_time": 12,
+    "player_count": {
+      "min": 2,
+      "max": 4,
+      "optimal": 3
+    }
+  },
+  {
+    "id": "GV7E3",
+    "code": "GV7E3",
+    "name": "The Beast",
+    "description": "Take on the beast together with your progressive unique talents",
+    "category": "Workshop",
+    "recommended_time": 15,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "SD7DY",
+    "code": "SD7DY",
+    "name": "Dva dogfight",
+    "description": "Choose your mech from Dva's busan base",
+    "category": "Workshop",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "W468T",
+    "code": "W468T",
+    "name": "Island party",
+    "description": "A minigame for each hero, rounds are short and funny",
+    "category": "Workshop",
+    "recommended_time": 15,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "7HSKW",
+    "code": "7HSKW",
+    "name": "6v6",
+    "description": "Actively balanced competitive experience",
+    "category": "Workshop",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 12,
+      "max": 12,
+      "optimal": 12
+    }
+  },
+  {
+    "id": "0HJ10",
+    "code": "0HJ10",
+    "name": "Lucioball (street ball)",
+    "description": "On many maps and abilities enabled",
+    "category": "Workshop",
+    "recommended_time": 5,
+    "player_count": {
+      "min": 4,
+      "max": 8,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "4M0XT",
+    "code": "4M0XT",
+    "name": "Bastion king kong",
+    "description": "Flying bastion fighters vs a winston",
+    "category": "Workshop",
+    "recommended_time": 6,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "CCCGZ",
+    "code": "CCCGZ",
+    "name": "Reverse Junkenstein's",
+    "description": "",
+    "category": "Workshop",
+    "recommended_time": 15,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "WF51X",
+    "code": "WF51X",
+    "name": "You vs You",
+    "description": "Duality simulator, mirrored or rotated",
+    "category": "Workshop",
+    "recommended_time": 3,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "38SY3",
+    "code": "38SY3",
+    "name": "Echo Zombie survival",
+    "description": "PVE survival with AI",
+    "category": "PvP",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 4,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "AND2Y",
+    "code": "AND2Y",
+    "name": "Bumper cars",
+    "description": "Hammond bumper cars",
+    "category": "Workshop",
+    "recommended_time": 3,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "78YQV",
+    "code": "78YQV",
+    "name": "Infinite stairs",
+    "description": "",
+    "category": "Workshop",
+    "recommended_time": 4,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "FH93A",
+    "code": "FH93A",
+    "name": "Pictionary",
+    "description": "",
+    "category": "Workshop",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 4,
+      "max": 12,
+      "optimal": 8
+    }
+  },
+  {
+    "id": "TXCXX",
+    "code": "TXCXX",
+    "name": "1v1 Arena",
+    "description": "",
+    "category": "Workshop",
+    "recommended_time": 6,
+    "player_count": {
+      "min": 2,
+      "max": 2,
+      "optimal": 2
+    }
+  },
+  {
+    "id": "RONRY",
+    "code": "RONRY",
+    "name": "Kill to grow",
+    "description": "",
+    "category": "Workshop",
+    "recommended_time": 6,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "5E5XE",
+    "code": "5E5XE",
+    "name": "Stick bug",
+    "description": "",
+    "category": "Workshop",
+    "recommended_time": 1,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "62HMC",
+    "code": "62HMC",
+    "name": "Four square",
+    "description": "and Heroes have unique abilities",
+    "category": "Workshop",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 4,
+      "max": 4,
+      "optimal": 4
+    }
+  },
+  {
+    "id": "A17FP",
+    "code": "A17FP",
+    "name": "Mystery heroes",
+    "description": "and swaps your hero when you ult",
+    "category": "Arcade",
+    "recommended_time": 12,
+    "player_count": {
+      "min": 6,
+      "max": 12,
+      "optimal": 12
+    }
+  },
+  {
+    "id": "MKRYK",
+    "code": "MKRYK",
+    "name": "If I see you move you die",
+    "description": "If a Seeker catches a Runner moving, the Runner will start burning and take damage over time.",
+    "category": "Workshop",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "3W2AG",
+    "code": "3W2AG",
+    "name": "Hero gauntlet",
+    "description": "w/ scoreboard for spectators",
+    "category": "Workshop",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "DGEBS",
+    "code": "DGEBS",
+    "name": "Hot potato",
+    "description": "Rolling hammonds, pass it on quickly",
+    "category": "Workshop",
+    "recommended_time": 4,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "REMRR",
+    "code": "REMRR",
+    "name": "Hide and seek",
+    "description": "Seekers have flight, radar, and collision abilities",
+    "category": "Workshop",
+    "recommended_time": 8,
+    "player_count": {
+      "min": 4,
+      "max": 12,
+      "optimal": 8
+    }
+  },
+  {
+    "id": "BHQ6G",
+    "code": "BHQ6G",
+    "name": "12 hogs 1 hole",
+    "description": "Hook insanity",
+    "category": "Workshop",
+    "recommended_time": 5,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "GMW2N",
+    "code": "GMW2N",
+    "name": "Mirrored mystery deathmatch",
+    "description": "",
+    "category": "Arcade",
+    "recommended_time": 8,
+    "player_count": {
+      "min": 4,
+      "max": 12,
+      "optimal": 8
+    }
+  },
+  {
+    "id": "Arcade",
+    "code": "Arcade",
+    "name": "3v3 lockout elimination",
+    "description": "",
+    "category": "Arcade",
+    "recommended_time": 12,
+    "player_count": {
+      "min": 6,
+      "max": 6,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "Arcade",
+    "code": "Arcade",
+    "name": "Capture the flag blitz",
+    "description": "",
+    "category": "Arcade",
+    "recommended_time": 8,
+    "player_count": {
+      "min": 6,
+      "max": 12,
+      "optimal": 8
+    }
+  },
+  {
+    "id": "Arcade",
+    "code": "Arcade",
+    "name": "No limits",
+    "description": "",
+    "category": "Arcade",
+    "recommended_time": 14,
+    "player_count": {
+      "min": 6,
+      "max": 12,
+      "optimal": 12
+    }
+  },
+  {
+    "id": "RSVCJ",
+    "code": "RSVCJ",
+    "name": "Freezethaw elimination",
+    "description": "Frozen on death, can unthaw teammates",
+    "category": "Arcade",
+    "recommended_time": 5,
+    "player_count": {
+      "min": 6,
+      "max": 12,
+      "optimal": 8
+    }
+  },
+  {
+    "id": "GY1MN",
+    "code": "GY1MN",
+    "name": "Team gun game",
+    "description": "",
+    "category": "Workshop",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "6HH60",
+    "code": "6HH60",
+    "name": "Bastion fishing",
+    "description": "Gotta catch 'em all",
+    "category": "Workshop",
+    "recommended_time": 15,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "ZE1YV",
+    "code": "ZE1YV",
+    "name": "Flappy mercy",
+    "description": "flap the furthest",
+    "category": "Workshop",
+    "recommended_time": 4,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "SROT1",
+    "code": "SROT1",
+    "name": "COD zombies",
+    "description": "",
+    "category": "Workshop",
+    "recommended_time": 18,
+    "player_count": {
+      "min": 4,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "XPwon",
+    "code": "XPwon",
+    "name": "Torbjorn pong",
+    "description": "",
+    "category": "Workshop",
+    "recommended_time": 4,
+    "player_count": {
+      "min": 2,
+      "max": 8,
+      "optimal": 4
+    }
+  },
+  {
+    "id": "WKJ5E",
+    "code": "WKJ5E",
+    "name": "COD deathmatch",
+    "description": "With killstreak rewards",
+    "category": "Arcade",
+    "recommended_time": 6,
+    "player_count": {
+      "min": 4,
+      "max": 12,
+      "optimal": 8
+    }
+  },
+  {
+    "id": "WSX9K",
+    "code": "WSX9K",
+    "name": "Avatar pro bending",
+    "description": "Arena, use abilities of your element",
+    "category": "Workshop",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "22FJJ",
+    "code": "22FJJ",
+    "name": "Uno",
+    "description": "",
+    "category": "Workshop",
+    "recommended_time": 6,
+    "player_count": {
+      "min": 2,
+      "max": 4,
+      "optimal": 3
+    }
+  },
+  {
+    "id": "5FMZW",
+    "code": "5FMZW",
+    "name": "Battle Royal",
+    "description": "Complicated, check website",
+    "category": "Workshop",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 6,
+      "max": 12,
+      "optimal": 10
+    }
+  },
+  {
+    "id": "14WON",
+    "code": "14WON",
+    "name": "Bed wars",
+    "description": "Base fights, FFA",
+    "category": "Workshop",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 3,
+      "max": 12,
+      "optimal": 8
+    }
+  },
+  {
+    "id": "FPXP3",
+    "code": "FPXP3",
+    "name": "Snipers 1v1",
+    "description": "Can be set to more than 1v1",
+    "category": "Workshop",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 2,
+      "max": 2,
+      "optimal": 2
+    }
+  },
+  {
+    "id": "AJEG5",
+    "code": "AJEG5",
+    "name": "Lucio Volleyball",
+    "description": "",
+    "category": "Workshop",
+    "recommended_time": 5,
+    "player_count": {
+      "min": 4,
+      "max": 8,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "7HMMT",
+    "code": "7HMMT",
+    "name": "Murder Mystery",
+    "description": "",
+    "category": "Arcade",
+    "recommended_time": 20,
+    "player_count": {
+      "min": 6,
+      "max": 12,
+      "optimal": 10
+    }
+  },
+  {
+    "id": "0TGRD",
+    "code": "0TGRD",
+    "name": "Connect Four",
+    "description": "",
+    "category": "Workshop",
+    "recommended_time": 5,
+    "player_count": {
+      "min": 2,
+      "max": 4,
+      "optimal": 3
+    }
+  },
+  {
+    "id": "RRBPY",
+    "code": "RRBPY",
+    "name": "Bouncy Castle FFA",
+    "description": "",
+    "category": "Workshop",
+    "recommended_time": 3,
+    "player_count": {
+      "min": 3,
+      "max": 12,
+      "optimal": 8
+    }
+  },
+  {
+    "id": "Ask Osher",
+    "code": "Ask Osher",
+    "name": "Mercy Parkour",
+    "description": "",
+    "category": "Parkour",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 1,
+      "max": 12,
+      "optimal": 3
+    }
+  },
+  {
+    "id": "KVKKR",
+    "code": "KVKKR",
+    "name": "Lucio Surf",
+    "description": "",
+    "category": "Workshop",
+    "recommended_time": 8,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  },
+  {
+    "id": "X8080",
+    "code": "X8080",
+    "name": "Moira Parkour, Pioneer",
+    "description": "Pioneer",
+    "category": "Parkour",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 1,
+      "max": 12,
+      "optimal": 3
+    }
+  },
+  {
+    "id": "3VE5T",
+    "code": "3VE5T",
+    "name": "Doomfist Parkour",
+    "description": "",
+    "category": "Parkour",
+    "recommended_time": 20,
+    "player_count": {
+      "min": 1,
+      "max": 12,
+      "optimal": 3
+    }
+  },
+  {
+    "id": "B1ED1",
+    "code": "B1ED1",
+    "name": "Genji Parkour",
+    "description": "Circuit Royal",
+    "category": "Parkour",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 1,
+      "max": 12,
+      "optimal": 3
+    }
+  },
+  {
+    "id": "1PNQ2",
+    "code": "1PNQ2",
+    "name": "Juno Parkour",
+    "description": "",
+    "category": "Parkour",
+    "recommended_time": 8,
+    "player_count": {
+      "min": 2,
+      "max": 4,
+      "optimal": 3
+    }
+  },
+  {
+    "id": "SH9G9",
+    "code": "SH9G9",
+    "name": "Ana Parkour",
+    "description": "",
+    "category": "Parkour",
+    "recommended_time": 9,
+    "player_count": {
+      "min": 1,
+      "max": 12,
+      "optimal": 3
+    }
+  },
+  {
+    "id": "BY6SK",
+    "code": "BY6SK",
+    "name": "Venture Parkour",
+    "description": "",
+    "category": "Parkour",
+    "recommended_time": 6,
+    "player_count": {
+      "min": 1,
+      "max": 12,
+      "optimal": 3
+    }
+  },
+  {
+    "id": "OTB1D",
+    "code": "OTB1D",
+    "name": "Kiriko Parkour",
+    "description": "",
+    "category": "Parkour",
+    "recommended_time": 9,
+    "player_count": {
+      "min": 1,
+      "max": 12,
+      "optimal": 3
+    }
+  },
+  {
+    "id": "CAGGT",
+    "code": "CAGGT",
+    "name": "Ball Parkour",
+    "description": "",
+    "category": "Parkour",
+    "recommended_time": 8,
+    "player_count": {
+      "min": 1,
+      "max": 12,
+      "optimal": 3
+    }
+  },
+  {
+    "id": "BAAFZ",
+    "code": "BAAFZ",
+    "name": "Widow Parkour",
+    "description": "Hookshots!",
+    "category": "Parkour",
+    "recommended_time": 7,
+    "player_count": {
+      "min": 1,
+      "max": 12,
+      "optimal": 3
+    }
+  },
+  {
+    "id": "YKYBV",
+    "code": "YKYBV",
+    "name": "Quidditch Parkour",
+    "description": "",
+    "category": "Parkour",
+    "recommended_time": 5,
+    "player_count": {
+      "min": 1,
+      "max": 12,
+      "optimal": 3
+    }
+  },
+  {
+    "id": "3DBW9",
+    "code": "3DBW9",
+    "name": "Co-op Parkour",
+    "description": "Survasa",
+    "category": "Parkour",
+    "recommended_time": 10,
+    "player_count": {
+      "min": 1,
+      "max": 12,
+      "optimal": 3
+    }
+  },
+  {
+    "id": "34ZYZ",
+    "code": "34ZYZ",
+    "name": "Mercy training range",
+    "description": "",
+    "category": "Workshop",
+    "recommended_time": 6,
+    "player_count": {
+      "min": 2,
+      "max": 12,
+      "optimal": 6
+    }
+  }
+]
