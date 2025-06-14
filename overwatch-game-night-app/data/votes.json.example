@@ -1,0 +1,146 @@
+{
+  "Most Improved on New Hero": {
+    "nominations": {
+      "BriskBadger": [
+        "beddcac9-a5a1-438a-b57e-8738dec32e36"
+      ],
+      "AmberWren": [
+        "beddcac9-a5a1-438a-b57e-8738dec32e36"
+      ],
+      "SunnyRaven": [
+        "beddcac9-a5a1-438a-b57e-8738dec32e36"
+      ],
+      "SunnyGecko": [
+        "851cf28e-0b80-4ffc-8ac5-9266169581a1"
+      ]
+    },
+    "votes": {
+      "AmberWren": [
+        "e184799a-5a6b-442c-a685-3e0c820a5f69",
+        "c7568447-990d-4cc5-a87b-1c208221a826"
+      ],
+      "BriskBadger": [
+        "beddcac9-a5a1-438a-b57e-8738dec32e36"
+      ],
+      "SunnyRaven": [
+        "7238f7dd-9c68-4440-bd0e-c069388c286b",
+        "e5631577-25db-4e14-9a0d-98ba35d3cab0"
+      ],
+      "SunnyGecko": [
+        "10320427-6a4e-4dde-8841-2252b7c286fc",
+        "2bc3e241-6a6c-4385-8fea-b86e42ff941a"
+      ],
+      "null": [
+        "8bd8b237-1ea4-4993-ac5f-b907df26e26e"
+      ],
+      "": [
+        "dce2ffc6-7584-40f6-b93d-db87c735ede7",
+        "5c5ac92e-2ca0-482a-9eca-aa1e2f37cf52"
+      ]
+    },
+    "explanations": {
+      "BriskBadger": [
+        {
+          "user_id": "beddcac9-a5a1-438a-b57e-8738dec32e36",
+          "explanation": ""
+        }
+      ],
+      "AmberWren": [
+        {
+          "user_id": "beddcac9-a5a1-438a-b57e-8738dec32e36",
+          "explanation": ""
+        }
+      ],
+      "SunnyRaven": [
+        {
+          "user_id": "beddcac9-a5a1-438a-b57e-8738dec32e36",
+          "explanation": "asda"
+        }
+      ],
+      "SunnyGecko": [
+        {
+          "user_id": "851cf28e-0b80-4ffc-8ac5-9266169581a1",
+          "explanation": "asd"
+        }
+      ]
+    }
+  },
+  "Biggest Clutch": {
+    "nominations": {},
+    "votes": {},
+    "explanations": {}
+  },
+  "Most Stylish Play/Skin": {
+    "nominations": {},
+    "votes": {}
+  },
+  "Tes": {
+    "nominations": {
+      "IvorySprout": [
+        "0a08b91a-0d50-4e0a-b3e8-4d2593618816"
+      ]
+    },
+    "votes": {
+      "IvorySprout": [
+        "7238f7dd-9c68-4440-bd0e-c069388c286b"
+      ]
+    },
+    "explanations": {
+      "IvorySprout": [
+        {
+          "user_id": "0a08b91a-0d50-4e0a-b3e8-4d2593618816",
+          "explanation": "s"
+        }
+      ]
+    }
+  },
+  "AB": {
+    "nominations": {},
+    "votes": {}
+  },
+  "Clip Farmer": {
+    "nominations": {
+      "HollowFern": [
+        "b77bbd98-ffea-4142-a63b-8d365b19d7a4"
+      ]
+    },
+    "votes": {
+      "HollowFern": [
+        "b77bbd98-ffea-4142-a63b-8d365b19d7a4",
+        "7238f7dd-9c68-4440-bd0e-c069388c286b",
+        "2bc3e241-6a6c-4385-8fea-b86e42ff941a",
+        "e86f07be-1ce0-4401-b38e-bd356da83611",
+        "d263af36-23b6-470e-bbd1-834e71f6d5a9",
+        "c7568447-990d-4cc5-a87b-1c208221a826"
+      ]
+    },
+    "explanations": {
+      "HollowFern": [
+        {
+          "user_id": "b77bbd98-ffea-4142-a63b-8d365b19d7a4",
+          "explanation": ""
+        }
+      ]
+    }
+  },
+  "sdas": {
+    "nominations": {
+      "NimbleQuill": [
+        "e86f07be-1ce0-4401-b38e-bd356da83611"
+      ]
+    },
+    "votes": {
+      "NimbleQuill": [
+        "c7568447-990d-4cc5-a87b-1c208221a826"
+      ]
+    },
+    "explanations": {
+      "NimbleQuill": [
+        {
+          "user_id": "e86f07be-1ce0-4401-b38e-bd356da83611",
+          "explanation": "asd"
+        }
+      ]
+    }
+  }
+}

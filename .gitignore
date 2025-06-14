@@ -7,8 +7,9 @@ matchings/*.txt
 **/matchings*.csv
 **/grouped_teams.txt
 
-# Ignore everything in data directory except gamemodes.json
-overwatch-game-night-app/data/*
+# Ignore everything in data directory except gamemodes.json and .example files
+overwatch-game-night-app/data/*.json
+!overwatch-game-night-app/data/*.json.example
 !overwatch-game-night-app/data/gamemodes.json
 
 # DS Store

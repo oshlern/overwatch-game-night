@@ -1,0 +1,1806 @@
+[
+  {
+    "id": "6a33a09a-701e-45fc-ae07-9e9c7ce1a8b0",
+    "timestamp": "2025-06-11T21:13:09.891731",
+    "type": "6v6",
+    "players": [
+      "NimbleQuill",
+      "NimbleComet",
+      "BriskNewt",
+      "EmberWren",
+      "TidalComet",
+      "HollowFern",
+      "GildedQuill",
+      "JollyOtter",
+      "FrostyQuill",
+      "MossyRaven",
+      "RustyZephyr"
+    ],
+    "teams": [
+      {
+        "Battletag": "EmberWren",
+        "Discord": "EmberWren",
+        "SR": 2.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "GildedQuill",
+        "Discord": "LunarSprout",
+        "SR": 7.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "NimbleComet",
+        "Discord": "NimbleComet",
+        "SR": 8.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "BriskNewt",
+        "Discord": "BriskNewt",
+        "SR": 6.25,
+        "Comf": 0,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "RustyZephyr",
+        "Discord": "QuietOtter",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "FrostyQuill",
+        "Discord": "FrostyQuill",
+        "SR": 5.25,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "MossyRaven",
+        "Discord": "QuietRaven",
+        "SR": 2.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "NimbleQuill",
+        "Discord": "IvoryZephyr",
+        "SR": 5.75,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "TidalComet",
+        "Discord": "TidalComet",
+        "SR": 5.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "HollowFern",
+        "Discord": "HollowFern",
+        "SR": 6.75,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      6.2,
+      5.2
+    ],
+    "avg_comfort": 0.7272727272727273
+  },
+  {
+    "id": "6a0a0a88-1736-4ba3-b015-a39289ba6dee",
+    "timestamp": "2025-06-12T21:58:04.189509",
+    "type": "6v6",
+    "players": [
+      "NimbleComet",
+      "DuskyQuill",
+      "DuskyKettle",
+      "TidalComet",
+      "HollowFern",
+      "FrostyQuill",
+      "OpalQuill",
+      "GildedGecko",
+      "AmberWren",
+      "SunnyRaven"
+    ],
+    "teams": [
+      {
+        "Battletag": "DuskyQuill",
+        "Discord": "DuskyQuill",
+        "SR": 2.25,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "DuskyKettle",
+        "Discord": "DuskyKettle",
+        "SR": 4.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "NimbleComet",
+        "Discord": "NimbleComet",
+        "SR": 3.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "GildedGecko",
+        "Discord": "DuskyZephyr",
+        "SR": 8.75,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "HollowFern",
+        "Discord": "HollowFern",
+        "SR": 7.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "FrostyQuill",
+        "Discord": "FrostyQuill",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "SunnyRaven",
+        "Discord": "AmberMarble",
+        "SR": 5.25,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "TidalComet",
+        "Discord": "TidalComet",
+        "SR": 5.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "AmberWren",
+        "Discord": "AmberWren",
+        "SR": 6.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "OpalQuill",
+        "Discord": "OpalQuill",
+        "SR": 5.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.15,
+      6.1
+    ],
+    "avg_comfort": 1.0
+  },
+  {
+    "id": "4b884c7e-39eb-4763-8265-512f6cf7e09a",
+    "timestamp": "2025-06-12T21:58:28.708477",
+    "type": "6v6",
+    "players": [
+      "NimbleComet",
+      "DuskyQuill",
+      "DuskyKettle",
+      "TidalComet",
+      "HollowFern",
+      "FrostyQuill",
+      "OpalQuill",
+      "GildedGecko",
+      "AmberWren",
+      "SunnyRaven",
+      "SunnyThistle"
+    ],
+    "teams": [
+      {
+        "Battletag": "FrostyQuill",
+        "Discord": "FrostyQuill",
+        "SR": 5.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "SunnyRaven",
+        "Discord": "AmberMarble",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "TidalComet",
+        "Discord": "TidalComet",
+        "SR": 4.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "AmberWren",
+        "Discord": "AmberWren",
+        "SR": 9.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "OpalQuill",
+        "Discord": "OpalQuill",
+        "SR": 6.25,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "DuskyQuill",
+        "Discord": "DuskyQuill",
+        "SR": 2.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "DuskyKettle",
+        "Discord": "DuskyKettle",
+        "SR": 2.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "NimbleComet",
+        "Discord": "NimbleComet",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "GildedGecko",
+        "Discord": "DuskyZephyr",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "HollowFern",
+        "Discord": "HollowFern",
+        "SR": 4.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.6,
+      3.8
+    ],
+    "avg_comfort": 0.9090909090909091
+  },
+  {
+    "id": "2fc91981-089e-40e6-8f7c-8da98b552fb1",
+    "timestamp": "2025-06-12T21:58:29.530866",
+    "type": "6v6",
+    "players": [
+      "NimbleComet",
+      "DuskyQuill",
+      "DuskyKettle",
+      "TidalComet",
+      "HollowFern",
+      "FrostyQuill",
+      "OpalQuill",
+      "GildedGecko",
+      "AmberWren",
+      "SunnyRaven",
+      "SunnyThistle"
+    ],
+    "teams": [
+      {
+        "Battletag": "FrostyQuill",
+        "Discord": "FrostyQuill",
+        "SR": 7.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "SunnyRaven",
+        "Discord": "AmberMarble",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "TidalComet",
+        "Discord": "TidalComet",
+        "SR": 3.75,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "AmberWren",
+        "Discord": "AmberWren",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "OpalQuill",
+        "Discord": "OpalQuill",
+        "SR": 4.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "DuskyQuill",
+        "Discord": "DuskyQuill",
+        "SR": 3.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "DuskyKettle",
+        "Discord": "DuskyKettle",
+        "SR": 4.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "NimbleComet",
+        "Discord": "NimbleComet",
+        "SR": 8.75,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "GildedGecko",
+        "Discord": "DuskyZephyr",
+        "SR": 8.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "HollowFern",
+        "Discord": "HollowFern",
+        "SR": 3.75,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      6.0,
+      5.75
+    ],
+    "avg_comfort": 0.9090909090909091
+  },
+  {
+    "id": "13bb1c4e-0b93-4673-96b3-b9eadd961b0f",
+    "timestamp": "2025-06-12T21:58:32.488206",
+    "type": "6v6",
+    "players": [
+      "NimbleComet",
+      "DuskyQuill",
+      "DuskyKettle",
+      "TidalComet",
+      "HollowFern",
+      "FrostyQuill",
+      "OpalQuill",
+      "GildedGecko",
+      "AmberWren",
+      "SunnyRaven",
+      "SunnyThistle",
+      "JollyGecko"
+    ],
+    "teams": [
+      {
+        "Battletag": "SunnyRaven",
+        "Discord": "AmberMarble",
+        "SR": 2.25,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "SunnyThistle",
+        "Discord": "IvoryWren",
+        "SR": 4.25,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "TidalComet",
+        "Discord": "TidalComet",
+        "SR": 7.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "JollyGecko",
+        "Discord": "NimbleKettle",
+        "SR": 2.75,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "OpalQuill",
+        "Discord": "OpalQuill",
+        "SR": 5.25,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "DuskyKettle",
+        "Discord": "DuskyKettle",
+        "SR": 3.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "FrostyQuill",
+        "Discord": "FrostyQuill",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "NimbleComet",
+        "Discord": "NimbleComet",
+        "SR": 5.75,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "AmberWren",
+        "Discord": "AmberWren",
+        "SR": 2.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "HollowFern",
+        "Discord": "HollowFern",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      4.35,
+      4.95
+    ],
+    "avg_comfort": 1.0
+  },
+  {
+    "id": "e7670653-1980-41b5-8c6c-c2842877d215",
+    "timestamp": "2025-06-12T21:58:33.276212",
+    "type": "6v6",
+    "players": [
+      "NimbleComet",
+      "DuskyQuill",
+      "DuskyKettle",
+      "TidalComet",
+      "HollowFern",
+      "FrostyQuill",
+      "OpalQuill",
+      "GildedGecko",
+      "AmberWren",
+      "SunnyRaven",
+      "SunnyThistle",
+      "JollyGecko"
+    ],
+    "teams": [
+      {
+        "Battletag": "SunnyRaven",
+        "Discord": "AmberMarble",
+        "SR": 2.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "SunnyThistle",
+        "Discord": "IvoryWren",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "TidalComet",
+        "Discord": "TidalComet",
+        "SR": 3.75,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "JollyGecko",
+        "Discord": "NimbleKettle",
+        "SR": 3.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "OpalQuill",
+        "Discord": "OpalQuill",
+        "SR": 5.75,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "DuskyKettle",
+        "Discord": "DuskyKettle",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "FrostyQuill",
+        "Discord": "FrostyQuill",
+        "SR": 5.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "NimbleComet",
+        "Discord": "NimbleComet",
+        "SR": 5.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "AmberWren",
+        "Discord": "AmberWren",
+        "SR": 2.75,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "HollowFern",
+        "Discord": "HollowFern",
+        "SR": 5.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      4.3,
+      5.15
+    ],
+    "avg_comfort": 1.0
+  },
+  {
+    "id": "d6133500-274d-4961-a6de-7f8599d55063",
+    "timestamp": "2025-06-12T21:58:42.492163",
+    "type": "6v6",
+    "players": [
+      "DuskyQuill",
+      "DuskyKettle",
+      "TidalComet",
+      "HollowFern",
+      "FrostyQuill",
+      "OpalQuill",
+      "GildedGecko",
+      "AmberWren",
+      "SunnyRaven",
+      "JollyGecko",
+      "NimbleComet",
+      "SunnyGecko"
+    ],
+    "teams": [
+      {
+        "Battletag": "DuskyKettle",
+        "Discord": "DuskyKettle",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "SunnyGecko",
+        "Discord": "IvoryYeti",
+        "SR": 5.25,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "GildedGecko",
+        "Discord": "DuskyZephyr",
+        "SR": 5.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "JollyGecko",
+        "Discord": "NimbleKettle",
+        "SR": 3.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "HollowFern",
+        "Discord": "HollowFern",
+        "SR": 6.25,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "DuskyQuill",
+        "Discord": "DuskyQuill",
+        "SR": 3.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "SunnyRaven",
+        "Discord": "AmberMarble",
+        "SR": 2.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "TidalComet",
+        "Discord": "TidalComet",
+        "SR": 3.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "NimbleComet",
+        "Discord": "NimbleComet",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "OpalQuill",
+        "Discord": "OpalQuill",
+        "SR": 7.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      4.55,
+      4.95
+    ],
+    "avg_comfort": 0.8333333333333334
+  },
+  {
+    "id": "5ca14f2a-d8d3-4127-bca3-67071144ecd7",
+    "timestamp": "2025-06-14T11:44:44.181707",
+    "type": "6v6",
+    "players": [
+      "NimbleComet",
+      "DuskyQuill",
+      "NimbleSprout",
+      "DuskyKettle",
+      "IvorySprout",
+      "TidalComet",
+      "AmberSprout",
+      "EmberWren",
+      "HollowFern",
+      "Russia"
+    ],
+    "teams": [
+      {
+        "Battletag": "DuskyQuill",
+        "Discord": "DuskyQuill",
+        "SR": 7.25,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "EmberWren",
+        "Discord": "EmberWren",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "DuskyKettle",
+        "Discord": "DuskyKettle",
+        "SR": 5.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "AmberSprout",
+        "Discord": "AmberComet",
+        "SR": 7.75,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "IvorySprout",
+        "Discord": "IvorySprout",
+        "SR": 2.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "NimbleComet",
+        "Discord": "NimbleComet",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "NimbleSprout",
+        "Discord": "NimbleSprout",
+        "SR": 3.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "TidalComet",
+        "Discord": "TidalComet",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "HollowFern",
+        "Discord": "HollowFern",
+        "SR": 3.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.75,
+      3.7
+    ],
+    "avg_comfort": 1.0
+  },
+  {
+    "id": "81cae7af-cc85-46fc-8c69-09db889666f9",
+    "timestamp": "2025-06-14T11:50:55.668053",
+    "type": "5v5",
+    "players": [
+      "NimbleQuill",
+      "JollyGecko",
+      "GildedGecko",
+      "Russia",
+      "OpalQuill",
+      "Test",
+      "FrostyZephyr",
+      "HollowOtter",
+      "SunnyGecko",
+      "SunnyThistle"
+    ],
+    "teams": [
+      {
+        "Battletag": "Test",
+        "Discord": "Test",
+        "SR": 4.5,
+        "Comf": 0,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "SunnyThistle",
+        "Discord": "IvoryWren",
+        "SR": 3.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "NimbleQuill",
+        "Discord": "IvoryZephyr",
+        "SR": 6.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "JollyGecko",
+        "Discord": "NimbleKettle",
+        "SR": 2.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "FrostyZephyr",
+        "Discord": "FrostyZephyr",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "SunnyGecko",
+        "Discord": "IvoryYeti",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "GildedGecko",
+        "Discord": "DuskyZephyr",
+        "SR": 5.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "HollowOtter",
+        "Discord": "AmberNewt",
+        "SR": 6.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "OpalQuill",
+        "Discord": "OpalQuill",
+        "SR": 2.75,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      3.8,
+      4.95
+    ],
+    "avg_comfort": 0.9
+  },
+  {
+    "id": "e1fbb5b2-94fa-41e1-8a79-c5feec26c782",
+    "timestamp": "2025-06-14T12:01:47.925215",
+    "type": "5v5",
+    "players": [
+      "BriskBadger",
+      "RustyZephyr",
+      "MossyRaven",
+      "JollyOtter",
+      "TidalComet",
+      "NimbleComet",
+      "Russia",
+      "AmberWren",
+      "IvorySprout",
+      "DuskyQuill"
+    ],
+    "teams": [
+      {
+        "Battletag": "MossyRaven",
+        "Discord": "QuietRaven",
+        "SR": 7.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "DuskyQuill",
+        "Discord": "DuskyQuill",
+        "SR": 3.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "TidalComet",
+        "Discord": "TidalComet",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "AmberWren",
+        "Discord": "AmberWren",
+        "SR": 6.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "IvorySprout",
+        "Discord": "IvorySprout",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "JollyOtter",
+        "Discord": "TidalHeron",
+        "SR": 4.25,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "NimbleComet",
+        "Discord": "NimbleComet",
+        "SR": 4.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "BriskBadger",
+        "Discord": "Osher",
+        "SR": 7.75,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "RustyZephyr",
+        "Discord": "QuietOtter",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      4.6,
+      5.0
+    ],
+    "avg_comfort": 1.0
+  },
+  {
+    "id": "717e396e-6af1-449d-a439-2ce0cff293a9",
+    "timestamp": "2025-06-14T12:06:50.967791",
+    "type": "5v5",
+    "players": [
+      "BriskBadger",
+      "RustyZephyr",
+      "MossyRaven",
+      "JollyOtter",
+      "TidalComet",
+      "IvorySprout",
+      "AmberWren",
+      "DuskyQuill",
+      "NimbleComet",
+      "Russia"
+    ],
+    "teams": [
+      {
+        "Battletag": "JollyOtter",
+        "Discord": "TidalHeron",
+        "SR": 8.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "NimbleComet",
+        "Discord": "NimbleComet",
+        "SR": 4.25,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "BriskBadger",
+        "Discord": "Osher",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "DuskyQuill",
+        "Discord": "DuskyQuill",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "IvorySprout",
+        "Discord": "IvorySprout",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "MossyRaven",
+        "Discord": "QuietRaven",
+        "SR": 7.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 3.25,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "TidalComet",
+        "Discord": "TidalComet",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "AmberWren",
+        "Discord": "AmberWren",
+        "SR": 4.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "RustyZephyr",
+        "Discord": "QuietOtter",
+        "SR": 5.75,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.85,
+      5.3
+    ],
+    "avg_comfort": 1.0
+  },
+  {
+    "id": "61c3d639-777e-4387-9990-d52ec5935ac1",
+    "timestamp": "2025-06-14T12:07:04.761155",
+    "type": "5v5",
+    "players": [
+      "BriskBadger",
+      "RustyZephyr",
+      "MossyRaven",
+      "JollyOtter",
+      "TidalComet",
+      "IvorySprout",
+      "AmberWren",
+      "DuskyQuill",
+      "NimbleComet",
+      "Russia",
+      "EmberWren",
+      "GildedQuill"
+    ],
+    "teams": [
+      {
+        "Battletag": "MossyRaven",
+        "Discord": "QuietRaven",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "RustyZephyr",
+        "Discord": "QuietOtter",
+        "SR": 2.75,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "TidalComet",
+        "Discord": "TidalComet",
+        "SR": 8.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "IvorySprout",
+        "Discord": "IvorySprout",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "EmberWren",
+        "Discord": "EmberWren",
+        "SR": 2.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "GildedQuill",
+        "Discord": "LunarSprout",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "DuskyQuill",
+        "Discord": "DuskyQuill",
+        "SR": 5.75,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "NimbleComet",
+        "Discord": "NimbleComet",
+        "SR": 5.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "BriskBadger",
+        "Discord": "Osher",
+        "SR": 7.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      6.25,
+      5.5
+    ],
+    "avg_comfort": 0.8333333333333334
+  },
+  {
+    "id": "f7f5f98f-e5c6-4454-8022-51630b1ad566",
+    "timestamp": "2025-06-14T12:46:51.822685",
+    "type": "5v5",
+    "players": [
+      "RustyZephyr",
+      "GildedQuill",
+      "JollyOtter",
+      "FrostyQuill",
+      "HollowFern",
+      "EmberWren",
+      "TidalComet",
+      "IvorySprout",
+      "AmberWren",
+      "DuskyQuill",
+      "NimbleComet",
+      "Russia"
+    ],
+    "teams": [
+      {
+        "Battletag": "EmberWren",
+        "Discord": "EmberWren",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "DuskyQuill",
+        "Discord": "DuskyQuill",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "AmberWren",
+        "Discord": "AmberWren",
+        "SR": 3.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 8.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "IvorySprout",
+        "Discord": "IvorySprout",
+        "SR": 4.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "GildedQuill",
+        "Discord": "LunarSprout",
+        "SR": 5.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "FrostyQuill",
+        "Discord": "FrostyQuill",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "RustyZephyr",
+        "Discord": "QuietOtter",
+        "SR": 3.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "NimbleComet",
+        "Discord": "NimbleComet",
+        "SR": 6.75,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "HollowFern",
+        "Discord": "HollowFern",
+        "SR": 7.75,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.25,
+      5.7
+    ],
+    "avg_comfort": 0.8333333333333334
+  },
+  {
+    "id": "5ee1b08d-a721-462c-83c6-07a340f58c23",
+    "timestamp": "2025-06-14T13:02:39.538973",
+    "type": "6v6",
+    "players": [
+      "RustyZephyr",
+      "GildedQuill",
+      "JollyOtter",
+      "FrostyQuill",
+      "HollowFern",
+      "IvorySprout",
+      "AmberWren",
+      "DuskyQuill",
+      "NimbleComet",
+      "Russia",
+      "BriskBadger",
+      "MossyRaven"
+    ],
+    "teams": [
+      {
+        "Battletag": "JollyOtter",
+        "Discord": "TidalHeron",
+        "SR": 5.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "FrostyQuill",
+        "Discord": "FrostyQuill",
+        "SR": 3.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "NimbleComet",
+        "Discord": "NimbleComet",
+        "SR": 8.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 5.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "DuskyQuill",
+        "Discord": "DuskyQuill",
+        "SR": 8.25,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "BriskBadger",
+        "Discord": "Osher",
+        "SR": 9.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "GildedQuill",
+        "Discord": "LunarSprout",
+        "SR": 5.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "MossyRaven",
+        "Discord": "QuietRaven",
+        "SR": 4.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "RustyZephyr",
+        "Discord": "QuietOtter",
+        "SR": 8.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "AmberWren",
+        "Discord": "AmberWren",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "HollowFern",
+        "Discord": "HollowFern",
+        "SR": 7.25,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      },
+      {
+        "Battletag": "IvorySprout",
+        "Discord": "IvorySprout",
+        "SR": 3.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      6.67,
+      6.12
+    ],
+    "avg_comfort": 1.0
+  },
+  {
+    "id": "c69d660b-65b0-44c8-8102-0ebba306586a",
+    "timestamp": "2025-06-14T13:06:51.973470",
+    "type": "5v5",
+    "players": [
+      "BriskBadger",
+      "RustyZephyr",
+      "MossyRaven",
+      "GildedQuill",
+      "JollyOtter",
+      "FrostyQuill",
+      "HollowFern",
+      "EmberWren",
+      "IvorySprout",
+      "AmberWren",
+      "DuskyQuill",
+      "NimbleComet",
+      "Russia",
+      "HollowOtter"
+    ],
+    "teams": [
+      {
+        "Battletag": "GildedQuill",
+        "Discord": "LunarSprout",
+        "SR": 7.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "FrostyQuill",
+        "Discord": "FrostyQuill",
+        "SR": 7.25,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "BriskBadger",
+        "Discord": "Osher",
+        "SR": 7.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "NimbleComet",
+        "Discord": "NimbleComet",
+        "SR": 3.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "IvorySprout",
+        "Discord": "IvorySprout",
+        "SR": 6.25,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "MossyRaven",
+        "Discord": "QuietRaven",
+        "SR": 7.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "EmberWren",
+        "Discord": "EmberWren",
+        "SR": 7.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "DuskyQuill",
+        "Discord": "DuskyQuill",
+        "SR": 2.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Russia",
+        "Discord": "Russia",
+        "SR": 4.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "HollowFern",
+        "Discord": "HollowFern",
+        "SR": 8.25,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      6.35,
+      6.0
+    ],
+    "avg_comfort": 0.8571428571428571
+  },
+  {
+    "id": "8e046df7-565b-425d-ab44-9d8c92d6cc66",
+    "timestamp": "2025-06-14T13:27:31.825538",
+    "type": "5v5",
+    "players": [
+      "BriskBadger",
+      "RustyZephyr",
+      "MossyRaven",
+      "GildedQuill",
+      "JollyOtter",
+      "FrostyQuill",
+      "HollowFern",
+      "AmberWren",
+      "EmberWren",
+      "TidalComet",
+      "BriskNewt"
+    ],
+    "teams": [
+      {
+        "Battletag": "FrostyQuill",
+        "Discord": "FrostyQuill",
+        "SR": 4.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "EmberWren",
+        "Discord": "EmberWren",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "BriskBadger",
+        "Discord": "Osher",
+        "SR": 4.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "BriskNewt",
+        "Discord": "BriskNewt",
+        "SR": 5.75,
+        "Comf": 0,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "RustyZephyr",
+        "Discord": "QuietOtter",
+        "SR": 7.25,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "MossyRaven",
+        "Discord": "QuietRaven",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "GildedQuill",
+        "Discord": "LunarSprout",
+        "SR": 6.25,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "AmberWren",
+        "Discord": "AmberWren",
+        "SR": 7.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "TidalComet",
+        "Discord": "TidalComet",
+        "SR": 8.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "HollowFern",
+        "Discord": "HollowFern",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.9,
+      5.3
+    ],
+    "avg_comfort": 0.7272727272727273
+  },
+  {
+    "id": "cd4093f3-3323-4744-9a8c-e5fa5cc61502",
+    "timestamp": "2025-06-14T15:00:05.676417",
+    "type": "5v5",
+    "players": [
+      "BriskBadger",
+      "RustyZephyr",
+      "GildedQuill",
+      "JollyOtter",
+      "FrostyQuill",
+      "EmberWren",
+      "BriskNewt",
+      "AmberWren",
+      "AmberSprout",
+      "HollowFern"
+    ],
+    "teams": [
+      {
+        "Battletag": "JollyOtter",
+        "Discord": "TidalHeron",
+        "SR": 7.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "EmberWren",
+        "Discord": "EmberWren",
+        "SR": 4.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "RustyZephyr",
+        "Discord": "QuietOtter",
+        "SR": 4.75,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "BriskNewt",
+        "Discord": "BriskNewt",
+        "SR": 7.75,
+        "Comf": 0,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "BriskBadger",
+        "Discord": "Osher",
+        "SR": 4.75,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "GildedQuill",
+        "Discord": "LunarSprout",
+        "SR": 5.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "FrostyQuill",
+        "Discord": "FrostyQuill",
+        "SR": 5.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "AmberWren",
+        "Discord": "AmberWren",
+        "SR": 4.25,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "AmberSprout",
+        "Discord": "AmberComet",
+        "SR": 2.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "HollowFern",
+        "Discord": "HollowFern",
+        "SR": 7.25,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      5.75,
+      4.8
+    ],
+    "avg_comfort": 0.9
+  }
+]
