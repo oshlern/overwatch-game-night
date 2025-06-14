@@ -65,8 +65,8 @@
     "wants_dps": 1,
     "wants_support": 0,
     "imported_from": "5v5 - RanksData2.csv",
-    "status": "afk",
-    "last_updated": "2025-06-14T11:58:32.314029",
+    "status": "active",
+    "last_updated": "2025-06-14T13:27:30.627081",
     "color": "#FFEAA7"
   },
   "Blueboss": {
@@ -149,8 +149,8 @@
     "wants_dps": -1,
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
-    "status": "afk",
-    "last_updated": "2025-06-14T13:01:44.110257",
+    "status": "active",
+    "last_updated": "2025-06-14T13:27:26.693584",
     "color": "#F8C471"
   },
   "Tetsuei": {
@@ -289,8 +289,8 @@
     "wants_dps": 1,
     "wants_support": -1,
     "imported_from": "5v5 - RanksData2.csv",
-    "status": "afk",
-    "last_updated": "2025-06-14T13:10:28.660262",
+    "status": "active",
+    "last_updated": "2025-06-14T13:27:26.201840",
     "color": "#D5F4E6"
   },
   "Emprage": {
