@@ -14,83 +14,108 @@
     </div>
 
     <div class="row">
-        <!-- Main Content -->
-        <div class="col-12">
-            <!-- Game Mode Selection -->
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">
-                                <i class="fas fa-gamepad"></i>
-                                Game Mode Selection
-                            </h5>
+        <!-- Top Row: Selector Buttons and Game History -->
+        <div class="row mb-4">
+            <!-- Game Mode Selection Buttons -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-gamepad"></i>
+                            Game Mode Selection
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-4 mb-2">
+                                <button class="btn btn-outline-primary w-100" onclick="selectModeType('chefs-choice')" id="chefs-choice-btn">
+                                    <i class="fas fa-star"></i> Chef's Choice
+                                </button>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <button class="btn btn-outline-warning w-100" onclick="selectModeType('feeling-lucky')" id="feeling-lucky-btn">
+                                    <i class="fas fa-dice"></i> I'm Feeling Lucky
+                                </button>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <button class="btn btn-outline-info w-100" onclick="selectModeType('all-games')" id="all-games-btn">
+                                    <i class="fas fa-list"></i> All Games
+                                </button>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="row mb-3">
-                                <div class="col-md-4 mb-2">
-                                    <button class="btn btn-outline-primary w-100" onclick="selectModeType('chefs-choice')" id="chefs-choice-btn">
-                                        <i class="fas fa-star"></i> Chef's Choice
-                                    </button>
-                                </div>
-                                <div class="col-md-4 mb-2">
-                                    <button class="btn btn-outline-warning w-100" onclick="selectModeType('feeling-lucky')" id="feeling-lucky-btn">
-                                        <i class="fas fa-dice"></i> I'm Feeling Lucky
-                                    </button>
-                                </div>
-                                <div class="col-md-4 mb-2">
-                                    <button class="btn btn-outline-info w-100" onclick="selectModeType('all-games')" id="all-games-btn">
-                                        <i class="fas fa-list"></i> All Games
-                                    </button>
-                                </div>
-                            </div>
 
-                            <!-- Selected Game Display -->
-                            <div id="selected-game" class="mb-4" style="display: none;">
-                                <div class="alert alert-success">
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <h4 id="game-name" class="mb-2"></h4>
-                                            <p id="game-description" class="mb-2"></p>
-                                            <small id="game-details" class="text-muted"></small>
-                                        </div>
-                                        <div class="col-md-4 text-center">
-                                            <div id="game-icon" class="display-1 mb-2"></div>
-                                            <button class="btn btn-success" onclick="logSelectedGame()" id="log-game-btn">
-                                                <i class="fas fa-save"></i> Play This
-                                            </button>
-                                        </div>
-                                    </div>
+                        <!-- Player Count Filter and Options -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="player-count-filter" class="form-label small">Filter by Player Count:</label>
+                                <input type="number" class="form-control form-control-sm" id="player-count-filter" min="1" max="12" onchange="updatePlayerCountFilter()">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check mt-4">
+                                    <input class="form-check-input" type="checkbox" id="allow-spectators" onchange="toggleAllowSpectators()">
+                                    <label class="form-check-label small" for="allow-spectators">
+                                        Allow Spectators
+                                    </label>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Game Mode Grid -->
-                            <div id="gamemode-grid" class="row">
-                                <!-- Game modes will be displayed here -->
-                            </div>
+                        <!-- Animation Area -->
+                        <div id="animation-area" class="text-center mb-3" style="min-height: 100px;">
+                            <!-- Animation content will be displayed here -->
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Game History -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">
-                                <i class="fas fa-history"></i>
-                                Game History
-                            </h5>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-history"></i>
+                            Game History
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="game-history" style="max-height: 300px; overflow-y: auto;">
+                            <!-- Game history will be loaded here -->
                         </div>
-                        <div class="card-body">
-                            <div id="game-history">
-                                <!-- Game history will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Selected Game Display -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div id="selected-game" class="mb-4" style="display: none;">
+                    <div class="alert alert-success">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h4 id="game-name" class="mb-2"></h4>
+                                <p id="game-description" class="mb-2"></p>
+                                <small id="game-details" class="text-muted"></small>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div id="game-icon" class="display-1 mb-2"></div>
+                                <button class="btn btn-success" onclick="logSelectedGame()" id="log-game-btn">
+                                    <i class="fas fa-save"></i> Play This
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
+
+        <!-- Game Mode Grid -->
+        <div class="row">
+            <div class="col-12">
+                <div id="gamemode-grid" class="row">
+                    <!-- Game modes will be displayed here -->
+                </div>
+            </div>
     </div>
 </div>
 {% endblock %}
@@ -102,6 +127,8 @@ let gameHistory = [];
 let currentSelectedGame = null;
 let currentModeType = null;
 let isAnimating = false;
+let playerCountFilter = null;
+let allowSpectators = false;
 
 // Default fallback icons for games without icons in JSON
 const defaultGameIcons = ['🎮', '🎯', '🎲', '🎪', '🎨', '🎭', '🎪', '🎊'];
@@ -110,7 +137,27 @@ const defaultGameIcons = ['🎮', '🎯', '🎲', '🎪', '🎨', '🎭', '🎪'
 document.addEventListener('DOMContentLoaded', function() {
     loadGames();
     loadGameHistory();
+    updatePlayerCountInput();
 });
+
+function updatePlayerCountInput() {
+    // Wait for activePlayers to be loaded from base.html
+    setTimeout(() => {
+        const activePlayerCount = Object.values(activePlayers).filter(player => player.status === 'active').length;
+        document.getElementById('player-count-filter').value = activePlayerCount;
+        playerCountFilter = activePlayerCount;
+    }, 100);
+}
+
+function updatePlayerCountFilter() {
+    const input = document.getElementById('player-count-filter');
+    playerCountFilter = parseInt(input.value) || null;
+
+    // Re-apply current filter if a mode is selected
+    if (currentModeType) {
+        selectModeType(currentModeType);
+    }
+}
 
 // Remove duplicate player loading functions since they're in base.html
 
@@ -171,21 +218,18 @@ function selectModeType(type) {
 
 function displayChefsChoice() {
     const chefsChoiceGames = availableGames.filter(game => game.chefRecommended);
-    displayGameGrid(chefsChoiceGames);
+    displayGameGrid(filterGamesByPlayerCount(chefsChoiceGames));
 }
 
 function animateFeelingLucky() {
     if (isAnimating) return;
     isAnimating = true;
 
-    const grid = document.getElementById('gamemode-grid');
-    const playerCount = Object.values(activePlayers).filter(player => player.status === 'active').length;
+    const animationArea = document.getElementById('animation-area');
+    const playerCount = playerCountFilter || Object.values(activePlayers).filter(player => player.status === 'active').length;
 
     // Filter games suitable for current player count
-    const suitableGames = availableGames.filter(game => {
-        if (!game.playerNums || game.playerNums.length === 0) return true;
-        return game.playerNums.includes(playerCount);
-    });
+    const suitableGames = filterGamesByPlayerCount(availableGames, playerCount);
 
     // Select 3 random games from suitable games
     const selectedGames = [];
@@ -201,20 +245,19 @@ function animateFeelingLucky() {
     function animateStep() {
         if (animationStep < totalSteps) {
             // Show random icons during animation
-            grid.innerHTML = `
-                <div class="col-12 text-center">
-                    <div class="display-1 mb-3">
-                        ${getRandomIcon()} ${getRandomIcon()} ${getRandomIcon()}
-                    </div>
-                    <p class="text-muted">Selecting random games...</p>
+            animationArea.innerHTML = `
+                <div class="display-1 mb-3">
+                    ${getRandomIcon()} ${getRandomIcon()} ${getRandomIcon()}
                 </div>
+                <p class="text-muted">Selecting random games...</p>
             `;
 
             animationStep++;
             const delay = 50 + (animationStep * 10); // Slow down over time
             setTimeout(animateStep, delay);
         } else {
-            // Animation complete, show the 3 selected games as cards
+            // Animation complete, clear animation area and show the 3 selected games as cards
+            animationArea.innerHTML = '';
             displayGameGrid(selectedGames);
             isAnimating = false;
         }
@@ -228,7 +271,32 @@ function getRandomIcon() {
 }
 
 function displayAllGames() {
-    displayGameGrid(availableGames);
+    displayGameGrid(filterGamesByPlayerCount(availableGames));
+}
+
+function filterGamesByPlayerCount(games, count = null) {
+    const playerCount = count || playerCountFilter || Object.values(activePlayers).filter(player => player.status === 'active').length;
+
+    return games.filter(game => {
+        if (!game.playerNums || game.playerNums.length === 0) return true;
+
+        // Check if exact player count is supported
+        if (game.playerNums.includes(playerCount)) return true;
+
+        // If allow spectators is enabled, check if player count exceeds max supported
+        if (allowSpectators && playerCount > Math.max(...game.playerNums)) return true;
+
+        return false;
+    });
+}
+
+function toggleAllowSpectators() {
+    allowSpectators = document.getElementById('allow-spectators').checked;
+
+    // Re-apply current filter if a mode is selected
+    if (currentModeType) {
+        selectModeType(currentModeType);
+    }
 }
 
 function displayGameGrid(games) {
@@ -247,11 +315,19 @@ function displayGameGrid(games) {
                     <div class="card-body text-center">
                         <div class="display-4 mb-2">${icon}</div>
                         <h6 class="card-title">${game.name}</h6>
-                        <p class="card-text small text-muted">${game.description || 'No description'}</p>
+                        ${game.description ? `<p class="card-text small text-muted">${game.description}</p>` : ''}
                         <small class="text-muted">
                             <i class="fas fa-clock"></i> ${game.recommendedTime || 10} min<br>
                             <i class="fas fa-users"></i> ${game.players || 'Any'}
                         </small>
+                        <div class="mt-2">
+                            <button class="btn btn-sm btn-outline-secondary" onclick="event.stopPropagation(); copyGameCode('${game.code}')" title="Copy game code">
+                                <i class="fas fa-copy"></i> ${game.code}
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary ms-1" onclick="event.stopPropagation(); openWorkshopCode('${game.code}')" title="View on Workshop">
+                                <i class="fas fa-external-link-alt"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -264,11 +340,19 @@ function selectGame(game) {
     const icon = game.icon || '🎮';
 
     document.getElementById('game-name').textContent = game.name;
-    document.getElementById('game-description').textContent = game.description || 'No description available';
+    document.getElementById('game-description').textContent = game.description || '';
     document.getElementById('game-icon').textContent = icon;
 
-    let detailsText = `Code: ${game.code} | Time: ${game.recommendedTime || 10} min | Players: ${game.players || 'Any'}`;
-    document.getElementById('game-details').textContent = detailsText;
+    let detailsText = `Time: ${game.recommendedTime || 10} min | Players: ${game.players || 'Any'}`;
+    document.getElementById('game-details').innerHTML = `
+        ${detailsText}<br>
+        <button class="btn btn-sm btn-outline-light mt-2 me-2" onclick="copyGameCode('${game.code}')" title="Copy game code">
+            <i class="fas fa-copy"></i> Code: ${game.code}
+        </button>
+        <button class="btn btn-sm btn-outline-light mt-2" onclick="openWorkshopCode('${game.code}')" title="View on Workshop">
+            <i class="fas fa-external-link-alt"></i> Workshop
+        </button>
+    `;
 
     document.getElementById('selected-game').style.display = 'block';
 
@@ -324,7 +408,6 @@ function displayGameHistory() {
                         <th>Game</th>
                         <th>Code</th>
                         <th>Category</th>
-                        <th>Players</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -334,9 +417,8 @@ function displayGameHistory() {
                             <tr>
                                 <td>${new Date(game.timestamp).toLocaleDateString()}</td>
                                 <td>${icon} ${game.name || game.title}</td>
-                                <td><code>${game.code}</code></td>
+                                <td><code style="cursor: pointer;" onclick="copyGameCode('${game.code}')" title="Click to copy">${game.code}</code></td>
                                 <td><span class="badge bg-secondary">${game.category || 'Workshop'}</span></td>
-                                <td>${game.players ? game.players.join(', ') : 'N/A'}</td>
                             </tr>
                         `;
                     }).join('')}
@@ -344,6 +426,36 @@ function displayGameHistory() {
             </table>
         </div>
     `;
+}
+
+function copyGameCode(code) {
+    navigator.clipboard.writeText(code).then(() => {
+        showToast('Code copied to clipboard!');
+    }).catch(err => {
+        console.error('Failed to copy code: ', err);
+        showToast('Failed to copy code', 'error');
+    });
+}
+
+function openWorkshopCode(code) {
+    const url = `https://workshop.codes/${code}`;
+    window.open(url, '_blank');
+}
+
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `position-fixed top-0 end-0 m-3 alert alert-${type === 'error' ? 'danger' : 'success'} alert-dismissible fade show`;
+    toast.style.zIndex = '9999';
+    toast.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
 }
 
 function showAlert(message, type) {
