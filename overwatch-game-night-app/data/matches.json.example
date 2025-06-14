@@ -1698,5 +1698,109 @@
       5.1
     ],
     "avg_comfort": 0.7272727272727273
+  },
+  {
+    "id": "dc6aba75-42cb-4f6c-8925-3f598c27ce7a",
+    "timestamp": "2025-06-14T15:00:05.676417",
+    "type": "5v5",
+    "players": [
+      "Blueboss",
+      "Byes",
+      "Doublerambow",
+      "Emprage",
+      "Ericcckky",
+      "FigBishes",
+      "Fry",
+      "Lightningirl",
+      "GarlicBread",
+      "Eternal"
+    ],
+    "teams": [
+      {
+        "Battletag": "Emprage",
+        "Discord": "EmpatheticRage",
+        "SR": 1.5,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "FigBishes",
+        "Discord": "FigBishes",
+        "SR": 5.75,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 0
+      },
+      {
+        "Battletag": "Byes",
+        "Discord": "LuckyPants",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Fry",
+        "Discord": "Fry",
+        "SR": 5.25,
+        "Comf": 0,
+        "Role": "Support",
+        "Team": 0
+      },
+      {
+        "Battletag": "Blueboss",
+        "Discord": "Osher",
+        "SR": 8.0,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 0
+      },
+      {
+        "Battletag": "Doublerambow",
+        "Discord": "Buffetbandit",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Ericcckky",
+        "Discord": "Ericcckky",
+        "SR": 6.0,
+        "Comf": 1,
+        "Role": "DPS",
+        "Team": 1
+      },
+      {
+        "Battletag": "Lightningirl",
+        "Discord": "Lightningirl",
+        "SR": 2.5,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "GarlicBread",
+        "Discord": "Tete",
+        "SR": 2.0,
+        "Comf": 1,
+        "Role": "Support",
+        "Team": 1
+      },
+      {
+        "Battletag": "Eternal",
+        "Discord": "Eternal",
+        "SR": 6.5,
+        "Comf": 1,
+        "Role": "Tank",
+        "Team": 1
+      }
+    ],
+    "avg_srs": [
+      4.6,
+      4.6
+    ],
+    "avg_comfort": 0.9
   }
 ]

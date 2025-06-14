@@ -51,8 +51,8 @@
     "wants_dps": -1,
     "wants_support": -1,
     "imported_from": "5v5 - RanksData2.csv",
-    "status": "afk",
-    "last_updated": "2025-06-14T14:05:44.173459",
+    "status": "active",
+    "last_updated": "2025-06-14T15:00:04.693517",
     "color": "#96CEB4"
   },
   "Fry": {
@@ -149,8 +149,8 @@
     "wants_dps": -1,
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
-    "status": "active",
-    "last_updated": "2025-06-14T13:27:26.693584",
+    "status": "afk",
+    "last_updated": "2025-06-14T15:00:03.773310",
     "color": "#F8C471"
   },
   "Tetsuei": {
@@ -247,8 +247,8 @@
     "wants_dps": 0,
     "wants_support": 1,
     "imported_from": "5v5 - RanksData2.csv",
-    "status": "afk",
-    "last_updated": "2025-06-14T11:59:30.974348",
+    "status": "active",
+    "last_updated": "2025-06-14T15:00:04.134191",
     "color": "#D2B4DE"
   },
   "Vitallion": {

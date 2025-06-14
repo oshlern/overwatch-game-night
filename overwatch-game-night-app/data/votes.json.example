@@ -1,0 +1,146 @@
+{
+  "Most Improved on New Hero": {
+    "nominations": {
+      "Blueboss": [
+        "272fef55-dbd1-46e8-ab28-51ce710e7827"
+      ],
+      "Lightningirl": [
+        "272fef55-dbd1-46e8-ab28-51ce710e7827"
+      ],
+      "JippyTheLion": [
+        "272fef55-dbd1-46e8-ab28-51ce710e7827"
+      ],
+      "Tetsuei": [
+        "9649ff21-023f-438c-8848-2b3a37321600"
+      ]
+    },
+    "votes": {
+      "Lightningirl": [
+        "505a4ad0-6eea-4c02-bb93-4df4c7e3f52c",
+        "bdfac3e6-187d-4ea7-8c43-9fda0b516832"
+      ],
+      "Blueboss": [
+        "272fef55-dbd1-46e8-ab28-51ce710e7827"
+      ],
+      "JippyTheLion": [
+        "18f69d79-f05a-4487-a324-49b7c934cf2f",
+        "f358f7db-59f3-4a21-b6b3-c66301385749"
+      ],
+      "Tetsuei": [
+        "80c725af-aebc-4154-8982-cf48570d2841",
+        "be390016-a370-4ce7-a3f2-97de049c7e4c"
+      ],
+      "null": [
+        "1d822af4-f2bc-4d2b-9286-d2f4ba761629"
+      ],
+      "": [
+        "0b47f1b7-55e4-41bc-8bab-0cfb0e19ceef",
+        "785c082d-4797-4626-880b-7edf618e2e0e"
+      ]
+    },
+    "explanations": {
+      "Blueboss": [
+        {
+          "user_id": "272fef55-dbd1-46e8-ab28-51ce710e7827",
+          "explanation": ""
+        }
+      ],
+      "Lightningirl": [
+        {
+          "user_id": "272fef55-dbd1-46e8-ab28-51ce710e7827",
+          "explanation": ""
+        }
+      ],
+      "JippyTheLion": [
+        {
+          "user_id": "272fef55-dbd1-46e8-ab28-51ce710e7827",
+          "explanation": "asda"
+        }
+      ],
+      "Tetsuei": [
+        {
+          "user_id": "9649ff21-023f-438c-8848-2b3a37321600",
+          "explanation": "asd"
+        }
+      ]
+    }
+  },
+  "Biggest Clutch": {
+    "nominations": {},
+    "votes": {},
+    "explanations": {}
+  },
+  "Most Stylish Play/Skin": {
+    "nominations": {},
+    "votes": {}
+  },
+  "Tes": {
+    "nominations": {
+      "Kaz": [
+        "2f5b828c-0248-4b9e-8e62-e9730021e903"
+      ]
+    },
+    "votes": {
+      "Kaz": [
+        "18f69d79-f05a-4487-a324-49b7c934cf2f"
+      ]
+    },
+    "explanations": {
+      "Kaz": [
+        {
+          "user_id": "2f5b828c-0248-4b9e-8e62-e9730021e903",
+          "explanation": "s"
+        }
+      ]
+    }
+  },
+  "AB": {
+    "nominations": {},
+    "votes": {}
+  },
+  "Clip Farmer": {
+    "nominations": {
+      "Eternal": [
+        "69079072-adcd-4afe-a1aa-28614febd764"
+      ]
+    },
+    "votes": {
+      "Eternal": [
+        "69079072-adcd-4afe-a1aa-28614febd764",
+        "18f69d79-f05a-4487-a324-49b7c934cf2f",
+        "be390016-a370-4ce7-a3f2-97de049c7e4c",
+        "5426017f-02f9-4252-ab70-130ed4563f5b",
+        "b95136ed-6c02-4b61-8735-e422989fac05",
+        "bdfac3e6-187d-4ea7-8c43-9fda0b516832"
+      ]
+    },
+    "explanations": {
+      "Eternal": [
+        {
+          "user_id": "69079072-adcd-4afe-a1aa-28614febd764",
+          "explanation": ""
+        }
+      ]
+    }
+  },
+  "sdas": {
+    "nominations": {
+      "Sushi": [
+        "5426017f-02f9-4252-ab70-130ed4563f5b"
+      ]
+    },
+    "votes": {
+      "Sushi": [
+        "bdfac3e6-187d-4ea7-8c43-9fda0b516832"
+      ]
+    },
+    "explanations": {
+      "Sushi": [
+        {
+          "user_id": "5426017f-02f9-4252-ab70-130ed4563f5b",
+          "explanation": "asd"
+        }
+      ]
+    }
+  }
+}
