@@ -200,7 +200,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function updateAdminNominations(category, nominations, explanations) {
     const categoryIndex = getCategoryIndex(category);
-    const nominationsDiv = document.getElementById(`admin-nominations-${categoryIndex}`);
+    let nominationsDiv;
+
+    if (categoryIndex !== -1) {
+        // Standard category
+        nominationsDiv = document.getElementById(`admin-nominations-${categoryIndex}`);
+    } else {
+        // Custom category
+        const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
+        nominationsDiv = document.getElementById(`custom-admin-nominations-${categoryId}`);
+    }
+
+    if (!nominationsDiv) return;
 
     if (Object.keys(nominations).length === 0) {
         nominationsDiv.innerHTML = '<p class="text-muted">No nominations yet</p>';
@@ -225,7 +236,18 @@ function updateAdminNominations(category, nominations, explanations) {
 
 function updateAdminVotes(category, votes) {
     const categoryIndex = getCategoryIndex(category);
-    const votesDiv = document.getElementById(`admin-votes-${categoryIndex}`);
+    let votesDiv;
+
+    if (categoryIndex !== -1) {
+        // Standard category
+        votesDiv = document.getElementById(`admin-votes-${categoryIndex}`);
+    } else {
+        // Custom category
+        const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
+        votesDiv = document.getElementById(`custom-admin-votes-${categoryId}`);
+    }
+
+    if (!votesDiv) return;
 
     if (Object.keys(votes).length === 0) {
         votesDiv.innerHTML = '<p class="text-muted">No votes yet</p>';
@@ -369,12 +391,17 @@ async function loadVotingState() {
         const response = await fetch('/api/voting-state');
         const votingState = await response.json();
 
-        // Load custom categories
+        // Load both standard and custom categories
         for (const [category, data] of Object.entries(votingState)) {
-            const categoryIndex = getCategoryIndex(category);
-            if (categoryIndex === -1 && data.nominations && Object.keys(data.nominations).length > 0) {
-                // This is a custom category
-                addCustomCategoryToAdmin(category, data.nominations, data.explanations || {});
+            if (data.nominations && Object.keys(data.nominations).length > 0) {
+                const categoryIndex = getCategoryIndex(category);
+                if (categoryIndex !== -1) {
+                    // Standard category
+                    updateAdminNominations(category, data.nominations, data.explanations || {});
+                } else {
+                    // Custom category
+                    addCustomCategoryToAdmin(category, data.nominations, data.explanations || {});
+                }
             }
         }
     } catch (error) {
@@ -439,35 +466,8 @@ function addCustomCategoryToAdmin(category, nominations, explanations) {
         customCategoriesList.appendChild(categoryDiv);
     }
 
-    // Update nominations
-    updateCustomAdminNominations(category, nominations, explanations);
-}
-
-function updateCustomAdminNominations(category, nominations, explanations) {
-    const categoryId = category.replace(/[^a-zA-Z0-9]/g, '-');
-    const nominationsDiv = document.getElementById(`custom-admin-nominations-${categoryId}`);
-
-    if (!nominationsDiv) return;
-
-    if (Object.keys(nominations).length === 0) {
-        nominationsDiv.innerHTML = '<p class="text-muted">No nominations yet</p>';
-        return;
-    }
-
-    let html = '';
-    for (const [player, nominators] of Object.entries(nominations)) {
-        const playerExplanations = explanations[player] || [];
-        html += `
-            <div class="mb-2">
-                <strong>${player}</strong> (${nominators.length} nominations)
-                ${playerExplanations.map(exp =>
-                    `<div class="small text-muted ms-3">"${exp.explanation}"</div>`
-                ).join('')}
-            </div>
-        `;
-    }
-
-    nominationsDiv.innerHTML = html;
+    // Update nominations using the unified function
+    updateAdminNominations(category, nominations, explanations);
 }
 
 async function closeCustomVoting(category) {
