@@ -1,5 +1,42 @@
 /* Additional custom styles for Overwatch Game Night */
 
+/* Press Start 2P font for headers and key elements */
+h1, h2, h3, h4, h5, h6,
+.navbar-brand,
+.card-header h5,
+.card-header h4,
+.card-header h3,
+.card-header h2,
+.card-header h1,
+.btn,
+.alert h4,
+.display-1, .display-2, .display-3, .display-4, .display-5, .display-6,
+.table th,
+.table td code {
+    font-family: 'Press Start 2P', monospace !important;
+}
+
+/* Adjust font sizes for readability with pixel font */
+h1 { font-size: 1.8rem !important; }
+h2 { font-size: 1.4rem !important; }
+h3 { font-size: 1.2rem !important; }
+h4 { font-size: 1rem !important; }
+h5 { font-size: 0.9rem !important; }
+h6 { font-size: 0.8rem !important; }
+
+.navbar-brand {
+    font-size: 1.2rem !important;
+}
+
+.btn {
+    font-size: 0.7rem !important;
+    padding: 0.5rem 1rem !important;
+}
+
+.card-header h5 {
+    font-size: 0.9rem !important;
+}
+
 .pulse-animation {
     animation: pulse 2s infinite;
 }
