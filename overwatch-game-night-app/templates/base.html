@@ -343,14 +343,15 @@
                 const status = player.status || 'active';
                 const statusIcon = status === 'afk' ? '💤' : '🟢';
                 const statusClass = status === 'afk' ? 'text-muted' : '';
-                const playerColor = status === 'afk' ? 'color: #666;' : 'color: var(--arcade-cyan); text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);';
+                const playerColor = player.color || '#FFFFFF'; // Use player's assigned color
+                const displayColor = status === 'afk' ? '#666' : playerColor; // Dim color if AFK
                 const tokenCount = playerTokens[player.bnet] || 0;
                 const tokenDisplay = tokenCount > 0 ? `<span class="token-badge" style="font-size: 0.6rem; margin-left: 4px;">${tokenCount}🏆</span>` : '';
 
                 playersHTML += `
                     <div class="player-item mb-2 ${statusClass}" data-player="${player.bnet}" style="background: rgba(106, 13, 173, 0.2); border-radius: 8px; padding: 8px; border: 1px solid var(--arcade-purple);">
                         <div class="d-flex justify-content-between align-items-center mb-1">
-                            <span class="small" style="${playerColor} font-family: 'Courier New', monospace;">${statusIcon} <span class="player-name">${player.bnet}</span>${tokenDisplay}</span>
+                            <span class="small" style="color: ${displayColor}; font-weight: bold; text-shadow: 0 0 3px rgba(0, 0, 0, 0.5); font-family: 'Courier New', monospace;">${statusIcon} <span class="player-name">${player.bnet}</span>${tokenDisplay}</span>
                         </div>
                         <div class="d-flex justify-content-end">
                             <div class="btn-group" role="group">
