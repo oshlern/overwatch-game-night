@@ -82,62 +82,52 @@
 
     <!-- Player Management -->
     <div class="row mb-4">
-        <div class="col-md-6">
+        <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-0">
                         <i class="fas fa-users"></i>
-                        Player Status
+                        Players
                     </h5>
                 </div>
                 <div class="card-body">
                     <div id="admin-players-list">
-                        {% for player_name, player_data in players.items() %}
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span>
-                                <strong>{{ player_name }}</strong>
+                        <div class="row mb-2">
+                            <div class="col-3"><strong>Player</strong></div>
+                            <div class="col-2"><strong>Status</strong></div>
+                            <div class="col-2"><strong>Tokens</strong></div>
+                            <div class="col-5"><strong>Actions</strong></div>
+                        </div>
+                        {% for player_name, player_data in players.items()|sort %}
+                        <div class="row mb-2 align-items-center">
+                            <div class="col-3">
+                                <span class="player-name" style="color: {{ player_data.get('color', '#FFFFFF') }};">{{ player_name }}</span>
+                            </div>
+                            <div class="col-2">
                                 <span class="badge bg-{{ 'secondary' if player_data.get('status') == 'afk' else 'success' }}">
                                     {{ player_data.get('status', 'active') }}
                                 </span>
-                            </span>
-                            <div class="btn-group">
-                                <button class="btn btn-sm btn-outline-warning" onclick="setPlayerStatus('{{ player_name }}', 'afk')">
-                                    AFK
-                                </button>
-                                <button class="btn btn-sm btn-outline-success" onclick="setPlayerStatus('{{ player_name }}', 'active')">
-                                    Active
-                                </button>
+                            </div>
+                            <div class="col-2">
+                                {% if tokens.get(player_name, 0) > 0 %}
+                                <span class="token-badge">{{ tokens.get(player_name, 0) }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="col-5">
+                                <div class="btn-group">
+                                    <button class="btn btn-sm btn-outline-warning" onclick="setPlayerStatus('{{ player_name }}', 'afk')">
+                                        AFK
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="setPlayerStatus('{{ player_name }}', 'active')">
+                                        Active
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="adjustTokens('{{ player_name }}', 1)">+</button>
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="adjustTokens('{{ player_name }}', -1)">-</button>
+                                </div>
                             </div>
                         </div>
                         {% endfor %}
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">
-                        <i class="fas fa-coins"></i>
-                        Tokens Available
-                    </h5>
-                </div>
-                <div class="card-body">
-                    {% if tokens %}
-                        {% for player, token_count in tokens.items() %}
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span><strong>{{ player }}</strong></span>
-                            <div>
-                                <span class="token-badge me-2">{{ token_count }} tokens</span>
-                                <button class="btn btn-sm btn-outline-primary" onclick="adjustTokens('{{ player }}', 1)">+</button>
-                                <button class="btn btn-sm btn-outline-secondary" onclick="adjustTokens('{{ player }}', -1)">-</button>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    {% else %}
-                        <p class="text-muted">No tokens awarded yet</p>
-                    {% endif %}
                 </div>
             </div>
         </div>
