@@ -79,12 +79,14 @@
                             <div class="row">
                                 <div class="col-md-6" id="current-leader-display" style="display: none;">
                                     <strong><i class="fas fa-crown text-warning"></i> Current Leader:</strong>
-                                    <span id="current-leader-name" class="player-name"></span>
+                                    <div id="current-leader-name" class="player-name mt-1"></div>
                                 </div>
                                 <div class="col-md-6" id="current-game-display" style="display: none;">
                                     <strong><i class="fas fa-gamepad text-danger"></i> Selected Game:</strong>
-                                    <span id="current-game-name"></span>
-                                    <div id="current-game-details" class="mt-1 small"></div>
+                                    <div id="current-game-name" style="font-family: 'Press Start 2P', monospace; font-size: 14px; margin: 8px 0;"></div>
+                                    <div id="current-game-description" class="mb-2 small text-muted" style="opacity: 0.7;"></div>
+                                    <div id="current-game-details" class="small"></div>
+                                    <div id="current-game-code" class="mt-2"></div>
                                 </div>
                             </div>
                         </div>
@@ -949,24 +951,29 @@ function updateCurrentLeaderDisplay(leader, shouldBroadcast = false) {
 function updateCurrentGameDisplay(gameName, shouldBroadcast = false) {
     currentSelectedGameName = gameName;
     const gameDisplay = document.getElementById('current-game-display');
-    const gameNameSpan = document.getElementById('current-game-name');
+    const gameNameDiv = document.getElementById('current-game-name');
+    const gameDescription = document.getElementById('current-game-description');
     const gameDetails = document.getElementById('current-game-details');
+    const gameCode = document.getElementById('current-game-code');
     const statusDiv = document.getElementById('current-status');
 
     if (gameName && currentSelectedGame) {
-        gameNameSpan.textContent = gameName;
+        gameNameDiv.textContent = gameName;
+
+        // Add description
+        gameDescription.textContent = currentSelectedGame.description || '';
 
         // Add game details
         const time = currentSelectedGame.recommendedTime || 10;
         const players = currentSelectedGame.players || 'Any';
-        const code = currentSelectedGame.code;
+        gameDetails.innerHTML = `Time: ${time} min | Players: ${players}`;
 
-        gameDetails.innerHTML = `
-            <span class="text-muted">⏱️ ${time}min | 👥 ${players} | 📋 ${code}</span>
-            <button class="btn btn-sm btn-outline-light ms-2" onclick="copyGameCode('${code}')" title="Copy code">
-                <i class="fas fa-copy"></i>
-            </button>
-            <button class="btn btn-sm btn-outline-light ms-1" onclick="openWorkshopCode('${code}')" title="Workshop">
+        // Add clickable code
+        const code = currentSelectedGame.code;
+        gameCode.innerHTML = `
+            <code style="cursor: pointer; background: rgba(220, 53, 69, 0.2); padding: 4px 8px; border-radius: 4px; border: 1px solid #dc3545; font-family: 'Press Start 2P', monospace; font-weight: bold; font-size: 12px;"
+                  onclick="copyGameCode('${code}')" title="Click to copy">${code}</code>
+            <button class="btn btn-sm btn-outline-light ms-2" onclick="openWorkshopCode('${code}')" title="View on Workshop">
                 <i class="fas fa-external-link-alt"></i>
             </button>
         `;
