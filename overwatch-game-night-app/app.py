@@ -893,7 +893,8 @@ def on_wheel_spin(data):
             "action": "start",
             "duration": data.get("duration"),
             "startTime": data.get("startTime"),
-            "initialSpeed": data.get("initialSpeed")
+            "initialSpeed": data.get("initialSpeed"),
+            "startPosition": data.get("startPosition")
         }, room="arcade_picker", include_self=False)
     elif action == "result":
         winner = data.get("winner")
