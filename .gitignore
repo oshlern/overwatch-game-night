@@ -16,6 +16,9 @@ overwatch-game-night-app/data/*.json
 overwatch-game-night-app/data/backups/*
 !overwatch-game-night-app/data/backups/.gitkeep
 
+# Ngrok config (contains auth tokens)
+overwatch-game-night-app/ngrok.yml
+
 # DS Store
 **/.DS_Store
 
