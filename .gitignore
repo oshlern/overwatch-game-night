@@ -12,6 +12,10 @@ overwatch-game-night-app/data/*.json
 !overwatch-game-night-app/data/*.json.example
 !overwatch-game-night-app/data/gamemodes.json
 
+# Backup files from admin resets (but keep the directory structure)
+overwatch-game-night-app/data/backups/*
+!overwatch-game-night-app/data/backups/.gitkeep
+
 # DS Store
 **/.DS_Store
 

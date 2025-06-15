@@ -75,24 +75,26 @@
     <div id="awards-container">
         <!-- All categories will be rendered here -->
         {% for category in categories %}
-        <div class="row mb-4" data-category="{{ category.name if category is mapping else category }}">
+        {% set category_name = category.name if category is mapping else category %}
+        {% set category_id = category_name|replace(' ', '_')|replace('/', '_')|replace("'", '')|replace('-', '_')|lower %}
+        <div class="row mb-4" data-category="{{ category_name }}" data-category-id="{{ category_id }}">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="mb-0">
                             <i class="fas fa-star text-warning"></i>
-                            {{ category.name if category is mapping else category }}
+                            {{ category_name }}
                         </h5>
                     </div>
                     <div class="card-body">
                         <!-- Nomination Phase -->
-                        <div class="nomination-section" id="nomination-{{ loop.index0 }}">
+                        <div class="nomination-section" id="nomination-{{ category_id }}">
                             <h6>Nominate a Player</h6>
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="row">
                                         <div class="col-12 mb-2">
-                                            <select class="form-select" id="nominate-select-{{ loop.index0 }}">
+                                            <select class="form-select" id="nominate-select-{{ category_id }}">
                                                 <option value="">Select a player to nominate...</option>
                                                 {% for player in players.keys() %}
                                                     <option value="{{ player }}">{{ player }}</option>
@@ -100,20 +102,20 @@
                                             </select>
                                         </div>
                                         <div class="col-12 mb-2">
-                                            <input type="text" class="form-control" id="explanation-{{ loop.index0 }}"
+                                            <input type="text" class="form-control" id="explanation-{{ category_id }}"
                                                    placeholder="Why? (optional explanation)">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4 d-flex align-items-center">
-                                    <button class="btn btn-primary w-100" onclick="nominatePlayer('{{ category.name if category is mapping else category }}', '{{ loop.index0 }}')">
+                                    <button class="btn btn-primary w-100" data-category="{{ category_name }}" data-category-id="{{ category_id }}" onclick="nominatePlayerFromButton(this)">
                                         <i class="fas fa-hand-point-up"></i>
                                     </button>
                                 </div>
                             </div>
 
                             <!-- Current Nominations -->
-                            <div class="mt-3" id="nominations-{{ loop.index0 }}">
+                            <div class="mt-3" id="nominations-{{ category_id }}">
                                 <div class="nominees-header" style="display: none;">
                                     <h6>Ballot:</h6>
                                 </div>
@@ -123,7 +125,7 @@
                         </div>
 
                         <!-- Winner Announcement -->
-                        <div class="winner-section mt-4" id="winner-{{ loop.index0 }}" style="display: none;">
+                        <div class="winner-section mt-4" id="winner-{{ category_id }}" style="display: none;">
                             <div class="alert alert-success award-animation">
                                 <h4 class="mb-2">
                                     <i class="fas fa-trophy text-warning"></i>
@@ -230,10 +232,7 @@ socket.on('voting_closed', function(data) {
 
 // Handle category reset by admin
 socket.on('category_reset', function(data) {
-    const categoryIndex = getCategoryIndex(data.category);
-    if (categoryIndex !== -1) {
-        resetCategory(categoryIndex);
-    }
+    resetCategory(data.category);
 });
 
 
@@ -243,9 +242,9 @@ socket.on('category_created', function(data) {
     location.reload();
 });
 
-function nominatePlayer(category, categoryIndex) {
-    const selectElement = document.getElementById(`nominate-select-${categoryIndex}`);
-    const explanationElement = document.getElementById(`explanation-${categoryIndex}`);
+function nominatePlayer(category, categoryId) {
+    const selectElement = document.getElementById(`nominate-select-${categoryId}`);
+    const explanationElement = document.getElementById(`explanation-${categoryId}`);
     const selectedPlayer = selectElement.value;
     const explanation = explanationElement.value.trim();
 
@@ -266,6 +265,13 @@ function nominatePlayer(category, categoryIndex) {
     explanationElement.value = '';
 
     showAlert(`Nominated ${selectedPlayer} for ${category}`, 'success');
+}
+
+// Function to handle nomination button clicks using data attributes
+function nominatePlayerFromButton(button) {
+    const category = button.getAttribute('data-category');
+    const categoryId = button.getAttribute('data-category-id');
+    nominatePlayer(category, categoryId);
 }
 
 // Global function for sidebar quick nominations
@@ -323,10 +329,10 @@ function updateBallotIcons(category, selectedPlayer) {
 }
 
 function updateNominations(category, nominations, explanations) {
-    const categoryIndex = getCategoryIndex(category);
-    if (categoryIndex === -1) return;
+    const categoryId = getCategoryId(category);
+    if (!categoryId) return;
 
-    const nominationsDiv = document.getElementById(`nominations-${categoryIndex}`);
+    const nominationsDiv = document.getElementById(`nominations-${categoryId}`);
     if (!nominationsDiv) return;
 
     const nomineesHeader = nominationsDiv.querySelector('.nominees-header');
@@ -348,7 +354,7 @@ function updateNominations(category, nominations, explanations) {
         nominationsHTML += `
             <div class="mb-3">
                 <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span class="ballot-icon" data-category="${category}" data-player="${player}" style="cursor: pointer; color: #6c757d;" onclick="voteForPlayer('${category}', '${player}')" title="Vote for ${player}">
+                    <span class="ballot-icon" data-category="${category}" data-player="${player}" style="cursor: pointer; color: #6c757d;" onclick="voteForPlayer(${JSON.stringify(category)}, ${JSON.stringify(player)})" title="Vote for ${player.replace(/"/g, '&quot;')}">
                         <span class="me-2">🗳️</span>
                         <strong class="player-name" style="color: ${getPlayerColor(player)}; text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);">${player}</strong>
                     </span>
@@ -372,10 +378,10 @@ function updateVotes(category, votes) {
 }
 
 function announceWinner(category, winner, votes, explanations) {
-    const categoryIndex = getCategoryIndex(category);
-    if (categoryIndex === -1) return;
+    const categoryId = getCategoryId(category);
+    if (!categoryId) return;
 
-    const winnerDiv = document.getElementById(`winner-${categoryIndex}`);
+    const winnerDiv = document.getElementById(`winner-${categoryId}`);
     if (!winnerDiv) return;
 
     // Set winner name with color
@@ -408,7 +414,7 @@ function announceWinner(category, winner, votes, explanations) {
     winnerDiv.style.display = 'block';
 
     // Hide nomination section
-    document.getElementById(`nomination-${categoryIndex}`).style.display = 'none';
+    document.getElementById(`nomination-${categoryId}`).style.display = 'none';
 
     // Scroll to winner announcement
     winnerDiv.scrollIntoView({ behavior: 'smooth' });
@@ -419,24 +425,36 @@ function announceWinner(category, winner, votes, explanations) {
     // Results stay visible until admin manually resets
 }
 
-function resetCategory(categoryIndex) {
+function resetCategory(category) {
+    const categoryId = getCategoryId(category);
+    if (!categoryId) return;
+
     // Show nomination section
-    document.getElementById(`nomination-${categoryIndex}`).style.display = 'block';
+    document.getElementById(`nomination-${categoryId}`).style.display = 'block';
 
     // Hide winner section
-    document.getElementById(`winner-${categoryIndex}`).style.display = 'none';
+    document.getElementById(`winner-${categoryId}`).style.display = 'none';
 
     // Reset nominations and hide header
-    const nominationsDiv = document.getElementById(`nominations-${categoryIndex}`);
+    const nominationsDiv = document.getElementById(`nominations-${categoryId}`);
     nominationsDiv.querySelector('.nominees-header').style.display = 'none';
     nominationsDiv.querySelector('.nominations-list').innerHTML = '';
 }
 
-function getCategoryIndex(category) {
-    // Get categories from the page - they're rendered server-side
+function getCategoryId(category) {
+    // Get category ID from the page - they're rendered server-side
     const categoryElements = document.querySelectorAll('[data-category]');
-    const categories = Array.from(categoryElements).map(el => el.getAttribute('data-category'));
-    return categories.indexOf(category);
+
+    // Find exact match by iterating through elements
+    for (let i = 0; i < categoryElements.length; i++) {
+        const elementCategory = categoryElements[i].getAttribute('data-category');
+        if (elementCategory === category) {
+            return categoryElements[i].getAttribute('data-category-id');
+        }
+    }
+
+    console.warn(`Category "${category}" not found in DOM elements`);
+    return null;
 }
 
 function addToAwardsHistory(category, winner, votes, explanations) {

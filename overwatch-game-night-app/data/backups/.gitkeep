@@ -1,0 +1,2 @@
+# This file ensures the backups directory is created
+# Backup files are automatically generated when admin reset operations are performed
