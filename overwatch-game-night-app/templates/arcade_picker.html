@@ -25,6 +25,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
+
                     <div class="row mb-3">
                         <div class="col-md-4 mb-2">
                             <button class="btn btn-outline-primary w-100" onclick="selectModeType('chefs-choice')" id="chefs-choice-btn">
@@ -71,6 +72,23 @@
                     <div id="animation-area" class="text-center mb-3" style="min-height: 100px;">
                         <!-- Animation content will be displayed here -->
                     </div>
+
+                    <!-- Current Status Display -->
+                    <div id="current-status" class="mb-3" style="display: none;">
+                        <div class="alert alert-dark mb-3" style="background: rgba(20, 20, 20, 0.9); border: 2px solid #dc3545; color: #fff;">
+                            <div class="row">
+                                <div class="col-md-6" id="current-leader-display" style="display: none;">
+                                    <strong><i class="fas fa-crown text-warning"></i> Current Leader:</strong>
+                                    <span id="current-leader-name" class="player-name"></span>
+                                </div>
+                                <div class="col-md-6" id="current-game-display" style="display: none;">
+                                    <strong><i class="fas fa-gamepad text-danger"></i> Selected Game:</strong>
+                                    <span id="current-game-name"></span>
+                                    <div id="current-game-details" class="mt-1 small"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -78,7 +96,7 @@
             <div class="row mb-4">
                 <div class="col-12">
                     <div id="selected-game" class="mb-4" style="display: none;">
-                        <div class="alert alert-success">
+                        <div class="alert alert-dark" style="background: rgba(15, 15, 15, 0.95); border: 2px solid #dc3545; color: #fff;">
                             <div class="row">
                                 <div class="col-md-8">
                                     <h4 id="game-name" class="mb-2"></h4>
@@ -115,9 +133,12 @@
                     <h5 class="mb-0">
                         <i class="fas fa-crown text-warning"></i>
                         Lobby Leader
+                        <button class="btn btn-sm btn-outline-light float-end" onclick="toggleLeaderWheel()" id="toggle-wheel-btn">
+                            <i class="fas fa-chevron-down" id="toggle-wheel-icon"></i>
+                        </button>
                     </h5>
                 </div>
-                <div class="card-body text-center">
+                <div class="card-body text-center collapse" id="leader-wheel-body">
                     <!-- Name Scroller Container -->
                     <div id="scroller-container" class="mb-3">
                         <div class="name-scroller">
@@ -210,6 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadGameHistory();
     updatePlayerCountInput();
     initializeScroller();
+    initializeSocketIO();
     // Show all games by default
     setTimeout(() => {
         selectModeType('all-games');
@@ -453,6 +475,9 @@ function selectGame(game) {
 
     document.getElementById('selected-game').style.display = 'block';
 
+    // Update current game display
+    updateCurrentGameDisplay(game.name, true); // true = broadcast
+
     // Scroll to selected game
     document.getElementById('selected-game').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
@@ -642,7 +667,7 @@ function startInfiniteScroll() {
 
     function scroll() {
         if (!isSpinning) {
-            currentScrollPosition += 5; // 25x faster than before (was 0.2, now 5)
+            currentScrollPosition += 1.67; // 3x slower than before (was 5, now 1.67)
             reel.style.transform = `translateY(-${currentScrollPosition}px)`;
 
             // Reset position when we've scrolled through one full cycle
@@ -736,6 +761,312 @@ function resetScroller() {
     if (!isSpinning) {
         startInfiniteScroll();
     }
+}
+
+// ===== LOBBY LEADER WHEEL SYNCHRONIZATION =====
+
+let socket = null;
+let isWheelExpanded = false;
+let syncedAnimationId = null;
+let currentLeader = null;
+let currentSelectedGameName = null;
+
+function initializeSocketIO() {
+    socket = io();
+
+    socket.on('connect', function() {
+        socket.emit('join_arcade_picker');
+    });
+
+    socket.on('wheel_state_update', function(data) {
+        updateWheelState(data.expanded, false); // false = don't broadcast
+    });
+
+    socket.on('wheel_spin_sync', function(data) {
+        if (data.action === 'start') {
+            syncSpinStart(data.duration, data.startTime, data.initialSpeed);
+        } else if (data.action === 'result') {
+            syncSpinResult(data.winner);
+        }
+    });
+
+    socket.on('game_selected_sync', function(data) {
+        if (data.gameData) {
+            currentSelectedGame = data.gameData;
+        }
+        updateCurrentGameDisplay(data.gameName, false); // false = don't broadcast
+    });
+
+    socket.on('leader_selected_sync', function(data) {
+        updateCurrentLeaderDisplay(data.leader, false); // false = don't broadcast
+    });
+}
+
+function toggleLeaderWheel() {
+    isWheelExpanded = !isWheelExpanded;
+    updateWheelState(isWheelExpanded, true); // true = broadcast to others
+}
+
+function updateWheelState(expanded, shouldBroadcast = false) {
+    isWheelExpanded = expanded;
+    const wheelBody = document.getElementById('leader-wheel-body');
+    const toggleIcon = document.getElementById('toggle-wheel-icon');
+
+    if (expanded) {
+        wheelBody.classList.add('show');
+        toggleIcon.classList.remove('fa-chevron-down');
+        toggleIcon.classList.add('fa-chevron-up');
+        // Restart infinite scroll when expanded
+        if (!isSpinning) {
+            startInfiniteScroll();
+        }
+    } else {
+        wheelBody.classList.remove('show');
+        toggleIcon.classList.remove('fa-chevron-up');
+        toggleIcon.classList.add('fa-chevron-down');
+    }
+
+    if (shouldBroadcast && socket) {
+        socket.emit('wheel_state_change', { expanded: expanded });
+    }
+}
+
+function syncSpinStart(duration, startTime, initialSpeed) {
+    if (!isWheelExpanded) {
+        updateWheelState(true, false); // Expand wheel for all users
+    }
+
+    // Start synchronized animation
+    isSpinning = true;
+    const spinBtn = document.getElementById('spin-btn');
+    const reel = document.getElementById('name-reel');
+
+    spinBtn.disabled = true;
+    spinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Picking...';
+
+    // Hide previous result
+    document.getElementById('leader-result').style.display = 'none';
+
+    // Calculate time offset for synchronization
+    const now = Date.now();
+    const timeOffset = now - startTime;
+
+    // Adjust starting position based on time offset
+    let adjustedScrollPosition = currentScrollPosition;
+    if (timeOffset > 0) {
+        // Calculate how much scrolling should have happened during the offset
+        const offsetProgress = timeOffset / duration;
+        if (offsetProgress < 1) {
+            // Simulate the scrolling that should have happened
+            for (let t = 0; t < timeOffset; t += 16) { // 16ms per frame
+                const progress = (t + timeOffset) / duration;
+                if (progress < 1) {
+                    const speed = initialSpeed * (1 - progress) * (1 - progress) * (1 - progress);
+                    adjustedScrollPosition += speed;
+                }
+            }
+            currentScrollPosition = adjustedScrollPosition;
+        }
+    }
+
+    function syncedAnimateScroll() {
+        const elapsed = Date.now() - startTime;
+        const progress = elapsed / duration;
+
+        if (progress < 1) {
+            const speed = initialSpeed * (1 - progress) * (1 - progress) * (1 - progress);
+            currentScrollPosition += speed;
+
+            reel.style.transform = `translateY(-${currentScrollPosition}px)`;
+
+            const itemHeight = 50;
+            const cycleHeight = scrollerPlayers.length * itemHeight;
+            if (currentScrollPosition >= cycleHeight) {
+                currentScrollPosition = 0;
+            }
+
+            syncedAnimationId = requestAnimationFrame(syncedAnimateScroll);
+        } else {
+            // Animation complete - wait for result from leader
+            isSpinning = false;
+            syncedAnimationId = null;
+        }
+    }
+
+    // Start animation if not too late
+    if (timeOffset < duration) {
+        syncedAnimateScroll();
+    }
+}
+
+function syncSpinResult(winner) {
+    // Stop any ongoing animation
+    if (syncedAnimationId) {
+        cancelAnimationFrame(syncedAnimationId);
+        syncedAnimationId = null;
+    }
+
+    // Show the result
+    document.getElementById('selected-leader').textContent = winner;
+    document.getElementById('leader-result').style.display = 'block';
+
+    // Reset button
+    const spinBtn = document.getElementById('spin-btn');
+    spinBtn.disabled = false;
+    spinBtn.innerHTML = '<i class="fas fa-dice"></i> Pick Leader!';
+
+    isSpinning = false;
+
+    // Update current leader display
+    updateCurrentLeaderDisplay(winner, false); // false = don't broadcast
+
+    // Show toast
+    showToast(`🎉 ${winner} is the new Lobby Leader! 🎉`, 'success');
+}
+
+function updateCurrentLeaderDisplay(leader, shouldBroadcast = false) {
+    currentLeader = leader;
+    const leaderDisplay = document.getElementById('current-leader-display');
+    const leaderName = document.getElementById('current-leader-name');
+    const statusDiv = document.getElementById('current-status');
+
+    if (leader) {
+        leaderName.textContent = leader;
+        leaderDisplay.style.display = 'block';
+        statusDiv.style.display = 'block';
+    } else {
+        leaderDisplay.style.display = 'none';
+        if (!currentSelectedGameName) {
+            statusDiv.style.display = 'none';
+        }
+    }
+
+    if (shouldBroadcast && socket) {
+        socket.emit('leader_selected', { leader: leader });
+    }
+}
+
+function updateCurrentGameDisplay(gameName, shouldBroadcast = false) {
+    currentSelectedGameName = gameName;
+    const gameDisplay = document.getElementById('current-game-display');
+    const gameNameSpan = document.getElementById('current-game-name');
+    const gameDetails = document.getElementById('current-game-details');
+    const statusDiv = document.getElementById('current-status');
+
+    if (gameName && currentSelectedGame) {
+        gameNameSpan.textContent = gameName;
+
+        // Add game details
+        const time = currentSelectedGame.recommendedTime || 10;
+        const players = currentSelectedGame.players || 'Any';
+        const code = currentSelectedGame.code;
+
+        gameDetails.innerHTML = `
+            <span class="text-muted">⏱️ ${time}min | 👥 ${players} | 📋 ${code}</span>
+            <button class="btn btn-sm btn-outline-light ms-2" onclick="copyGameCode('${code}')" title="Copy code">
+                <i class="fas fa-copy"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-light ms-1" onclick="openWorkshopCode('${code}')" title="Workshop">
+                <i class="fas fa-external-link-alt"></i>
+            </button>
+        `;
+
+        gameDisplay.style.display = 'block';
+        statusDiv.style.display = 'block';
+    } else {
+        gameDisplay.style.display = 'none';
+        if (!currentLeader) {
+            statusDiv.style.display = 'none';
+        }
+    }
+
+    if (shouldBroadcast && socket) {
+        socket.emit('game_selected', {
+            gameName: gameName,
+            gameData: currentSelectedGame
+        });
+    }
+}
+
+// Override the original spinNames function to broadcast with animation sync
+function spinNames() {
+    if (isSpinning || scrollerPlayers.length < 2) return;
+
+    // Animation parameters
+    const duration = 4000 + Math.random() * 2500; // 4-7 seconds
+    const startTime = Date.now();
+    const initialSpeed = 20;
+
+    // Broadcast spin start with animation parameters to all users
+    if (socket) {
+        socket.emit('wheel_spin', {
+            action: 'start',
+            duration: duration,
+            startTime: startTime,
+            initialSpeed: initialSpeed
+        });
+    }
+
+    // Start local animation
+    isSpinning = true;
+    const spinBtn = document.getElementById('spin-btn');
+    const reel = document.getElementById('name-reel');
+
+    spinBtn.disabled = true;
+    spinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Picking...';
+
+    // Hide previous result
+    document.getElementById('leader-result').style.display = 'none';
+
+    function animateScroll() {
+        const elapsed = Date.now() - startTime;
+        const progress = elapsed / duration;
+
+        if (progress < 1) {
+            const speed = initialSpeed * (1 - progress) * (1 - progress) * (1 - progress);
+            currentScrollPosition += speed;
+
+            reel.style.transform = `translateY(-${currentScrollPosition}px)`;
+
+            const itemHeight = 50;
+            const cycleHeight = scrollerPlayers.length * itemHeight;
+            if (currentScrollPosition >= cycleHeight) {
+                currentScrollPosition = 0;
+            }
+
+            requestAnimationFrame(animateScroll);
+        } else {
+            // Stop and select winner
+            const itemHeight = 50;
+            const tickerTop = 100;
+            const tickerCenter = tickerTop + itemHeight / 2;
+            const selectedIndex = Math.floor((currentScrollPosition + tickerCenter) / itemHeight) % scrollerPlayers.length;
+            const winner = scrollerPlayers[selectedIndex];
+
+            // Broadcast result to all users
+            if (socket) {
+                socket.emit('wheel_spin', { action: 'result', winner: winner });
+            }
+
+            // Show local result
+            document.getElementById('selected-leader').textContent = winner;
+            document.getElementById('leader-result').style.display = 'block';
+
+            // Reset button
+            spinBtn.disabled = false;
+            spinBtn.innerHTML = '<i class="fas fa-dice"></i> Pick Leader!';
+
+            isSpinning = false;
+
+            // Update current leader display
+            updateCurrentLeaderDisplay(winner, true); // true = broadcast
+
+            // Add celebration effect
+            showToast(`🎉 ${winner} is the new Lobby Leader! 🎉`, 'success');
+        }
+    }
+
+    animateScroll();
 }
 </script>
 

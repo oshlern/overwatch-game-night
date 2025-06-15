@@ -862,5 +862,65 @@ def on_create_category(data):
 
 
 
+# WebSocket events for arcade picker synchronization
+@socketio.on("join_arcade_picker")
+def on_join_arcade_picker():
+    """Handle user joining arcade picker room"""
+    user_id = get_user_id()
+    join_room("arcade_picker")
+    emit("user_joined_arcade", {"user_id": user_id}, room="arcade_picker")
+
+
+@socketio.on("wheel_state_change")
+def on_wheel_state_change(data):
+    """Handle lobby leader wheel expand/collapse state changes"""
+    user_id = get_user_id()
+    expanded = data.get("expanded", False)
+
+    # Broadcast to all other users in the arcade picker room
+    emit("wheel_state_update", {"expanded": expanded}, room="arcade_picker", include_self=False)
+
+
+@socketio.on("wheel_spin")
+def on_wheel_spin(data):
+    """Handle lobby leader wheel spin synchronization"""
+    user_id = get_user_id()
+    action = data.get("action")
+
+    if action == "start":
+        # Broadcast spin start with animation parameters to all other users
+        emit("wheel_spin_sync", {
+            "action": "start",
+            "duration": data.get("duration"),
+            "startTime": data.get("startTime"),
+            "initialSpeed": data.get("initialSpeed")
+        }, room="arcade_picker", include_self=False)
+    elif action == "result":
+        winner = data.get("winner")
+        # Broadcast spin result to all other users
+        emit("wheel_spin_sync", {"action": "result", "winner": winner}, room="arcade_picker", include_self=False)
+
+
+@socketio.on("leader_selected")
+def on_leader_selected(data):
+    """Handle lobby leader selection synchronization"""
+    user_id = get_user_id()
+    leader = data.get("leader")
+
+    # Broadcast leader selection to all other users
+    emit("leader_selected_sync", {"leader": leader}, room="arcade_picker", include_self=False)
+
+
+@socketio.on("game_selected")
+def on_game_selected(data):
+    """Handle game selection synchronization"""
+    user_id = get_user_id()
+    game_name = data.get("gameName")
+    game_data = data.get("gameData")
+
+    # Broadcast game selection to all other users
+    emit("game_selected_sync", {"gameName": game_name, "gameData": game_data}, room="arcade_picker", include_self=False)
+
+
 if __name__ == "__main__":
     socketio.run(app, host="0.0.0.0", port=8599, debug=True)
