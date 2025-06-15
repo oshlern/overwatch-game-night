@@ -786,7 +786,7 @@ function initializeSocketIO() {
 
     socket.on('wheel_spin_sync', function(data) {
         if (data.action === 'start') {
-            syncSpinStart(data.duration, data.startTime, data.initialSpeed);
+            syncSpinStart(data.duration, data.startTime, data.initialSpeed, data.startPosition);
         } else if (data.action === 'result') {
             syncSpinResult(data.winner);
         }
@@ -833,7 +833,7 @@ function updateWheelState(expanded, shouldBroadcast = false) {
     }
 }
 
-function syncSpinStart(duration, startTime, initialSpeed) {
+function syncSpinStart(duration, startTime, initialSpeed, startPosition) {
     if (!isWheelExpanded) {
         updateWheelState(true, false); // Expand wheel for all users
     }
@@ -849,12 +849,14 @@ function syncSpinStart(duration, startTime, initialSpeed) {
     // Hide previous result
     document.getElementById('leader-result').style.display = 'none';
 
+    // Synchronize starting position
+    currentScrollPosition = startPosition || currentScrollPosition;
+
     // Calculate time offset for synchronization
     const now = Date.now();
     const timeOffset = now - startTime;
 
     // Adjust starting position based on time offset
-    let adjustedScrollPosition = currentScrollPosition;
     if (timeOffset > 0) {
         // Calculate how much scrolling should have happened during the offset
         const offsetProgress = timeOffset / duration;
@@ -864,10 +866,9 @@ function syncSpinStart(duration, startTime, initialSpeed) {
                 const progress = (t + timeOffset) / duration;
                 if (progress < 1) {
                     const speed = initialSpeed * (1 - progress) * (1 - progress) * (1 - progress);
-                    adjustedScrollPosition += speed;
+                    currentScrollPosition += speed;
                 }
             }
-            currentScrollPosition = adjustedScrollPosition;
         }
     }
 
