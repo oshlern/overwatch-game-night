@@ -14,116 +14,165 @@
     </div>
 
     <div class="row">
-        <!-- Top Row: Selector Buttons and Game History -->
-        <div class="row mb-4">
+        <!-- Main Content Area -->
+        <div class="col-lg-8">
             <!-- Game Mode Selection Buttons -->
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">
-                            <i class="fas fa-gamepad"></i>
-                            Game Mode Selection
-                        </h5>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-gamepad"></i>
+                        Game Mode Selection
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4 mb-2">
+                            <button class="btn btn-outline-primary w-100" onclick="selectModeType('chefs-choice')" id="chefs-choice-btn">
+                                <i class="fas fa-star"></i> Chef's Choice
+                            </button>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <button class="btn btn-outline-warning w-100" onclick="selectModeType('feeling-lucky')" id="feeling-lucky-btn">
+                                <i class="fas fa-dice"></i> I'm Feeling Lucky
+                            </button>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                            <button class="btn btn-outline-info w-100" onclick="selectModeType('all-games')" id="all-games-btn">
+                                <i class="fas fa-list"></i> All Games
+                            </button>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col-md-4 mb-2">
-                                <button class="btn btn-outline-primary w-100" onclick="selectModeType('chefs-choice')" id="chefs-choice-btn">
-                                    <i class="fas fa-star"></i> Chef's Choice
-                                </button>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <button class="btn btn-outline-warning w-100" onclick="selectModeType('feeling-lucky')" id="feeling-lucky-btn">
-                                    <i class="fas fa-dice"></i> I'm Feeling Lucky
-                                </button>
-                            </div>
-                            <div class="col-md-4 mb-2">
-                                <button class="btn btn-outline-info w-100" onclick="selectModeType('all-games')" id="all-games-btn">
-                                    <i class="fas fa-list"></i> All Games
-                                </button>
+
+                    <!-- Player Count Filter and Options -->
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="player-count-filter" class="form-label small">Filter by Player Count:</label>
+                            <input type="number" class="form-control form-control-sm" id="player-count-filter" min="1" max="12" onchange="updatePlayerCountFilter()">
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check mt-4">
+                                <input class="form-check-input" type="checkbox" id="allow-spectators" onchange="toggleAllowSpectators()">
+                                <label class="form-check-label small" for="allow-spectators">
+                                    Allow Spectators
+                                </label>
                             </div>
                         </div>
-
-                        <!-- Player Count Filter and Options -->
-                        <div class="row mb-3">
-                            <div class="col-md-4">
-                                <label for="player-count-filter" class="form-label small">Filter by Player Count:</label>
-                                <input type="number" class="form-control form-control-sm" id="player-count-filter" min="1" max="12" onchange="updatePlayerCountFilter()">
+                        <div class="col-md-4">
+                            <div class="form-check mt-4">
+                                <input class="form-check-input" type="checkbox" id="shuffle-games" checked onchange="toggleShuffle()">
+                                <label class="form-check-label small" for="shuffle-games">
+                                    Shuffle Games
+                                </label>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-check mt-4">
-                                    <input class="form-check-input" type="checkbox" id="allow-spectators" onchange="toggleAllowSpectators()">
-                                    <label class="form-check-label small" for="allow-spectators">
-                                        Allow Spectators
-                                    </label>
+                        </div>
+                    </div>
+
+                    <!-- Animation Area -->
+                    <div id="animation-area" class="text-center mb-3" style="min-height: 100px;">
+                        <!-- Animation content will be displayed here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Selected Game Display -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div id="selected-game" class="mb-4" style="display: none;">
+                        <div class="alert alert-success">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h4 id="game-name" class="mb-2"></h4>
+                                    <p id="game-description" class="mb-2"></p>
+                                    <small id="game-details" class="text-muted"></small>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <div id="game-icon" class="display-1 mb-2"></div>
+                                    <button class="btn btn-success" onclick="logSelectedGame()" id="log-game-btn">
+                                        <i class="fas fa-save"></i> Play This
+                                    </button>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-check mt-4">
-                                    <input class="form-check-input" type="checkbox" id="shuffle-games" checked onchange="toggleShuffle()">
-                                    <label class="form-check-label small" for="shuffle-games">
-                                        Shuffle Games
-                                    </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Mode Grid -->
+            <div class="row">
+                <div class="col-12">
+                    <div id="gamemode-grid" class="row">
+                        <!-- Game modes will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar: Lobby Leader and Game History -->
+        <div class="col-lg-4">
+            <!-- Lobby Leader -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-crown text-warning"></i>
+                        Lobby Leader
+                    </h5>
+                </div>
+                <div class="card-body text-center">
+                    <!-- Name Scroller Container -->
+                    <div id="scroller-container" class="mb-3">
+                        <div class="name-scroller">
+                            <div class="scroller-window">
+                                <div id="name-reel" class="name-reel">
+                                    <!-- Player names will be populated here -->
+                                </div>
+                                <div class="ticker-marker">
+                                    <div class="ticker-arrow"></div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Animation Area -->
-                        <div id="animation-area" class="text-center mb-3" style="min-height: 100px;">
-                            <!-- Animation content will be displayed here -->
+                    <!-- Spin Button -->
+                    <button id="spin-btn" class="btn btn-warning btn-lg mb-3" onclick="spinNames()" style="width: 100%; font-size: 0.9rem;">
+                        <i class="fas fa-dice"></i> Pick Leader!
+                    </button>
+
+                    <!-- Result Display -->
+                    <div id="leader-result" style="display: none;">
+                        <div class="alert alert-warning text-center">
+                            <h4 class="mb-2">🎉 Lobby Leader 🎉</h4>
+                            <div id="selected-leader" class="display-6 player-name" style="color: var(--arcade-dark); text-shadow: none;"></div>
+                            <button class="btn btn-sm btn-outline-dark mt-2" onclick="resetScroller()">
+                                <i class="fas fa-redo"></i> Pick Again
+                            </button>
                         </div>
+                    </div>
+
+                    <!-- Active Players Count -->
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-users"></i>
+                            <span id="active-player-count">0</span> active players
+                        </small>
                     </div>
                 </div>
             </div>
 
             <!-- Game History -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">
-                            <i class="fas fa-history"></i>
-                            Game History
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div id="game-history" style="max-height: 300px; overflow-y: auto;">
-                            <!-- Game history will be loaded here -->
-                        </div>
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-history"></i>
+                        Game History
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="game-history" style="max-height: 300px; overflow-y: auto;">
+                        <!-- Game history will be loaded here -->
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Selected Game Display -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div id="selected-game" class="mb-4" style="display: none;">
-                    <div class="alert alert-success">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h4 id="game-name" class="mb-2"></h4>
-                                <p id="game-description" class="mb-2"></p>
-                                <small id="game-details" class="text-muted"></small>
-                            </div>
-                            <div class="col-md-4 text-center">
-                                <div id="game-icon" class="display-1 mb-2"></div>
-                                <button class="btn btn-success" onclick="logSelectedGame()" id="log-game-btn">
-                                    <i class="fas fa-save"></i> Play This
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Game Mode Grid -->
-        <div class="row">
-            <div class="col-12">
-                <div id="gamemode-grid" class="row">
-                    <!-- Game modes will be displayed here -->
-                </div>
-            </div>
     </div>
 </div>
 {% endblock %}
@@ -139,6 +188,12 @@ let playerCountFilter = null;
 let allowSpectators = false;
 let shuffleGames = true;
 
+// Lobby Leader Scroller Variables
+let scrollerPlayers = [];
+let isSpinning = false;
+let scrollAnimation = null;
+let currentScrollPosition = 0;
+
 // Default fallback icons for games without icons in JSON
 const defaultGameIcons = ['🎮', '🎯', '🎲', '🎪', '🎨', '🎭', '🎪', '🎊'];
 
@@ -147,6 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadGames();
     loadGameHistory();
     updatePlayerCountInput();
+    initializeScroller();
     // Show all games by default
     setTimeout(() => {
         selectModeType('all-games');
@@ -506,6 +562,174 @@ function showAlert(message, type) {
         alertDiv.remove();
     }, 5000);
 }
+
+// ===== LOBBY LEADER SCROLLER FUNCTIONS =====
+
+function initializeScroller() {
+    updateScrollerPlayers();
+    populateScroller();
+    startInfiniteScroll();
+
+    // Update scroller when players change
+    const originalDisplayActivePlayers = window.displayActivePlayers;
+    window.displayActivePlayers = function() {
+        if (originalDisplayActivePlayers) {
+            originalDisplayActivePlayers();
+        }
+        updateScrollerPlayers();
+        populateScroller();
+    };
+}
+
+function updateScrollerPlayers() {
+    // Get active players (not AFK)
+    scrollerPlayers = Object.values(activePlayers).filter(player =>
+        player.status !== 'afk'
+    ).map(player => player.bnet);
+
+    // Update active player count display
+    const countElement = document.getElementById('active-player-count');
+    if (countElement) {
+        countElement.textContent = scrollerPlayers.length;
+    }
+
+    // Show/hide spin button based on player count
+    const spinBtn = document.getElementById('spin-btn');
+    if (spinBtn) {
+        if (scrollerPlayers.length < 2) {
+            spinBtn.disabled = true;
+            spinBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Need 2+ Players';
+        } else {
+            spinBtn.disabled = false;
+            spinBtn.innerHTML = '<i class="fas fa-dice"></i> Pick Leader!';
+        }
+    }
+}
+
+function populateScroller() {
+    const reel = document.getElementById('name-reel');
+    if (!reel || scrollerPlayers.length === 0) {
+        if (reel) {
+            reel.innerHTML = '<div class="name-item">No Active Players</div>';
+        }
+        return;
+    }
+
+    // Create infinite loop of names
+    const items = [];
+    for (let i = 0; i < 50; i++) { // More repetitions for smoother infinite scroll
+        scrollerPlayers.forEach(player => {
+            items.push(`<div class="name-item">${player}</div>`);
+        });
+    }
+
+    reel.innerHTML = items.join('');
+}
+
+function startInfiniteScroll() {
+    const reel = document.getElementById('name-reel');
+    if (!reel || isSpinning) return;
+
+    // Start slow continuous scrolling
+    currentScrollPosition = 0;
+
+    function scroll() {
+        if (!isSpinning) {
+            currentScrollPosition += 5; // 25x faster than before (was 0.2, now 5)
+            reel.style.transform = `translateY(-${currentScrollPosition}px)`;
+
+            // Reset position when we've scrolled through one full cycle
+            const itemHeight = 50;
+            const cycleHeight = scrollerPlayers.length * itemHeight;
+            if (currentScrollPosition >= cycleHeight) {
+                currentScrollPosition = 0;
+            }
+        }
+
+        if (!isSpinning) {
+            requestAnimationFrame(scroll);
+        }
+    }
+
+    scroll();
+}
+
+function spinNames() {
+    if (isSpinning || scrollerPlayers.length < 2) return;
+
+    isSpinning = true;
+    const spinBtn = document.getElementById('spin-btn');
+    const reel = document.getElementById('name-reel');
+
+    spinBtn.disabled = true;
+    spinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Picking...';
+
+    // Hide previous result
+    document.getElementById('leader-result').style.display = 'none';
+
+    // Animation parameters
+    const duration = 4000 + Math.random() * 2500; // 4-7 seconds
+    const startTime = Date.now();
+    const initialSpeed = 50; // 2x slower (was 100, now 50)
+
+    function animateScroll() {
+        const elapsed = Date.now() - startTime;
+        const progress = elapsed / duration;
+        const timeLeft = duration - elapsed;
+
+        if (progress < 1) {
+            // Linear velocity curve - speed proportional to time left
+            const speed = initialSpeed * (timeLeft / duration);
+            currentScrollPosition += speed;
+
+            reel.style.transform = `translateY(-${currentScrollPosition}px)`;
+
+            // Reset position for infinite loop
+            const itemHeight = 50;
+            const cycleHeight = scrollerPlayers.length * itemHeight;
+            if (currentScrollPosition >= cycleHeight) {
+                currentScrollPosition = 0;
+            }
+
+            requestAnimationFrame(animateScroll);
+        } else {
+            // Stop and select winner
+            const itemHeight = 50;
+            const tickerPosition = 100; // Position of ticker marker
+            const selectedIndex = Math.floor((currentScrollPosition + tickerPosition) / itemHeight) % scrollerPlayers.length;
+            const winner = scrollerPlayers[selectedIndex];
+
+            // Show result
+            document.getElementById('selected-leader').textContent = winner;
+            document.getElementById('leader-result').style.display = 'block';
+
+            // Reset button
+            spinBtn.disabled = false;
+            spinBtn.innerHTML = '<i class="fas fa-dice"></i> Pick Leader!';
+
+            isSpinning = false;
+
+            // DO NOT restart infinite scroll - keep it stopped when leader is selected
+
+            // Add celebration effect
+            showToast(`🎉 ${winner} is the new Lobby Leader! 🎉`, 'success');
+        }
+    }
+
+    animateScroll();
+}
+
+function resetScroller() {
+    document.getElementById('leader-result').style.display = 'none';
+    currentScrollPosition = 0;
+    const reel = document.getElementById('name-reel');
+    reel.style.transform = 'translateY(0)';
+
+    // Restart infinite scroll when resetting
+    if (!isSpinning) {
+        startInfiniteScroll();
+    }
+}
 </script>
 
 <style>
@@ -527,6 +751,147 @@ function showAlert(message, type) {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
+}
+
+/* Lobby Leader Name Scroller Styles */
+.name-scroller {
+    background: linear-gradient(145deg, #2d1b69, #1a1a2e);
+    border: 3px solid var(--arcade-cyan);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow:
+        0 0 20px rgba(0, 255, 255, 0.3),
+        inset 0 0 20px rgba(106, 13, 173, 0.2);
+}
+
+.scroller-window {
+    height: 250px;
+    overflow: hidden;
+    background: #0a0a1a;
+    border: 2px solid var(--arcade-purple);
+    border-radius: 10px;
+    position: relative;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.name-reel {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.name-item {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    color: var(--arcade-cyan);
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    border-bottom: 1px solid rgba(106, 13, 173, 0.3);
+    background: linear-gradient(90deg,
+        rgba(106, 13, 173, 0.1) 0%,
+        rgba(255, 20, 147, 0.1) 50%,
+        rgba(106, 13, 173, 0.1) 100%);
+    transition: all 0.3s ease;
+}
+
+.name-item:nth-child(even) {
+    background: linear-gradient(90deg,
+        rgba(0, 255, 255, 0.1) 0%,
+        rgba(57, 255, 20, 0.1) 50%,
+        rgba(0, 255, 255, 0.1) 100%);
+    color: var(--neon-green);
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+}
+
+.ticker-marker {
+    position: absolute;
+    top: 100px; /* Center position */
+    left: -10px;
+    right: -10px;
+    height: 50px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.ticker-arrow {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-right: 25px solid var(--neon-yellow);
+    filter: drop-shadow(0 0 10px rgba(255, 255, 0, 0.8));
+    animation: ticker-pulse 1.5s ease-in-out infinite alternate;
+}
+
+.ticker-arrow::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: -10px;
+    width: 20px;
+    height: 20px;
+    background: var(--neon-yellow);
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(255, 255, 0, 0.6);
+}
+
+@keyframes ticker-pulse {
+    0% {
+        filter: drop-shadow(0 0 10px rgba(255, 255, 0, 0.8));
+        transform: translateY(-50%) scale(1);
+    }
+    100% {
+        filter: drop-shadow(0 0 20px rgba(255, 255, 0, 1));
+        transform: translateY(-50%) scale(1.1);
+    }
+}
+
+#leader-result {
+    animation: result-appear 0.5s ease-out;
+}
+
+@keyframes result-appear {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.sticky-top {
+    position: sticky !important;
+}
+
+/* Mobile responsiveness for scroller */
+@media (max-width: 992px) {
+    .scroller-window {
+        height: 200px;
+    }
+
+    .name-item {
+        height: 40px;
+        font-size: 12px;
+    }
+
+    .ticker-marker {
+        top: 80px;
+    }
+
+    .ticker-arrow {
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        border-right: 20px solid var(--neon-yellow);
+    }
 }
 </style>
 {% endblock %}
