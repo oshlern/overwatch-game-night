@@ -670,16 +670,16 @@ function spinNames() {
     // Animation parameters
     const duration = 4000 + Math.random() * 2500; // 4-7 seconds
     const startTime = Date.now();
-    const initialSpeed = 50; // 2x slower (was 100, now 50)
+    const initialSpeed = 20; // Initial speed
+    const t_final = duration / 1000; // Convert to seconds for cleaner math
 
     function animateScroll() {
         const elapsed = Date.now() - startTime;
         const progress = elapsed / duration;
-        const timeLeft = duration - elapsed;
 
         if (progress < 1) {
-            // Linear velocity curve - speed proportional to time left
-            const speed = initialSpeed * (timeLeft / duration);
+            // Cubic deceleration: v ∝ (t_final^3 - t^3)
+            const speed = initialSpeed * (1 - progress) * (1 - progress) * (1 -progress);
             currentScrollPosition += speed;
 
             reel.style.transform = `translateY(-${currentScrollPosition}px)`;
@@ -695,8 +695,10 @@ function spinNames() {
         } else {
             // Stop and select winner
             const itemHeight = 50;
-            const tickerPosition = 100; // Position of ticker marker
-            const selectedIndex = Math.floor((currentScrollPosition + tickerPosition) / itemHeight) % scrollerPlayers.length;
+            const tickerTop = 100; // px
+            const tickerCenter = tickerTop + itemHeight / 2; // 125px
+            // Select the name item whose center aligns with the center of the ticker marker
+            const selectedIndex = Math.floor((currentScrollPosition + tickerCenter) / itemHeight) % scrollerPlayers.length;
             const winner = scrollerPlayers[selectedIndex];
 
             // Show result
@@ -708,8 +710,6 @@ function spinNames() {
             spinBtn.innerHTML = '<i class="fas fa-dice"></i> Pick Leader!';
 
             isSpinning = false;
-
-            // DO NOT restart infinite scroll - keep it stopped when leader is selected
 
             // Add celebration effect
             showToast(`🎉 ${winner} is the new Lobby Leader! 🎉`, 'success');
