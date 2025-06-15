@@ -25,8 +25,12 @@ VOTES_FILE = os.path.join(DATA_DIR, "votes.json")
 AWARD_HISTORY_FILE = os.path.join(DATA_DIR, "award_history.json")
 CATEGORIES_FILE = os.path.join(DATA_DIR, "categories.json")
 
-# Ensure data directory exists
+# Backup directory
+BACKUP_DIR = os.path.join(DATA_DIR, "backups")
+
+# Ensure data and backup directories exist
 os.makedirs(DATA_DIR, exist_ok=True)
+os.makedirs(BACKUP_DIR, exist_ok=True)
 
 # Initialize data files if they don't exist
 def init_data_files():
@@ -202,6 +206,37 @@ def load_categories():
 def save_categories(categories):
     """Save categories to file"""
     save_json_file(CATEGORIES_FILE, categories)
+
+
+def create_backup(filepath, operation_name):
+    """Create a timestamped backup of a file before deletion/reset"""
+    try:
+        # Check if the file exists and has content
+        if not os.path.exists(filepath):
+            return None
+
+        # Load current data
+        current_data = load_json_file(filepath)
+
+        # Skip backup if file is empty or has default empty structure
+        if not current_data or (isinstance(current_data, dict) and len(current_data) == 0) or (isinstance(current_data, list) and len(current_data) == 0):
+            return None
+
+        # Create backup filename with timestamp
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = os.path.basename(filepath)
+        name, ext = os.path.splitext(filename)
+        backup_filename = f"{name}_{operation_name}_{timestamp}{ext}"
+        backup_path = os.path.join(BACKUP_DIR, backup_filename)
+
+        # Save backup
+        save_json_file(backup_path, current_data)
+
+        return backup_filename
+
+    except Exception as e:
+        print(f"Warning: Could not create backup for {filepath}: {str(e)}")
+        return None
 
 
 def add_category(category_name, description=""):
@@ -664,6 +699,146 @@ def api_reset_category():
     return jsonify(
         {"status": "success", "message": f"Category '{category}' has been reset"}
     )
+
+
+@app.route("/api/admin/reset-all-categories", methods=["POST"])
+def api_reset_all_categories():
+    """Reset all categories from categories.json"""
+    try:
+        # Create backup before reset
+        backup_filename = create_backup(VOTES_FILE, "reset_all_categories")
+
+        # Load all categories from categories.json
+        categories = load_categories()
+
+        if not categories:
+            return jsonify({"error": "No categories found"}), 400
+
+        # Load current votes
+        votes = load_json_file(VOTES_FILE)
+
+        # Reset all categories (both existing and new ones from categories.json)
+        for category in categories:
+            category_name = category.get("name") if isinstance(category, dict) else category
+            votes[category_name] = {"nominations": {}, "votes": {}, "explanations": {}}
+
+        # Save the updated votes
+        save_json_file(VOTES_FILE, votes)
+
+        # Broadcast reset to all clients for each category
+        for category in categories:
+            category_name = category.get("name") if isinstance(category, dict) else category
+            socketio.emit("category_reset", {"category": category_name}, room="voting")
+
+        message = f"All {len(categories)} categories have been reset"
+        if backup_filename:
+            message += f" (backup saved as {backup_filename})"
+
+        return jsonify({
+            "status": "success",
+            "message": message,
+            "categories_reset": len(categories),
+            "backup_created": backup_filename
+        })
+
+    except Exception as e:
+        return jsonify({"error": f"Error resetting categories: {str(e)}"}), 500
+
+
+@app.route("/api/admin/reset-tokens", methods=["POST"])
+def api_reset_tokens():
+    """Reset all player tokens"""
+    try:
+        # Create backup before reset
+        backup_filename = create_backup(TOKENS_FILE, "reset_tokens")
+
+        # Clear all tokens
+        save_json_file(TOKENS_FILE, {})
+
+        message = "All player tokens have been reset to 0"
+        if backup_filename:
+            message += f" (backup saved as {backup_filename})"
+
+        return jsonify({
+            "status": "success",
+            "message": message,
+            "backup_created": backup_filename
+        })
+
+    except Exception as e:
+        return jsonify({"error": f"Error resetting tokens: {str(e)}"}), 500
+
+
+@app.route("/api/admin/reset-matches", methods=["POST"])
+def api_reset_matches():
+    """Reset match history"""
+    try:
+        # Create backup before reset
+        backup_filename = create_backup(MATCHES_FILE, "reset_matches")
+
+        # Clear match history
+        save_json_file(MATCHES_FILE, [])
+
+        message = "Match history has been cleared"
+        if backup_filename:
+            message += f" (backup saved as {backup_filename})"
+
+        return jsonify({
+            "status": "success",
+            "message": message,
+            "backup_created": backup_filename
+        })
+
+    except Exception as e:
+        return jsonify({"error": f"Error resetting matches: {str(e)}"}), 500
+
+
+@app.route("/api/admin/reset-games-history", methods=["POST"])
+def api_reset_games_history():
+    """Reset games history"""
+    try:
+        # Create backup before reset
+        backup_filename = create_backup(GAMES_HISTORY_FILE, "reset_games_history")
+
+        # Clear games history
+        save_json_file(GAMES_HISTORY_FILE, [])
+
+        message = "Games history has been cleared"
+        if backup_filename:
+            message += f" (backup saved as {backup_filename})"
+
+        return jsonify({
+            "status": "success",
+            "message": message,
+            "backup_created": backup_filename
+        })
+
+    except Exception as e:
+        return jsonify({"error": f"Error resetting games history: {str(e)}"}), 500
+
+
+@app.route("/api/admin/reset-award-history", methods=["POST"])
+def api_reset_award_history():
+    """Reset award history"""
+    try:
+        # Create backup before reset
+        backup_filename = create_backup(AWARD_HISTORY_FILE, "reset_award_history")
+
+        # Clear award history
+        save_json_file(AWARD_HISTORY_FILE, [])
+
+        message = "Award history has been cleared"
+        if backup_filename:
+            message += f" (backup saved as {backup_filename})"
+
+        return jsonify({
+            "status": "success",
+            "message": message,
+            "backup_created": backup_filename
+        })
+
+    except Exception as e:
+        return jsonify({"error": f"Error resetting award history: {str(e)}"}), 500
 
 
 @app.route("/api/tokens")

@@ -342,7 +342,7 @@
                 const playerColor = player.color || '#FFFFFF'; // Use player's assigned color
                 const displayColor = status === 'afk' ? '#666' : playerColor; // Dim color if AFK
                 const tokenCount = playerTokens[player.bnet] || 0;
-                const tokenDisplay = tokenCount > 0 ? `<span class="token-badge" style="font-size: 0.6rem; margin-left: 4px;">${tokenCount}🏆</span>` : '';
+                const tokenDisplay = tokenCount > 0 ? `<span class="token-badge" style="font-size: 0.6rem; margin-left: 4px;">${tokenCount}</span>` : '';
 
                 playersHTML += `
                     <div class="player-item mb-2 ${statusClass}" data-player="${player.bnet}" style="background: rgba(106, 13, 173, 0.2); border-radius: 8px; padding: 8px; border: 1px solid var(--arcade-purple);">
@@ -386,21 +386,44 @@
             }
         }
 
-        function quickNominate(playerName) {
+        async function quickNominate(playerName) {
             // Show modal or redirect to awards page with pre-selected player
             if (window.location.pathname === '/awards') {
                 // If on awards page, trigger nomination
-                const categories = ['Most Improved on New Hero', 'Biggest Clutch', 'Most Stylish Play/Skin'];
-                const category = prompt('Select category:\n1. Most Improved on New Hero\n2. Biggest Clutch\n3. Most Stylish Play/Skin\n\nEnter 1, 2, or 3:');
+                try {
+                    const response = await fetch('/api/categories');
+                    const categories = await response.json();
 
-                if (category && categories[parseInt(category) - 1]) {
-                    const explanation = prompt('Why are you nominating ' + playerName + '?');
-                    if (explanation) {
-                        // Call nomination function if available
-                        if (typeof nominatePlayerWithExplanation === 'function') {
-                            nominatePlayerWithExplanation(categories[parseInt(category) - 1], playerName, explanation);
+                    if (categories.length === 0) {
+                        alert('No award categories available');
+                        return;
+                    }
+
+                    let categoryOptions = 'Select category:\n';
+                    categories.forEach((cat, index) => {
+                        const categoryName = cat.name || cat;
+                        categoryOptions += `${index + 1}. ${categoryName}\n`;
+                    });
+                    categoryOptions += `\nEnter 1-${categories.length}:`;
+
+                    const categoryChoice = prompt(categoryOptions);
+                    const categoryIndex = parseInt(categoryChoice) - 1;
+
+                    if (categoryChoice && categoryIndex >= 0 && categoryIndex < categories.length) {
+                        const selectedCategory = categories[categoryIndex];
+                        const categoryName = selectedCategory.name || selectedCategory;
+
+                        const explanation = prompt('Why are you nominating ' + playerName + '?');
+                        if (explanation) {
+                            // Call nomination function if available
+                            if (typeof nominatePlayerWithExplanation === 'function') {
+                                nominatePlayerWithExplanation(categoryName, playerName, explanation);
+                            }
                         }
                     }
+                } catch (error) {
+                    console.error('Error loading categories:', error);
+                    alert('Error loading award categories');
                 }
             } else {
                 // Redirect to awards page
